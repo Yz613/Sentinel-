@@ -1,4 +1,4 @@
-import { describe, it } from "node:test";
+import { describe, it, after } from "node:test";
 import assert from "node:assert/strict";
 import express from "express";
 import { EventEmitter } from "events";
@@ -9,6 +9,7 @@ import { streamRoutes } from "../../server/routes/stream.routes";
 import { requestIdMiddleware, corsMiddleware, securityHeadersMiddleware } from "../../server/middleware/security";
 import { authenticate } from "../../server/middleware/auth";
 import { errorHandlerMiddleware } from "../../server/middleware/errorHandler";
+import { fleetStore } from "../../server/store";
 
 function createTestApp() {
   const app = express();
@@ -162,5 +163,9 @@ describe("API Integration Tests (In-Memory Request Pipeline)", () => {
     assert.equal(res.status, 200);
     assert.equal(res.body.success, true);
     assert.equal(res.body.importedCount, 1);
+  });
+
+  after(() => {
+    fleetStore.clearLiveData();
   });
 });
