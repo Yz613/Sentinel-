@@ -198,7 +198,7 @@ export const FaultManagementView: React.FC = () => {
                     <td className="py-3 px-4">
                       <button
                         onClick={() => handleAssetClick(fault.assetId)}
-                        className="font-bold text-white hover:text-[#F27D26] hover:underline"
+                        className="font-bold text-white hover:text-[#EF4444] hover:underline"
                       >
                         {fault.assetId}
                       </button>

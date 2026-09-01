@@ -345,7 +345,7 @@ print(response.json())`;
               <span className={`px-2 py-0.5 rounded text-[10px] font-mono uppercase font-bold border ${
                 mode === 'live' 
                   ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' 
-                  : 'bg-[#F27D26]/15 text-[#F27D26] border-[#F27D26]/30'
+                  : 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30'
               }`}>
                 {mode === 'live' ? 'Live Mode Active' : 'Demo Sandbox Active'}
               </span>
@@ -365,7 +365,7 @@ print(response.json())`;
 
             <div className="bg-[#141417] border border-[#1F1F23] rounded-lg px-3.5 py-2 text-xs font-mono">
               <div className="text-[10px] text-neutral-500 uppercase">Readiness</div>
-              <div className="text-base font-bold text-[#F27D26]">{summary.fleetReadiness}%</div>
+              <div className="text-base font-bold text-[#EF4444]">{summary.fleetReadiness}%</div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-2">
@@ -1048,7 +1048,7 @@ print(response.json())`;
                 >
                   <div className="flex items-center gap-3">
                     <span className={`w-2 h-2 rounded-full shrink-0 ${
-                      log.status === 'success' ? 'bg-emerald-400' : (log.status === 'warning' ? 'bg-[#F27D26]' : 'bg-rose-400')
+                      log.status === 'success' ? 'bg-emerald-400' : (log.status === 'warning' ? 'bg-[#EF4444]' : 'bg-rose-400')
                     }`}></span>
                     <div>
                       <div className="flex items-center gap-2">

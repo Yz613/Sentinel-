@@ -139,8 +139,8 @@ export const AssetTableView: React.FC = () => {
         );
       case 'AWAITING PARTS':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-[#F27D26]/10 text-[#F27D26] border border-[#F27D26]/40 animate-pulse">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#F27D26]" />
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-[#EF4444]/10 text-[#EF4444] border border-[#EF4444]/40 animate-pulse">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#EF4444]" />
             AWAITING PARTS
           </span>
         );
@@ -168,8 +168,8 @@ export const AssetTableView: React.FC = () => {
       case 'LIMITED':
       default:
         return (
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-[#F27D26]/10 text-[#F27D26] border border-[#F27D26]/30">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#F27D26]" />
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-[#EF4444]/10 text-[#EF4444] border border-[#EF4444]/30">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#EF4444]" />
             LIMITED
           </span>
         );
@@ -183,7 +183,7 @@ export const AssetTableView: React.FC = () => {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <h2 className="text-xs uppercase tracking-widest font-semibold text-white font-mono flex items-center gap-2">
-              <Layers className="w-4 h-4 text-[#F27D26]" />
+              <Layers className="w-4 h-4 text-[#EF4444]" />
               DEPLOYED ASSET MATRIX
             </h2>
             <span className="text-[11px] font-mono bg-[#141417] px-2 py-0.5 rounded border border-[#1F1F23] text-neutral-400">
@@ -199,7 +199,7 @@ export const AssetTableView: React.FC = () => {
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="Search ID, sector, team..."
-              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md pl-9 pr-3 py-1.5 text-xs text-[#E0E0E0] placeholder-neutral-500 focus:outline-none focus:border-[#F27D26]/50 font-sans"
+              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md pl-9 pr-3 py-1.5 text-xs text-[#E0E0E0] placeholder-neutral-500 focus:outline-none focus:border-[#EF4444]/50 font-sans"
             />
           </div>
         </div>
@@ -211,7 +211,7 @@ export const AssetTableView: React.FC = () => {
             <select
               value={statusFilter}
               onChange={e => setStatusFilter(e.target.value)}
-              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#F27D26]/50"
+              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#EF4444]/50"
             >
               <option value="ALL">All Statuses</option>
               <option value="MISSION READY">Mission Ready</option>
@@ -229,7 +229,7 @@ export const AssetTableView: React.FC = () => {
             <select
               value={locationFilter}
               onChange={e => setLocationFilter(e.target.value)}
-              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#F27D26]/50"
+              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#EF4444]/50"
             >
               <option value="ALL">All Sectors ({uniqueLocations.length})</option>
               {uniqueLocations.map(loc => (
@@ -243,7 +243,7 @@ export const AssetTableView: React.FC = () => {
             <select
               value={hwFilter}
               onChange={e => setHwFilter(e.target.value)}
-              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#F27D26]/50"
+              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#EF4444]/50"
             >
               <option value="ALL">All Hardware ({uniqueHw.length})</option>
               {uniqueHw.map(hw => (
@@ -257,7 +257,7 @@ export const AssetTableView: React.FC = () => {
             <select
               value={swFilter}
               onChange={e => setSwFilter(e.target.value)}
-              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#F27D26]/50"
+              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#EF4444]/50"
             >
               <option value="ALL">All Software ({uniqueSw.length})</option>
               {uniqueSw.map(sw => (
@@ -271,7 +271,7 @@ export const AssetTableView: React.FC = () => {
             <select
               value={teamFilter}
               onChange={e => setTeamFilter(e.target.value)}
-              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#F27D26]/50"
+              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#EF4444]/50"
             >
               <option value="ALL">All Teams ({uniqueTeams.length})</option>
               {uniqueTeams.map(team => (
@@ -372,18 +372,18 @@ export const AssetTableView: React.FC = () => {
                   <tr
                     key={asset.id}
                     className={`row-hover transition-colors ${
-                      isHighlightAsset ? 'bg-[#F27D26]/[0.04]' : ''
+                      isHighlightAsset ? 'bg-[#EF4444]/[0.04]' : ''
                     }`}
                   >
                     {/* Asset ID */}
                     <td className="py-3 px-4">
                       <button
                         onClick={() => setSelectedAssetId(asset.id)}
-                        className="font-bold text-white hover:text-[#F27D26] hover:underline flex items-center gap-1.5"
+                        className="font-bold text-white hover:text-[#EF4444] hover:underline flex items-center gap-1.5"
                       >
                         <span>{asset.id}</span>
                         {isHighlightAsset && (
-                          <span className="text-[9px] bg-[#F27D26]/20 text-[#F27D26] px-1 py-0.2 rounded border border-[#F27D26]/30">
+                          <span className="text-[9px] bg-[#EF4444]/20 text-[#EF4444] px-1 py-0.2 rounded border border-[#EF4444]/30">
                             FOCAL
                           </span>
                         )}
@@ -413,7 +413,7 @@ export const AssetTableView: React.FC = () => {
                       <div className="flex items-center gap-2">
                         <span className={`font-semibold ${
                           asset.missionReadiness >= 85 ? 'text-emerald-400' :
-                          asset.missionReadiness >= 70 ? 'text-[#F27D26]' :
+                          asset.missionReadiness >= 70 ? 'text-[#EF4444]' :
                           'text-amber-400'
                         }`}>
                           {asset.missionReadiness}%
@@ -422,7 +422,7 @@ export const AssetTableView: React.FC = () => {
                           <div
                             className={`h-full ${
                               asset.missionReadiness >= 85 ? 'bg-emerald-400' :
-                              asset.missionReadiness >= 70 ? 'bg-[#F27D26]' :
+                              asset.missionReadiness >= 70 ? 'bg-[#EF4444]' :
                               'bg-amber-400'
                             }`}
                             style={{ width: `${asset.missionReadiness}%` }}
@@ -471,7 +471,7 @@ export const AssetTableView: React.FC = () => {
                     <td className="py-3 px-4 text-right space-x-1 whitespace-nowrap">
                       <button
                         onClick={() => setSelectedAssetId(asset.id)}
-                        className="px-2.5 py-1 bg-white/5 hover:bg-[#F27D26] hover:text-black text-neutral-300 rounded text-[10px] font-mono transition-colors inline-flex items-center gap-1 border border-white/10"
+                        className="px-2.5 py-1 bg-white/5 hover:bg-[#EF4444] hover:text-black text-neutral-300 rounded text-[10px] font-mono transition-colors inline-flex items-center gap-1 border border-white/10"
                         title="View Asset Telemetry & Configuration"
                       >
                         <span>Telemetry</span>
@@ -497,7 +497,7 @@ export const AssetTableView: React.FC = () => {
                 setTeamFilter('ALL');
                 setSearchQuery('');
               }}
-              className="mt-3 px-4 py-1.5 bg-[#141417] hover:bg-white/10 text-[#F27D26] rounded-md text-xs font-mono border border-white/10"
+              className="mt-3 px-4 py-1.5 bg-[#141417] hover:bg-white/10 text-[#EF4444] rounded-md text-xs font-mono border border-white/10"
             >
               Reset Filters
             </button>

@@ -45,8 +45,8 @@ export const Navigation: React.FC = () => {
       icon: Database,
       badge: mode === 'live' ? (assets.length > 0 ? 'Live' : 'Connect') : 'Sources',
       badgeColor: mode === 'live' 
-        ? (assets.length > 0 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' : 'bg-[#F27D26]/20 text-[#F27D26] border-[#F27D26]/40') 
-        : 'bg-[#141417] text-neutral-400 border-white/10',
+        ? (assets.length > 0 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' : 'bg-[#EF4444]/20 text-[#EF4444] border-[#EF4444]/40') 
+        : 'bg-[#151922] text-neutral-400 border-white/10',
     },
     {
       id: 'maintenance',
@@ -67,25 +67,26 @@ export const Navigation: React.FC = () => {
       label: 'Configuration',
       icon: Cpu,
       badge: 'Gen 2/3',
+      badgeColor: 'bg-[#151922] text-neutral-400 border-white/10',
     },
     {
       id: 'spare-parts',
       label: 'Spare Logistics',
       icon: Boxes,
       badge: criticalPartsBottleneck > 0 ? `${criticalPartsBottleneck} Alert` : null,
-      badgeColor: 'bg-[#F27D26]/15 text-[#F27D26] border-[#F27D26]/40',
+      badgeColor: 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/40',
     },
     {
       id: 'readiness-intelligence',
       label: 'Intelligence Brief',
       icon: Sparkles,
       badge: 'AI',
-      badgeColor: 'bg-[#F27D26]/10 text-[#F27D26] border-[#F27D26]/30',
+      badgeColor: 'bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/30',
     },
   ];
 
   return (
-    <div className="bg-[#0D0D0F] border-b border-[#1F1F23] px-4 sm:px-6 lg:px-8">
+    <div className="bg-[#0B0D12] border-b border-[#222834] px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex items-center gap-1.5 overflow-x-auto py-2 scrollbar-none">
         {tabs.map(tab => {
           const isActive = activeNavTab === tab.id;
@@ -95,20 +96,16 @@ export const Navigation: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveNavTab(tab.id)}
-              className={`flex items-center gap-2 px-3.5 py-2 rounded-md text-xs font-mono transition-all whitespace-nowrap border ${
+              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono transition-all whitespace-nowrap border ${
                 isActive
-                  ? 'bg-[#F27D26]/10 text-[#F27D26] border-[#F27D26]/30 font-medium'
-                  : 'text-neutral-400 border-transparent hover:text-white hover:bg-white/[0.03]'
+                  ? 'bg-[#EF4444]/15 text-white border-[#EF4444]/50 font-bold shadow-sm shadow-[#EF4444]/20'
+                  : 'text-neutral-400 border-transparent hover:text-white hover:bg-white/5'
               }`}
             >
-              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#F27D26]' : 'text-neutral-400'}`} />
+              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#EF4444]' : 'text-neutral-500'}`} />
               <span>{tab.label}</span>
               {tab.badge !== null && (
-                <span
-                  className={`text-[10px] px-1.5 py-0.2 rounded border font-mono ${
-                    tab.badgeColor || (isActive ? 'bg-[#F27D26]/20 text-[#F27D26] border-[#F27D26]/30' : 'bg-[#141417] text-neutral-400 border-white/5')
-                  }`}
-                >
+                <span className={`text-[10px] px-1.5 py-0.2 rounded border font-mono ${tab.badgeColor || (isActive ? 'bg-[#EF4444]/20 text-[#EF4444] border-[#EF4444]/40' : 'bg-[#151922] text-neutral-400 border-white/10')}`}>
                   {tab.badge}
                 </span>
               )}

@@ -49,7 +49,7 @@ export const SparePartsView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-xs uppercase tracking-widest font-semibold font-mono text-white flex items-center gap-2">
-            <Boxes className="w-4 h-4 text-[#F27D26]" />
+            <Boxes className="w-4 h-4 text-[#EF4444]" />
             SPARE PARTS & SUSTAINMENT LOGISTICS
           </h1>
           <p className="text-xs text-neutral-400 mt-1 font-sans">
@@ -74,13 +74,13 @@ export const SparePartsView: React.FC = () => {
 
       {/* Critical Bottleneck Banner */}
       {bottleneckParts.length > 0 && (
-        <div className="glass-panel rounded-xl p-5 shadow-lg space-y-3 border border-[#F27D26]/40 bg-[#F27D26]/[0.03]">
+        <div className="glass-panel rounded-xl p-5 shadow-lg space-y-3 border border-[#EF4444]/40 bg-[#EF4444]/[0.03]">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 text-[#F27D26] text-xs font-mono font-bold uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-[#EF4444] text-xs font-mono font-bold uppercase tracking-wider">
               <AlertTriangle className="w-4 h-4 animate-bounce" />
               <span>CRITICAL FLEET READINESS BOTTLENECK DETECTED</span>
             </div>
-            <span className="text-xs font-mono text-[#F27D26] font-bold">
+            <span className="text-xs font-mono text-[#EF4444] font-bold">
               -4.0% FLEET READINESS PENALTY
             </span>
           </div>
@@ -97,7 +97,7 @@ export const SparePartsView: React.FC = () => {
                     setSelectedAssetId(a.id);
                     setActiveNavTab('assets');
                   }}
-                  className="px-3 py-1 bg-[#F27D26]/20 text-[#F27D26] border border-[#F27D26]/40 rounded-md hover:bg-[#F27D26]/30 transition-colors flex items-center gap-1.5"
+                  className="px-3 py-1 bg-[#EF4444]/20 text-[#EF4444] border border-[#EF4444]/40 rounded-md hover:bg-[#EF4444]/30 transition-colors flex items-center gap-1.5"
                 >
                   <span className="font-bold">{a.id}</span>
                   <span className="text-[10px] text-neutral-400">({a.location})</span>
@@ -106,14 +106,14 @@ export const SparePartsView: React.FC = () => {
             </div>
           </div>
 
-          <div className="pt-3 border-t border-[#F27D26]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="pt-3 border-t border-[#EF4444]/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="text-[11px] text-neutral-400 font-mono">
               Action: Receive incoming shipment (+2 units) to immediately unblock both vehicles and restore +4% Fleet Readiness.
             </div>
 
             <button
               onClick={() => handleReceiveStock('COMM-MOD-V3', 2)}
-              className="px-4 py-2 bg-[#F27D26] hover:bg-orange-500 text-black font-bold text-xs font-mono rounded-md transition-colors flex items-center gap-2 shadow-md shadow-[#F27D26]/20 whitespace-nowrap self-end sm:self-auto"
+              className="px-4 py-2 bg-[#EF4444] hover:bg-orange-500 text-black font-bold text-xs font-mono rounded-md transition-colors flex items-center gap-2 shadow-md shadow-[#EF4444]/20 whitespace-nowrap self-end sm:self-auto"
             >
               <Truck className="w-4 h-4" />
               <span>RECEIVE SHIPMENT (+2 COMM-MOD-V3)</span>
@@ -129,7 +129,7 @@ export const SparePartsView: React.FC = () => {
           <select
             value={filterCategory}
             onChange={e => setFilterCategory(e.target.value)}
-            className="bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 focus:outline-none focus:border-[#F27D26]/50"
+            className="bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 focus:outline-none focus:border-[#EF4444]/50"
           >
             <option value="ALL">All Categories</option>
             <option value="Communications">Communications</option>
@@ -172,10 +172,10 @@ export const SparePartsView: React.FC = () => {
                   <tr
                     key={part.id}
                     className={`row-hover transition-colors ${
-                      isCriticalStockout ? 'bg-[#F27D26]/[0.03]' : ''
+                      isCriticalStockout ? 'bg-[#EF4444]/[0.03]' : ''
                     }`}
                   >
-                    <td className="py-3 px-4 font-bold text-[#F27D26]">
+                    <td className="py-3 px-4 font-bold text-[#EF4444]">
                       {part.sku}
                     </td>
 
@@ -231,8 +231,8 @@ export const SparePartsView: React.FC = () => {
 
                     <td className="py-3 px-4">
                       {part.isLimitingReadiness ? (
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-[#F27D26]/15 text-[#F27D26] border border-[#F27D26]/40 animate-pulse">
-                          <AlertTriangle className="w-3 h-3 text-[#F27D26]" />
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/40 animate-pulse">
+                          <AlertTriangle className="w-3 h-3 text-[#EF4444]" />
                           BLOCKING ASSETS
                         </span>
                       ) : isBelowReorder ? (
@@ -256,7 +256,7 @@ export const SparePartsView: React.FC = () => {
                       </button>
                       <button
                         onClick={() => handleReorder(part.sku, 5)}
-                        className="px-2.5 py-1 bg-white/5 hover:bg-[#F27D26] hover:text-black text-[#F27D26] rounded text-[10px] font-bold transition-colors border border-white/10"
+                        className="px-2.5 py-1 bg-white/5 hover:bg-[#EF4444] hover:text-black text-[#EF4444] rounded text-[10px] font-bold transition-colors border border-white/10"
                         title="Issue purchase order for +5 units"
                       >
                         Reorder (+5)

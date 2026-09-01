@@ -179,7 +179,7 @@ export const MaintenanceView: React.FC = () => {
                     <td className="py-3 px-4">
                       <button
                         onClick={() => handleAssetClick(wo.assetId)}
-                        className="font-bold text-white hover:text-[#F27D26] hover:underline"
+                        className="font-bold text-white hover:text-[#EF4444] hover:underline"
                       >
                         {wo.assetId}
                       </button>
@@ -228,7 +228,7 @@ export const MaintenanceView: React.FC = () => {
                                 key={sku}
                                 className={`px-1.5 py-0.5 rounded text-[10px] border ${
                                   isStockout
-                                    ? 'bg-[#F27D26]/20 text-[#F27D26] border-[#F27D26]/40 font-bold'
+                                    ? 'bg-[#EF4444]/20 text-[#EF4444] border-[#EF4444]/40 font-bold'
                                     : 'bg-[#141417] text-neutral-300 border-white/5'
                                 }`}
                               >
@@ -248,7 +248,7 @@ export const MaintenanceView: React.FC = () => {
                         onChange={e => updateWorkOrderStatus(wo.id, e.target.value as WorkOrderStatus)}
                         className={`text-[11px] font-mono font-bold rounded px-2 py-1 border focus:outline-none ${
                           wo.status === 'In Progress' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
-                          wo.status === 'Awaiting Parts' ? 'bg-[#F27D26]/10 text-[#F27D26] border-[#F27D26]/30' :
+                          wo.status === 'Awaiting Parts' ? 'bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/30' :
                           wo.status === 'Completed' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
                           'bg-sky-500/10 text-sky-400 border-sky-500/30'
                         }`}

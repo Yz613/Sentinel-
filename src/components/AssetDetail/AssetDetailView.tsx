@@ -44,7 +44,7 @@ export const AssetDetailView: React.FC = () => {
         <p className="text-sm text-neutral-400 font-mono">No asset currently selected or invalid asset ID.</p>
         <button
           onClick={() => setSelectedAssetId(null)}
-          className="px-4 py-2 bg-[#F27D26] text-black font-bold rounded-md text-xs font-mono"
+          className="px-4 py-2 bg-[#EF4444] text-black font-bold rounded-md text-xs font-mono"
         >
           Return to Fleet Asset Matrix
         </button>
@@ -70,7 +70,7 @@ export const AssetDetailView: React.FC = () => {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <button
           onClick={() => setSelectedAssetId(null)}
-          className="inline-flex items-center gap-2 text-xs font-mono text-[#F27D26] hover:text-orange-300 transition-colors w-fit"
+          className="inline-flex items-center gap-2 text-xs font-mono text-[#EF4444] hover:text-orange-300 transition-colors w-fit"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>BACK TO ALL 50 ASSETS</span>
@@ -81,7 +81,7 @@ export const AssetDetailView: React.FC = () => {
             onClick={() => setIsEditModalOpen(true)}
             className="px-3 py-1.5 bg-white/5 hover:bg-white/10 text-neutral-200 border border-white/10 rounded-md text-xs font-mono transition-colors flex items-center gap-1.5"
           >
-            <Edit className="w-3.5 h-3.5 text-[#F27D26]" />
+            <Edit className="w-3.5 h-3.5 text-[#EF4444]" />
             <span>Edit Telemetry</span>
           </button>
           <button
@@ -103,7 +103,7 @@ export const AssetDetailView: React.FC = () => {
 
       {/* Asset Header Card */}
       <div className="glass-panel rounded-xl p-5 shadow-lg relative overflow-hidden border border-white/[0.08]">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#F27D26]/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#EF4444]/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="space-y-2">
@@ -114,7 +114,7 @@ export const AssetDetailView: React.FC = () => {
               <span className={`px-2.5 py-0.5 rounded text-xs font-mono font-bold border uppercase ${
                 asset.status === 'MISSION READY' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' :
                 asset.status === 'MAINTENANCE' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
-                asset.status === 'AWAITING PARTS' ? 'bg-[#F27D26]/10 text-[#F27D26] border-[#F27D26]/40 animate-pulse' :
+                asset.status === 'AWAITING PARTS' ? 'bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/40 animate-pulse' :
                 asset.status === 'SOFTWARE BLOCKED' ? 'bg-purple-500/10 text-purple-400 border-purple-500/30' :
                 asset.status === 'INSPECTION DUE' ? 'bg-sky-500/10 text-sky-400 border-sky-500/30' :
                 'bg-white/5 text-neutral-300 border-white/10'
@@ -137,7 +137,7 @@ export const AssetDetailView: React.FC = () => {
               <div className="text-[10px] text-neutral-500 uppercase">Readiness</div>
               <div className={`text-xl font-bold ${
                 asset.missionReadiness >= 85 ? 'text-emerald-400' :
-                asset.missionReadiness >= 70 ? 'text-[#F27D26]' :
+                asset.missionReadiness >= 70 ? 'text-[#EF4444]' :
                 'text-amber-400'
               }`}>
                 {asset.missionReadiness}%
@@ -218,7 +218,7 @@ export const AssetDetailView: React.FC = () => {
             onClick={() => setActiveTab(tab.id as any)}
             className={`px-3.5 py-2 rounded-t-md font-medium whitespace-nowrap transition-colors border-b-2 ${
               activeTab === tab.id
-                ? 'border-[#F27D26] text-[#F27D26] bg-white/[0.03] font-bold'
+                ? 'border-[#EF4444] text-[#EF4444] bg-white/[0.03] font-bold'
                 : 'border-transparent text-neutral-400 hover:text-white hover:bg-white/[0.02]'
             }`}
           >
@@ -240,7 +240,7 @@ export const AssetDetailView: React.FC = () => {
                 <p className="text-xs text-neutral-400 font-sans">Diagnostic telemetry per integrated LRU (Line-Replaceable Unit)</p>
               </div>
               <span className="text-xs font-mono text-neutral-400">
-                Generation: <strong className="text-[#F27D26]">{asset.hardwareVersion}</strong>
+                Generation: <strong className="text-[#EF4444]">{asset.hardwareVersion}</strong>
               </span>
             </div>
 
@@ -252,7 +252,7 @@ export const AssetDetailView: React.FC = () => {
                 >
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                      <HardDrive className="w-4 h-4 text-[#F27D26]" />
+                      <HardDrive className="w-4 h-4 text-[#EF4444]" />
                       <div className="text-xs font-bold text-white font-mono">{comp.name}</div>
                     </div>
                     <div className="text-[11px] font-mono text-neutral-400">
@@ -315,7 +315,7 @@ export const AssetDetailView: React.FC = () => {
                   >
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <div className="flex items-center gap-2">
-                        <span className="font-mono font-bold text-[#F27D26] text-xs">{fault.id}</span>
+                        <span className="font-mono font-bold text-[#EF4444] text-xs">{fault.id}</span>
                         <span className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold uppercase border ${
                           fault.severity === 'Critical' ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' :
                           fault.severity === 'Moderate' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
@@ -406,7 +406,7 @@ export const AssetDetailView: React.FC = () => {
                       <div className="flex items-center gap-2">
                         <span className={`text-[10px] font-mono px-2 py-0.5 rounded border uppercase ${
                           wo.status === 'In Progress' ? 'bg-amber-500/10 text-amber-300 border-amber-500/30' :
-                          wo.status === 'Awaiting Parts' ? 'bg-[#F27D26]/10 text-[#F27D26] border-[#F27D26]/40' :
+                          wo.status === 'Awaiting Parts' ? 'bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/40' :
                           wo.status === 'Completed' ? 'bg-emerald-500/10 text-emerald-300 border-emerald-500/30' :
                           'bg-white/5 text-neutral-400 border-white/10'
                         }`}>
@@ -439,7 +439,7 @@ export const AssetDetailView: React.FC = () => {
                       <span>Opened: {wo.openDate}</span>
                       <span>Est. Completion: {wo.estimatedCompletion}</span>
                       {wo.requiredParts && wo.requiredParts.length > 0 && (
-                        <span className="text-[#F27D26]">Parts Required: {wo.requiredParts.join(', ')}</span>
+                        <span className="text-[#EF4444]">Parts Required: {wo.requiredParts.join(', ')}</span>
                       )}
                     </div>
                   </div>
@@ -461,15 +461,15 @@ export const AssetDetailView: React.FC = () => {
               </div>
               <div className="flex items-center gap-2 font-mono text-xs">
                 <span className="text-neutral-400">Active Version:</span>
-                <span className="px-2.5 py-1 rounded bg-[#F27D26]/10 text-[#F27D26] border border-[#F27D26]/30 font-bold">
+                <span className="px-2.5 py-1 rounded bg-[#EF4444]/10 text-[#EF4444] border border-[#EF4444]/30 font-bold">
                   v{asset.softwareVersion}
                 </span>
               </div>
             </div>
 
             {/* Remote Flash Control */}
-            <div className="p-4 bg-[#0D0D0F] border border-[#F27D26]/30 rounded-xl space-y-3">
-              <div className="flex items-center gap-2 text-[#F27D26] text-xs font-mono font-bold">
+            <div className="p-4 bg-[#0D0D0F] border border-[#EF4444]/30 rounded-xl space-y-3">
+              <div className="flex items-center gap-2 text-[#EF4444] text-xs font-mono font-bold">
                 <Zap className="w-4 h-4" />
                 <span>OVER-THE-AIR (OTA) FIRMWARE DISPATCH</span>
               </div>
@@ -481,7 +481,7 @@ export const AssetDetailView: React.FC = () => {
                 <select
                   value={targetUpgradeVersion}
                   onChange={e => setTargetUpgradeVersion(e.target.value as SoftwareVersion)}
-                  className="bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-1.5 text-xs text-neutral-200 font-mono focus:outline-none focus:border-[#F27D26]/50"
+                  className="bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-1.5 text-xs text-neutral-200 font-mono focus:outline-none focus:border-[#EF4444]/50"
                 >
                   <option value="4.8.2">v4.8.2 (Recommended Fleet Stable)</option>
                   <option value="4.9 Beta">v4.9 Beta (Field Pilot)</option>
@@ -495,7 +495,7 @@ export const AssetDetailView: React.FC = () => {
                   className={`px-4 py-1.5 rounded-md text-xs font-mono font-bold transition-all flex items-center gap-1.5 ${
                     targetUpgradeVersion === asset.softwareVersion
                       ? 'bg-white/5 text-neutral-600 cursor-not-allowed border border-white/5'
-                      : 'bg-[#F27D26] hover:bg-orange-500 text-black shadow-md shadow-[#F27D26]/20'
+                      : 'bg-[#EF4444] hover:bg-orange-500 text-black shadow-md shadow-[#EF4444]/20'
                   }`}
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
@@ -541,7 +541,7 @@ export const AssetDetailView: React.FC = () => {
 
               <button
                 onClick={handleRunInspection}
-                className="px-4 py-2 bg-[#F27D26] hover:bg-orange-500 text-black font-bold text-xs font-mono rounded-md transition-colors flex items-center gap-1.5 w-fit"
+                className="px-4 py-2 bg-[#EF4444] hover:bg-orange-500 text-black font-bold text-xs font-mono rounded-md transition-colors flex items-center gap-1.5 w-fit"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Certify 200-Hour Inspection</span>
@@ -562,7 +562,7 @@ export const AssetDetailView: React.FC = () => {
               <div className="p-4 bg-white/[0.02] border border-white/5 rounded-xl space-y-2">
                 <div className="text-xs font-mono text-neutral-400 uppercase">Next Inspection Due In</div>
                 <div className={`text-xl font-bold font-mono ${
-                  asset.nextInspectionHours <= 10 ? 'text-rose-400 animate-pulse' : 'text-[#F27D26]'
+                  asset.nextInspectionHours <= 10 ? 'text-rose-400 animate-pulse' : 'text-[#EF4444]'
                 }`}>
                   {asset.nextInspectionHours} Operating Hours
                 </div>
@@ -597,20 +597,20 @@ export const AssetDetailView: React.FC = () => {
                     key={part.id}
                     className={`p-4 rounded-xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 ${
                       part.onHand <= 0
-                        ? 'bg-[#F27D26]/[0.03] border-[#F27D26]/40'
+                        ? 'bg-[#EF4444]/[0.03] border-[#EF4444]/40'
                         : 'bg-white/[0.02] border-white/5'
                     }`}
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2 font-mono">
-                        <span className="font-bold text-[#F27D26]">{part.sku}</span>
+                        <span className="font-bold text-[#EF4444]">{part.sku}</span>
                         <span className="text-xs text-white font-semibold">{part.partName}</span>
                       </div>
                       <div className="text-xs text-neutral-400 font-mono">
                         Category: {part.category} • Unit Cost: ${part.unitCostUSD.toLocaleString()}
                       </div>
                       {part.onHand <= 0 && (
-                        <div className="text-xs text-[#F27D26] font-mono font-bold">
+                        <div className="text-xs text-[#EF4444] font-mono font-bold">
                           CRITICAL: Zero stock on hand. {part.incoming} units incoming (Lead time: {part.leadTimeDays} days).
                         </div>
                       )}
@@ -642,12 +642,12 @@ export const AssetDetailView: React.FC = () => {
             <div className="relative pl-6 border-l-2 border-[#1F1F23] space-y-4 my-2">
               {asset.timelineEvents.map((evt, idx) => (
                 <div key={evt.id || idx} className="relative">
-                  <div className="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-[#F27D26] border-2 border-[#0A0A0B]" />
+                  <div className="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-[#EF4444] border-2 border-[#0A0A0B]" />
                   <div className="text-[11px] font-mono text-neutral-500 mb-0.5">{evt.date}</div>
                   <div className="text-xs font-bold font-mono text-white">{evt.title}</div>
                   <p className="text-xs text-neutral-400 mt-0.5 font-sans">{evt.description}</p>
                   {evt.technicianOrSource && (
-                    <div className="text-[10px] font-mono text-[#F27D26]/80 mt-1">Source: {evt.technicianOrSource}</div>
+                    <div className="text-[10px] font-mono text-[#EF4444]/80 mt-1">Source: {evt.technicianOrSource}</div>
                   )}
                 </div>
               ))}

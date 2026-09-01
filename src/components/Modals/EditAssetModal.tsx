@@ -46,7 +46,7 @@ export const EditAssetModal: React.FC<EditAssetModalProps> = ({
       <div className="glass-panel border border-white/[0.08] rounded-xl max-w-xl w-full p-6 shadow-2xl text-neutral-200 relative bg-[#0D0D0F]">
         <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-5">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-[#F27D26]/10 border border-[#F27D26]/30 rounded-lg text-[#F27D26]">
+            <div className="p-2 bg-[#EF4444]/10 border border-[#EF4444]/30 rounded-lg text-[#EF4444]">
               <Edit className="w-5 h-5" />
             </div>
             <div>
@@ -71,7 +71,7 @@ export const EditAssetModal: React.FC<EditAssetModalProps> = ({
               <select
                 value={status}
                 onChange={e => setStatus(e.target.value as AssetStatus)}
-                className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-[#F27D26]/50 font-mono"
+                className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-[#EF4444]/50 font-mono"
               >
                 <option value="MISSION READY">MISSION READY</option>
                 <option value="LIMITED">LIMITED</option>
@@ -93,7 +93,7 @@ export const EditAssetModal: React.FC<EditAssetModalProps> = ({
                 max={100}
                 value={missionReadiness}
                 onChange={e => setMissionReadiness(Number(e.target.value))}
-                className="w-full h-2 bg-[#1F1F23] rounded-lg appearance-none cursor-pointer accent-[#F27D26] mt-2"
+                className="w-full h-2 bg-[#1F1F23] rounded-lg appearance-none cursor-pointer accent-[#EF4444] mt-2"
               />
             </div>
           </div>
@@ -106,7 +106,7 @@ export const EditAssetModal: React.FC<EditAssetModalProps> = ({
               <select
                 value={location}
                 onChange={e => setLocation(e.target.value as LocationSector)}
-                className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-[#F27D26]/50"
+                className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-[#EF4444]/50"
               >
                 <option value="Forward Operating Base Alpha">Forward Operating Base Alpha</option>
                 <option value="Bravo Proving Grounds">Bravo Proving Grounds</option>
@@ -124,7 +124,7 @@ export const EditAssetModal: React.FC<EditAssetModalProps> = ({
               <select
                 value={assignedTeam}
                 onChange={e => setAssignedTeam(e.target.value as AssignedTeam)}
-                className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-[#F27D26]/50"
+                className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-[#EF4444]/50"
               >
                 <option value="Team Orion">Team Orion</option>
                 <option value="Team Aegis">Team Aegis</option>
@@ -144,7 +144,7 @@ export const EditAssetModal: React.FC<EditAssetModalProps> = ({
               <select
                 value={hardwareVersion}
                 onChange={e => setHardwareVersion(e.target.value as HardwareGen)}
-                className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-[#F27D26]/50"
+                className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-[#EF4444]/50"
               >
                 <option value="Gen 2">Gen 2</option>
                 <option value="Gen 2.5">Gen 2.5</option>
@@ -159,7 +159,7 @@ export const EditAssetModal: React.FC<EditAssetModalProps> = ({
               <select
                 value={softwareVersion}
                 onChange={e => setSoftwareVersion(e.target.value as SoftwareVersion)}
-                className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-[#F27D26]/50 font-mono"
+                className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-[#EF4444]/50 font-mono"
               >
                 <option value="4.6.1">4.6.1</option>
                 <option value="4.7.0">4.7.0</option>
@@ -175,7 +175,7 @@ export const EditAssetModal: React.FC<EditAssetModalProps> = ({
               <select
                 value={commStatus}
                 onChange={e => setCommStatus(e.target.value as CommStatus)}
-                className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-[#F27D26]/50"
+                className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-[#EF4444]/50"
               >
                 <option value="Nominal">Nominal</option>
                 <option value="Degraded">Degraded</option>
@@ -195,7 +195,7 @@ export const EditAssetModal: React.FC<EditAssetModalProps> = ({
               max={5000}
               value={operatingHours}
               onChange={e => setOperatingHours(Number(e.target.value))}
-              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-[#F27D26]/50 font-mono"
+              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-3 py-2 text-xs text-neutral-200 focus:outline-none focus:border-[#EF4444]/50 font-mono"
             />
           </div>
 
@@ -209,7 +209,7 @@ export const EditAssetModal: React.FC<EditAssetModalProps> = ({
             </button>
             <button
               type="submit"
-              className="px-5 py-2 bg-[#F27D26] hover:bg-orange-500 text-black font-bold text-xs rounded-md transition-colors flex items-center gap-2"
+              className="px-5 py-2 bg-[#EF4444] hover:bg-orange-500 text-black font-bold text-xs rounded-md transition-colors flex items-center gap-2"
             >
               <ShieldCheck className="w-4 h-4" />
               Save Asset Configuration

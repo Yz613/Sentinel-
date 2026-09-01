@@ -14,14 +14,14 @@ export const ReadmeModal: React.FC<ReadmeModalProps> = ({ isOpen, onClose }) => 
       <div className="glass-panel border border-white/[0.08] rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 md:p-8 shadow-2xl text-neutral-200 relative bg-[#0D0D0F]">
         <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-6">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-[#F27D26]/10 border border-[#F27D26]/30 rounded-xl text-[#F27D26]">
+            <div className="p-2.5 bg-[#EF4444]/10 border border-[#EF4444]/30 rounded-xl text-[#EF4444]">
               <Shield className="w-6 h-6" />
             </div>
             <div>
               <h2 className="text-sm font-bold font-mono tracking-wide text-white uppercase">
                 SENTINEL — Autonomous Fleet Readiness
               </h2>
-              <p className="text-xs text-[#F27D26] font-mono">OPERATIONS, SUSTAINMENT & READINESS INTELLIGENCE</p>
+              <p className="text-xs text-[#EF4444] font-mono">OPERATIONS, SUSTAINMENT & READINESS INTELLIGENCE</p>
             </div>
           </div>
           <button
@@ -35,8 +35,8 @@ export const ReadmeModal: React.FC<ReadmeModalProps> = ({ isOpen, onClose }) => 
         <div className="space-y-6 text-xs text-neutral-300 leading-relaxed font-sans">
           {/* Problem Section */}
           <div className="bg-white/[0.02] p-4 rounded-xl border border-white/5">
-            <h3 className="text-xs font-bold font-mono text-[#F27D26] uppercase tracking-wider mb-2 flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-[#F27D26]" />
+            <h3 className="text-xs font-bold font-mono text-[#EF4444] uppercase tracking-wider mb-2 flex items-center gap-2">
+              <AlertCircle className="w-4 h-4 text-[#EF4444]" />
               The Problem
             </h3>
             <p>
@@ -45,7 +45,7 @@ export const ReadmeModal: React.FC<ReadmeModalProps> = ({ isOpen, onClose }) => 
               supply-chain logistics, spare parts inventory, and fault telemetry into a single cohesive operational picture. 
               When telemetry is siloed, command teams cannot readily answer the critical question:
             </p>
-            <blockquote className="mt-3 pl-3 border-l-2 border-[#F27D26] text-white font-medium italic">
+            <blockquote className="mt-3 pl-3 border-l-2 border-[#EF4444] text-white font-medium italic">
               “How much of the fleet is available right now, what is reducing readiness, and what should operations fix first?”
             </blockquote>
           </div>
@@ -64,7 +64,7 @@ export const ReadmeModal: React.FC<ReadmeModalProps> = ({ isOpen, onClose }) => 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
               <div className="p-3 bg-[#141417] rounded-lg border border-[#1F1F23]">
                 <div className="font-semibold text-white text-xs flex items-center gap-1.5 mb-1 font-mono">
-                  <Activity className="w-3.5 h-3.5 text-[#F27D26]" /> Real-time Fleet Command
+                  <Activity className="w-3.5 h-3.5 text-[#EF4444]" /> Real-time Fleet Command
                 </div>
                 <div className="text-xs text-neutral-400">82% Fleet readiness KPI, availability spectrums, and top driver drill-downs.</div>
               </div>
@@ -112,7 +112,7 @@ export const ReadmeModal: React.FC<ReadmeModalProps> = ({ isOpen, onClose }) => 
                 { name: 'Operational Data Analytics', icon: Cpu },
               ].map(item => (
                 <div key={item.name} className="flex items-center gap-2 p-2.5 bg-[#141417] rounded-lg border border-[#1F1F23] text-xs text-neutral-200">
-                  <item.icon className="w-4 h-4 text-[#F27D26] shrink-0" />
+                  <item.icon className="w-4 h-4 text-[#EF4444] shrink-0" />
                   <span>{item.name}</span>
                 </div>
               ))}

@@ -10,10 +10,10 @@ export const DemoBanner: React.FC = () => {
   }
 
   return (
-    <div className="bg-gradient-to-r from-[#F27D26]/15 via-[#141417] to-[#F27D26]/10 border-b border-[#F27D26]/25 px-4 sm:px-6 lg:px-8 py-2 text-xs font-mono">
+    <div className="bg-gradient-to-r from-[#EF4444]/15 via-[#131720] to-[#EF4444]/10 border-b border-[#EF4444]/25 px-4 sm:px-6 lg:px-8 py-2 text-xs font-mono">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2.5">
         <div className="flex items-center gap-2 text-neutral-300 text-center sm:text-left">
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#F27D26]/20 border border-[#F27D26]/40 text-[#F27D26] font-bold text-[10px] tracking-wider uppercase">
+          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-[#EF4444]/20 border border-[#EF4444]/40 text-[#EF4444] font-bold text-[10px] tracking-wider uppercase shadow-sm">
             <Sparkles className="w-3 h-3" />
             Demo Showcase
           </span>
@@ -45,7 +45,7 @@ export const DemoBanner: React.FC = () => {
 
           <button
             onClick={() => setMode('live')}
-            className="flex items-center gap-1.5 px-3 py-1 text-[11px] font-bold bg-[#F27D26] hover:bg-orange-500 text-black rounded transition-colors shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-1 text-[11px] font-bold bg-[#EF4444] hover:bg-red-600 text-white rounded transition-colors shadow-sm shadow-[#EF4444]/25"
           >
             <span>Live Operations</span>
             <ArrowRight className="w-3 h-3" />

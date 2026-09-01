@@ -198,7 +198,7 @@ export const ConfigurationView: React.FC = () => {
               </h3>
               <p className="text-xs text-neutral-400 font-sans">Cross-distribution of 50 active assets</p>
             </div>
-            <span className="text-xs font-mono text-[#F27D26]">Total: 50</span>
+            <span className="text-xs font-mono text-[#EF4444]">Total: 50</span>
           </div>
 
           <div className="overflow-x-auto">
@@ -243,7 +243,7 @@ export const ConfigurationView: React.FC = () => {
                           </td>
                         );
                       })}
-                      <td className="py-3 px-3 font-bold text-[#F27D26]">
+                      <td className="py-3 px-3 font-bold text-[#EF4444]">
                         {rowSum}
                       </td>
                     </tr>
@@ -330,10 +330,10 @@ export const ConfigurationView: React.FC = () => {
                 setSelectedAssetId(asset.id);
                 setActiveNavTab('assets');
               }}
-              className="p-2.5 bg-white/[0.02] hover:bg-[#F27D26]/[0.05] border border-white/5 hover:border-[#F27D26]/30 rounded-lg text-left transition-colors space-y-1"
+              className="p-2.5 bg-white/[0.02] hover:bg-[#EF4444]/[0.05] border border-white/5 hover:border-[#EF4444]/30 rounded-lg text-left transition-colors space-y-1"
             >
               <div className="flex items-center justify-between">
-                <span className="font-bold text-white hover:text-[#F27D26]">{asset.id}</span>
+                <span className="font-bold text-white hover:text-[#EF4444]">{asset.id}</span>
                 <span className={`text-[10px] ${asset.missionReadiness >= 85 ? 'text-emerald-400' : 'text-amber-400'}`}>
                   {asset.missionReadiness}%
                 </span>

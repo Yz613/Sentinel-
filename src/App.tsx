@@ -42,14 +42,14 @@ const MainContent: React.FC = () => {
 const FooterContent: React.FC = () => {
   const { mode, assets } = useFleet();
   return (
-    <footer className="border-t border-[#1F1F23] bg-[#0D0D0F] py-4 px-4 sm:px-6 lg:px-8 text-xs font-mono text-neutral-500">
+    <footer className="border-t border-[#222834] bg-[#0B0D12] py-4 px-4 sm:px-6 lg:px-8 text-xs font-mono text-neutral-400">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
         <div className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 bg-[#F27D26] rounded-xs rotate-45 shrink-0"></div>
+          <div className="w-2.5 h-2.5 bg-[#EF4444] rounded-xs rotate-45 shrink-0"></div>
           <span>SENTINEL Operations Platform • Autonomous Ground Fleet Readiness Engine</span>
         </div>
         <div className="text-[11px] text-neutral-400 flex items-center gap-2">
-          <span className={`w-1.5 h-1.5 rounded-full ${mode === 'live' ? 'bg-emerald-400' : 'bg-[#F27D26]'}`}></span>
+          <span className={`w-1.5 h-1.5 rounded-full ${mode === 'live' ? 'bg-emerald-400' : 'bg-[#EF4444]'}`}></span>
           <span>{mode === 'live' ? `Live Telemetry Pipeline (${assets.length} Assets)` : 'Demo Sandbox (50 Synthetic Vehicles)'}</span>
         </div>
       </div>
@@ -60,7 +60,7 @@ const FooterContent: React.FC = () => {
 export default function App() {
   return (
     <FleetProvider>
-      <div className="min-h-screen bg-[#0A0A0B] text-[#E0E0E0] flex flex-col selection:bg-[#F27D26] selection:text-black">
+      <div className="min-h-screen bg-[#0A0B0E] text-[#E0E0E0] flex flex-col selection:bg-[#EF4444] selection:text-white">
         <Header />
         <DemoBanner />
         <Navigation />

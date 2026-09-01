@@ -15,7 +15,8 @@ import {
   Radio,
   ExternalLink,
   Database,
-  Zap
+  Zap,
+  Compass
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -28,6 +29,7 @@ import {
   Pie, 
   Cell 
 } from 'recharts';
+import { AxleLockerIcon, HexBolt } from '../TacticalIcons';
 
 export const FleetCommandView: React.FC = () => {
   const { 
@@ -45,12 +47,12 @@ export const FleetCommandView: React.FC = () => {
 
   // Breakdown status data for pie chart
   const statusPieData = useMemo(() => [
-    { name: 'Mission Ready', value: summary.missionReady, color: '#22c55e' },
-    { name: 'Maintenance', value: summary.maintenance, color: '#F27D26' },
-    { name: 'Awaiting Spares', value: summary.awaitingParts, color: '#ef4444' },
-    { name: 'Software Blocked', value: summary.softwareBlocked, color: '#a855f7' },
-    { name: 'Inspection Due', value: summary.inspectionDue, color: '#38bdf8' },
-    { name: 'Limited / Other', value: summary.totalAssets - (summary.missionReady + summary.maintenance + summary.awaitingParts + summary.softwareBlocked + summary.inspectionDue), color: '#71717a' }
+    { name: 'Mission Ready', value: summary.missionReady, color: '#10B981' },
+    { name: 'Maintenance', value: summary.maintenance, color: '#F59E0B' },
+    { name: 'Awaiting Spares', value: summary.awaitingParts, color: '#EF4444' },
+    { name: 'Software Blocked', value: summary.softwareBlocked, color: '#A855F7' },
+    { name: 'Inspection Due', value: summary.inspectionDue, color: '#38BDF8' },
+    { name: 'Limited / Other', value: summary.totalAssets - (summary.missionReady + summary.maintenance + summary.awaitingParts + summary.softwareBlocked + summary.inspectionDue), color: '#64748B' }
   ].filter(d => d.value > 0), [summary]);
 
   // Comparison breakdowns
@@ -154,11 +156,11 @@ export const FleetCommandView: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Banner / Question Callout */}
-      <div className="bg-[#0D0D0F] border border-[#1F1F23] rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#F27D26]/5 rounded-full blur-3xl pointer-events-none" />
-        <div>
-          <div className="flex items-center gap-2 text-[#F27D26] text-xs font-mono font-bold uppercase tracking-wider mb-1">
-            <Radio className="w-3.5 h-3.5 animate-pulse text-[#F27D26]" />
+      <div className="bg-[#10131A] border border-[#242C3A] rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-md relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-[#EF4444]/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10">
+          <div className="flex items-center gap-2 text-[#EF4444] text-xs font-mono font-bold uppercase tracking-wider mb-1">
+            <Radio className="w-3.5 h-3.5 animate-pulse text-[#EF4444]" />
             <span>OPERATIONAL READINESS BRIEFING</span>
           </div>
           <h1 className="text-base md:text-lg font-bold text-white font-mono tracking-tight">
@@ -173,16 +175,99 @@ export const FleetCommandView: React.FC = () => {
 
         <button
           onClick={() => setActiveNavTab('readiness-intelligence')}
-          className="flex items-center gap-2 px-4 py-2.5 bg-[#F27D26] hover:bg-orange-500 text-black font-mono font-bold text-xs uppercase tracking-wider rounded-md transition-all shadow-lg shadow-[#F27D26]/20 whitespace-nowrap"
+          className="flex items-center gap-2 px-4 py-2.5 bg-[#EF4444] hover:bg-red-600 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-md transition-all shadow-lg shadow-[#EF4444]/25 whitespace-nowrap relative z-10"
         >
           <Sparkles className="w-4 h-4" />
           <span>GENERATE MORNING BRIEF</span>
         </button>
       </div>
 
+      {/* Rugged Off-Road Ground Telemetry Ribbon */}
+      <div className="bg-[#12161F] border border-[#242C3A] rounded-xl p-4 shadow-sm relative overflow-hidden">
+        <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-3 pb-3 border-b border-[#222834]">
+          <div className="flex items-center gap-2.5">
+            <Compass className="w-4 h-4 text-[#EF4444]" />
+            <span className="font-mono text-xs font-bold uppercase tracking-widest text-white">
+              ALL-TERRAIN GROUND TELEMETRY & CHASSIS DYNAMICS
+            </span>
+            <span className="text-[10px] bg-[#EF4444]/15 text-[#EF4444] px-2 py-0.5 rounded font-mono font-bold border border-[#EF4444]/35">
+              4WD LOCK ACTIVE
+            </span>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-neutral-400">
+            <span className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span>SECTOR ELEV: 4,820 FT</span>
+            </span>
+            <span>•</span>
+            <span className="text-white">WATER FORDING: <strong className="text-emerald-400">34.0 IN MAX</strong></span>
+            <span>•</span>
+            <span className="text-white">TIRE PRESSURE: <strong className="text-amber-400">18.5 PSI (AIR-DOWN)</strong></span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
+          {/* Pitch & Roll Inclinometer */}
+          <div className="bg-[#161B24] p-3 rounded-lg border border-[#283242] flex items-center justify-between">
+            <div>
+              <div className="text-[10px] text-neutral-400 font-mono uppercase tracking-wider">Terrain Inclinometer</div>
+              <div className="text-sm font-bold font-mono text-white mt-0.5 flex items-center gap-2">
+                <span className="text-emerald-400">PITCH: +14°</span>
+                <span className="text-neutral-500">|</span>
+                <span className="text-amber-400">ROLL: -3°</span>
+              </div>
+            </div>
+            <div className="w-8 h-8 rounded-full bg-[#10131A] border border-[#343F52] flex items-center justify-center text-xs font-mono text-[#EF4444] font-bold">
+              14°
+            </div>
+          </div>
+
+          {/* Differential Lockers */}
+          <div className="bg-[#161B24] p-3 rounded-lg border border-[#283242] flex items-center justify-between">
+            <div>
+              <div className="text-[10px] text-neutral-400 font-mono uppercase tracking-wider">Heavy-Duty Axles</div>
+              <div className="text-sm font-bold font-mono text-emerald-400 mt-0.5 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span>FRONT & REAR LOCKED</span>
+              </div>
+            </div>
+            <AxleLockerIcon locked={true} className="w-6 h-6 text-[#EF4444]" />
+          </div>
+
+          {/* Suspension Articulation */}
+          <div className="bg-[#161B24] p-3 rounded-lg border border-[#283242] flex items-center justify-between">
+            <div>
+              <div className="text-[10px] text-neutral-400 font-mono uppercase tracking-wider">Suspension Articulation</div>
+              <div className="text-sm font-bold font-mono text-amber-400 mt-0.5 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+                <span>DISCONNECTED (HIGH TRAVEL)</span>
+              </div>
+            </div>
+            <div className="text-[10px] font-mono font-bold text-neutral-300 bg-[#10131A] px-2 py-1 rounded border border-[#343F52]">
+              842 RTI
+            </div>
+          </div>
+
+          {/* Transfer Case Mode */}
+          <div className="bg-[#161B24] p-3 rounded-lg border border-[#283242] flex items-center justify-between">
+            <div>
+              <div className="text-[10px] text-neutral-400 font-mono uppercase tracking-wider">Transfer Case Mode</div>
+              <div className="text-sm font-bold font-mono text-white mt-0.5 flex items-center gap-1.5">
+                <span className="text-[#EF4444]">4L</span>
+                <span className="text-neutral-400 text-xs">LOW-RANGE 4:1</span>
+              </div>
+            </div>
+            <div className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/30 font-bold">
+              77.2:1 CRAWL
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Live Mode Onboarding Empty State Card */}
       {assets.length === 0 && (
-        <div className="bg-[#0D0D0F] border border-dashed border-emerald-500/30 rounded-xl p-8 text-center font-mono">
+        <div className="bg-[#11141B] border border-dashed border-emerald-500/30 rounded-xl p-8 text-center font-mono">
           <div className="w-12 h-12 bg-emerald-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center mx-auto mb-4 text-emerald-400">
             <Database className="w-6 h-6" />
           </div>
@@ -195,7 +280,7 @@ export const FleetCommandView: React.FC = () => {
           <div className="flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={() => setActiveNavTab('data-sources')}
-              className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs rounded-lg transition-colors flex items-center gap-2"
+              className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs rounded-lg transition-colors flex items-center gap-2 shadow-md shadow-emerald-500/20"
             >
               <Zap className="w-4 h-4" />
               <span>Open Data Sources & Connect Telemetry</span>
@@ -209,7 +294,7 @@ export const FleetCommandView: React.FC = () => {
             </button>
             <button
               onClick={() => setMode('demo')}
-              className="px-4 py-2.5 bg-[#F27D26]/10 hover:bg-[#F27D26]/20 text-[#F27D26] border border-[#F27D26]/30 text-xs rounded-lg transition-colors flex items-center gap-2"
+              className="px-4 py-2.5 bg-[#EF4444]/10 hover:bg-[#EF4444]/20 text-[#EF4444] border border-[#EF4444]/30 text-xs rounded-lg transition-colors flex items-center gap-2"
             >
               <span>Explore Demo Showcase (50 Vehicles)</span>
             </button>
@@ -217,33 +302,33 @@ export const FleetCommandView: React.FC = () => {
         </div>
       )}
 
-      {/* Primary KPI Grid (Matching Sophisticated Dark Specs) */}
+      {/* Primary KPI Grid (Rugged Armor Styling) */}
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
         {/* Fleet Readiness */}
-        <div className="col-span-2 sm:col-span-2 lg:col-span-2 glass-panel p-4 rounded-xl relative overflow-hidden flex flex-col justify-between border border-white/[0.08]">
+        <div className="col-span-2 sm:col-span-2 lg:col-span-2 glass-panel p-4 rounded-xl relative overflow-hidden flex flex-col justify-between border border-[#242C3A]">
           <div>
-            <div className="text-[10px] uppercase text-neutral-500 tracking-wider mb-1 font-mono">Fleet Readiness</div>
-            <div className="text-3xl font-light text-white font-sans">
+            <div className="text-[10px] uppercase text-neutral-400 tracking-wider mb-1 font-mono">Fleet Readiness</div>
+            <div className="text-3xl font-bold text-white font-mono">
               {summary.fleetReadiness}<span className="text-sm text-neutral-500 ml-1 font-mono">%</span>
             </div>
           </div>
-          <div className="h-1.5 w-full bg-white/5 mt-4 rounded-full overflow-hidden">
-            <div className="h-full bg-[#F27D26] transition-all duration-500" style={{ width: `${summary.fleetReadiness}%` }}></div>
+          <div className="h-2 w-full bg-[#151922] mt-4 rounded-full overflow-hidden border border-[#222834]">
+            <div className="h-full bg-[#EF4444] transition-all duration-500" style={{ width: `${summary.fleetReadiness}%` }}></div>
           </div>
-          <div className="flex justify-between items-center mt-2 text-[10px] font-mono text-neutral-500">
+          <div className="flex justify-between items-center mt-2 text-[10px] font-mono text-neutral-400">
             <span>TARGET: 90%</span>
-            <span className="text-[#F27D26]">{summary.totalAssets} ASSETS TOTAL</span>
+            <span className="text-[#EF4444] font-bold">{summary.totalAssets} ASSETS TOTAL</span>
           </div>
         </div>
 
         {/* Mission Ready */}
-        <div className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-white/[0.08]">
-          <div className="text-[10px] uppercase text-neutral-500 tracking-wider mb-1 font-mono">Mission Ready</div>
-          <div className="text-3xl font-light text-white font-sans">
+        <div className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-[#242C3A]">
+          <div className="text-[10px] uppercase text-neutral-400 tracking-wider mb-1 font-mono">Mission Ready</div>
+          <div className="text-3xl font-bold text-white font-mono">
             {summary.missionReady}<span className="text-sm text-neutral-500 ml-1 font-mono">/ {summary.totalAssets}</span>
           </div>
-          <div className="text-[10px] text-emerald-400 mt-2 font-mono flex items-center gap-1">
-            <ShieldCheck className="w-3 h-3" />
+          <div className="text-[10px] text-emerald-400 mt-2 font-mono flex items-center gap-1 font-bold">
+            <ShieldCheck className="w-3.5 h-3.5" />
             <span>+2 FROM PREV CYCLE</span>
           </div>
         </div>
@@ -251,10 +336,10 @@ export const FleetCommandView: React.FC = () => {
         {/* Maintenance */}
         <div 
           onClick={() => setActiveNavTab('maintenance')}
-          className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-white/[0.08] hover:border-amber-500/30 cursor-pointer transition-colors"
+          className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-[#242C3A] hover:border-amber-500/40 cursor-pointer transition-colors"
         >
-          <div className="text-[10px] uppercase text-neutral-500 tracking-wider mb-1 font-mono">Maintenance</div>
-          <div className="text-3xl font-light text-amber-400 font-sans">
+          <div className="text-[10px] uppercase text-neutral-400 tracking-wider mb-1 font-mono">Maintenance</div>
+          <div className="text-3xl font-bold text-amber-400 font-mono">
             0{summary.maintenance}
           </div>
           <div className="text-[10px] text-amber-400/90 mt-2 font-mono flex items-center justify-between">
@@ -266,13 +351,13 @@ export const FleetCommandView: React.FC = () => {
         {/* Awaiting Spares */}
         <div 
           onClick={() => setActiveNavTab('spare-parts')}
-          className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-[#F27D26]/30 bg-[#F27D26]/[0.02] cursor-pointer transition-colors"
+          className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-[#EF4444]/35 bg-[#EF4444]/[0.03] cursor-pointer transition-colors"
         >
-          <div className="text-[10px] uppercase text-neutral-500 tracking-wider mb-1 font-mono">Awaiting Spares</div>
-          <div className="text-3xl font-light text-[#F27D26] font-sans">
+          <div className="text-[10px] uppercase text-neutral-400 tracking-wider mb-1 font-mono">Awaiting Spares</div>
+          <div className="text-3xl font-bold text-[#EF4444] font-mono">
             0{summary.awaitingParts}
           </div>
-          <div className="text-[10px] text-[#F27D26] mt-2 font-mono uppercase tracking-tight">
+          <div className="text-[10px] text-[#EF4444] mt-2 font-mono uppercase tracking-tight font-bold">
             CRITICAL_BLOCKER
           </div>
         </div>
@@ -280,10 +365,10 @@ export const FleetCommandView: React.FC = () => {
         {/* Software Blocked */}
         <div 
           onClick={() => setActiveNavTab('configuration')}
-          className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-white/[0.08] hover:border-purple-500/30 cursor-pointer transition-colors"
+          className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-[#242C3A] hover:border-purple-500/40 cursor-pointer transition-colors"
         >
-          <div className="text-[10px] uppercase text-neutral-500 tracking-wider mb-1 font-mono">Software Blocked</div>
-          <div className="text-3xl font-light text-purple-400 font-sans">
+          <div className="text-[10px] uppercase text-neutral-400 tracking-wider mb-1 font-mono">Software Blocked</div>
+          <div className="text-3xl font-bold text-purple-400 font-mono">
             0{summary.softwareBlocked}
           </div>
           <div className="text-[10px] text-purple-400/90 mt-2 font-mono">
@@ -294,13 +379,13 @@ export const FleetCommandView: React.FC = () => {
         {/* Active Faults */}
         <div 
           onClick={() => setActiveNavTab('faults')}
-          className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-rose-500/20 hover:border-rose-500/40 cursor-pointer transition-colors"
+          className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-rose-500/30 hover:border-rose-500/50 cursor-pointer transition-colors"
         >
-          <div className="text-[10px] uppercase text-neutral-500 tracking-wider mb-1 font-mono">Active Faults</div>
-          <div className="text-3xl font-light text-rose-500 font-sans">
+          <div className="text-[10px] uppercase text-neutral-400 tracking-wider mb-1 font-mono">Active Faults</div>
+          <div className="text-3xl font-bold text-rose-500 font-mono">
             0{summary.criticalFaults}
           </div>
-          <div className="text-[10px] text-rose-500 mt-2 font-mono uppercase tracking-tight">
+          <div className="text-[10px] text-rose-500 mt-2 font-mono uppercase tracking-tight font-bold">
             URGENT_TRIAGE
           </div>
         </div>
@@ -310,20 +395,20 @@ export const FleetCommandView: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Top Readiness Drivers (Left 7 cols) */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="glass-panel rounded-xl p-5 shadow-sm border border-white/[0.08]">
+          <div className="glass-panel rounded-xl p-5 shadow-sm border border-[#242C3A]">
             <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 bg-[#F27D26]/10 border border-[#F27D26]/30 rounded text-[#F27D26]">
+                <div className="p-1.5 bg-[#EF4444]/10 border border-[#EF4444]/30 rounded text-[#EF4444]">
                   <TrendingDown className="w-4 h-4" />
                 </div>
                 <div>
-                  <h3 className="text-xs uppercase tracking-widest font-semibold text-white font-mono">
+                  <h3 className="text-xs uppercase tracking-widest font-bold text-white font-mono">
                     TOP READINESS DRIVERS
                   </h3>
                   <p className="text-xs text-neutral-400 font-sans">Root causes currently suppressing overall fleet availability</p>
                 </div>
               </div>
-              <span className="text-[11px] font-mono text-[#F27D26]">
+              <span className="text-[11px] font-mono text-[#EF4444] font-bold">
                 -18.0% FLEET DRAG
               </span>
             </div>
@@ -332,7 +417,7 @@ export const FleetCommandView: React.FC = () => {
               {readinessDrivers.map((driver, index) => (
                 <div
                   key={driver.id}
-                  className="p-3.5 bg-white/[0.02] border border-white/5 rounded-lg hover:border-white/10 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+                  className="p-3.5 bg-white/[0.02] border border-[#222834] rounded-lg hover:border-[#343F52] transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
                 >
                   <div className="space-y-1 flex-1">
                     <div className="flex items-center gap-2">
@@ -340,7 +425,7 @@ export const FleetCommandView: React.FC = () => {
                         driver.severity === 'critical'
                           ? 'bg-rose-500/10 text-rose-400 border-rose-500/30'
                           : driver.severity === 'high'
-                          ? 'bg-[#F27D26]/10 text-[#F27D26] border-[#F27D26]/30'
+                          ? 'bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/30 font-bold'
                           : 'bg-sky-500/10 text-sky-400 border-sky-500/30'
                       }`}>
                         DRIVER 0{index + 1} • {driver.severity}
@@ -355,7 +440,7 @@ export const FleetCommandView: React.FC = () => {
                     </p>
 
                     <div className="flex flex-wrap items-center gap-2 pt-1 font-mono text-[11px]">
-                      <span className="text-[#F27D26]">
+                      <span className="text-[#EF4444] font-medium">
                         Action: {driver.recommendedAction}
                       </span>
                       <div className="flex items-center gap-1">
@@ -363,7 +448,7 @@ export const FleetCommandView: React.FC = () => {
                           <button
                             key={assetId}
                             onClick={() => handleAssetClick(assetId)}
-                            className="text-[10px] font-mono bg-white/5 hover:bg-[#F27D26]/10 hover:text-[#F27D26] text-neutral-300 px-1.5 py-0.5 rounded border border-white/10 transition-colors"
+                            className="text-[10px] font-mono bg-white/5 hover:bg-[#EF4444]/15 hover:text-[#EF4444] text-neutral-300 px-1.5 py-0.5 rounded border border-white/10 transition-colors"
                           >
                             {assetId}
                           </button>
@@ -374,10 +459,10 @@ export const FleetCommandView: React.FC = () => {
 
                   <button
                     onClick={() => handleDriverAction(driver)}
-                    className="shrink-0 self-end sm:self-center px-3 py-1.5 bg-white/5 hover:bg-[#F27D26]/20 text-neutral-200 hover:text-[#F27D26] border border-white/10 hover:border-[#F27D26]/40 rounded-md text-xs font-mono transition-colors flex items-center gap-1.5"
+                    className="shrink-0 self-end sm:self-center px-3 py-1.5 bg-white/5 hover:bg-[#EF4444]/20 text-neutral-200 hover:text-white border border-white/10 hover:border-[#EF4444]/50 rounded-md text-xs font-mono transition-colors flex items-center gap-1.5 font-bold"
                   >
                     <span>Remediate</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-3.5 h-3.5 text-[#EF4444]" />
                   </button>
                 </div>
               ))}
@@ -385,9 +470,9 @@ export const FleetCommandView: React.FC = () => {
           </div>
 
           {/* Quick Action Operations Ticker */}
-          <div className="glass-panel rounded-xl p-4 flex items-center justify-between gap-4 border border-white/[0.08]">
+          <div className="glass-panel rounded-xl p-4 flex items-center justify-between gap-4 border border-[#242C3A]">
             <div className="flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-[#F27D26] animate-pulse shrink-0" />
+              <div className="w-2 h-2 rounded-full bg-[#EF4444] animate-pulse shrink-0" />
               <div className="text-xs font-sans">
                 <span className="text-white font-mono font-semibold">Immediate Operations Directive: </span>
                 <span className="text-neutral-400">Receive 2x COMM-MOD-V3 transceivers to immediately restore +4% Fleet Readiness (unblocks MRD-014 & MRD-027).</span>
@@ -395,7 +480,7 @@ export const FleetCommandView: React.FC = () => {
             </div>
             <button
               onClick={() => setActiveNavTab('spare-parts')}
-              className="shrink-0 px-3 py-1.5 bg-[#F27D26]/10 hover:bg-[#F27D26]/20 text-[#F27D26] border border-[#F27D26]/30 rounded-md text-xs font-mono transition-colors"
+              className="shrink-0 px-3 py-1.5 bg-[#EF4444]/10 hover:bg-[#EF4444]/20 text-[#EF4444] border border-[#EF4444]/30 rounded-md text-xs font-mono transition-colors font-bold"
             >
               View Parts Hub
             </button>
@@ -404,15 +489,15 @@ export const FleetCommandView: React.FC = () => {
 
         {/* Visual Readiness Breakdown & Status Spectrum (Right 5 cols) */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="glass-panel rounded-xl p-5 shadow-sm border border-white/[0.08]">
+          <div className="glass-panel rounded-xl p-5 shadow-sm border border-[#242C3A]">
             <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
               <div>
-                <h3 className="text-xs uppercase tracking-widest font-semibold text-white font-mono">
+                <h3 className="text-xs uppercase tracking-widest font-bold text-white font-mono">
                   READINESS BREAKDOWN
                 </h3>
                 <p className="text-xs text-neutral-400 font-sans">Status distribution across 50 autonomous platforms</p>
               </div>
-              <span className="text-xs font-mono text-[#F27D26] font-medium">50 / 50 Monitored</span>
+              <span className="text-xs font-mono text-[#EF4444] font-bold">50 / 50 Monitored</span>
             </div>
 
             {/* Pie Chart Distribution */}
@@ -429,11 +514,11 @@ export const FleetCommandView: React.FC = () => {
                     dataKey="value"
                   >
                     {statusPieData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} stroke="#0D0D0F" strokeWidth={2} />
+                      <Cell key={`cell-${index}`} fill={entry.color} stroke="#10131A" strokeWidth={2} />
                     ))}
                   </Pie>
                   <Tooltip
-                    contentStyle={{ backgroundColor: '#0D0D0F', borderColor: '#1F1F23', borderRadius: '8px', fontSize: '12px', fontFamily: 'monospace' }}
+                    contentStyle={{ backgroundColor: '#10131A', borderColor: '#242C3A', borderRadius: '8px', fontSize: '12px', fontFamily: 'monospace' }}
                     itemStyle={{ color: '#E0E0E0' }}
                   />
                 </PieChart>
@@ -443,7 +528,7 @@ export const FleetCommandView: React.FC = () => {
             {/* Legend Matrix */}
             <div className="grid grid-cols-2 gap-2 mt-2 pt-3 border-t border-white/5">
               {statusPieData.map(item => (
-                <div key={item.name} className="flex items-center justify-between p-2 bg-white/[0.02] rounded-md border border-white/5 text-xs font-mono">
+                <div key={item.name} className="flex items-center justify-between p-2 bg-white/[0.02] rounded-md border border-[#222834] text-xs font-mono">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
                     <span className="text-neutral-300 truncate max-w-[90px]">{item.name}</span>
@@ -457,23 +542,23 @@ export const FleetCommandView: React.FC = () => {
       </div>
 
       {/* Fleet Comparison Matrix */}
-      <div className="glass-panel rounded-xl p-5 shadow-sm border border-white/[0.08]">
+      <div className="glass-panel rounded-xl p-5 shadow-sm border border-[#242C3A]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4 mb-5">
           <div>
-            <h3 className="text-xs uppercase tracking-widest font-semibold text-white font-mono flex items-center gap-2">
-              <Layers className="w-4 h-4 text-[#F27D26]" />
+            <h3 className="text-xs uppercase tracking-widest font-bold text-white font-mono flex items-center gap-2">
+              <Layers className="w-4 h-4 text-[#EF4444]" />
               FLEET READINESS COMPARISON
             </h3>
             <p className="text-xs text-neutral-400 font-sans">Analyze readiness variance across deployment sectors, teams, and configurations</p>
           </div>
 
           {/* Comparison Dimension Selectors */}
-          <div className="flex items-center gap-1 bg-[#0D0D0F] p-1 rounded-lg border border-[#1F1F23] font-mono text-xs">
+          <div className="flex items-center gap-1 bg-[#10131A] p-1 rounded-lg border border-[#242C3A] font-mono text-xs">
             <button
               onClick={() => setComparisonDimension('location')}
               className={`px-3 py-1.5 rounded-md transition-colors ${
                 comparisonDimension === 'location'
-                  ? 'bg-[#F27D26]/15 text-[#F27D26] font-bold border border-[#F27D26]/30'
+                  ? 'bg-[#EF4444]/20 text-[#EF4444] font-bold border border-[#EF4444]/40'
                   : 'text-neutral-400 hover:text-white'
               }`}
             >
@@ -483,7 +568,7 @@ export const FleetCommandView: React.FC = () => {
               onClick={() => setComparisonDimension('unit')}
               className={`px-3 py-1.5 rounded-md transition-colors ${
                 comparisonDimension === 'unit'
-                  ? 'bg-[#F27D26]/15 text-[#F27D26] font-bold border border-[#F27D26]/30'
+                  ? 'bg-[#EF4444]/20 text-[#EF4444] font-bold border border-[#EF4444]/40'
                   : 'text-neutral-400 hover:text-white'
               }`}
             >
@@ -493,7 +578,7 @@ export const FleetCommandView: React.FC = () => {
               onClick={() => setComparisonDimension('hardware')}
               className={`px-3 py-1.5 rounded-md transition-colors ${
                 comparisonDimension === 'hardware'
-                  ? 'bg-[#F27D26]/15 text-[#F27D26] font-bold border border-[#F27D26]/30'
+                  ? 'bg-[#EF4444]/20 text-[#EF4444] font-bold border border-[#EF4444]/40'
                   : 'text-neutral-400 hover:text-white'
               }`}
             >
@@ -503,7 +588,7 @@ export const FleetCommandView: React.FC = () => {
               onClick={() => setComparisonDimension('software')}
               className={`px-3 py-1.5 rounded-md transition-colors ${
                 comparisonDimension === 'software'
-                  ? 'bg-[#F27D26]/15 text-[#F27D26] font-bold border border-[#F27D26]/30'
+                  ? 'bg-[#EF4444]/20 text-[#EF4444] font-bold border border-[#EF4444]/40'
                   : 'text-neutral-400 hover:text-white'
               }`}
             >
@@ -517,14 +602,14 @@ export const FleetCommandView: React.FC = () => {
           <div className="lg:col-span-8 h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={comparisonData} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
-                <XAxis dataKey="name" stroke="#52525b" fontSize={11} fontFamily="monospace" />
-                <YAxis stroke="#52525b" fontSize={11} domain={[0, 100]} fontFamily="monospace" unit="%" />
+                <XAxis dataKey="name" stroke="#64748B" fontSize={11} fontFamily="monospace" />
+                <YAxis stroke="#64748B" fontSize={11} domain={[0, 100]} fontFamily="monospace" unit="%" />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0D0D0F', borderColor: '#1F1F23', borderRadius: '8px', fontSize: '12px', fontFamily: 'monospace' }}
+                  contentStyle={{ backgroundColor: '#10131A', borderColor: '#242C3A', borderRadius: '8px', fontSize: '12px', fontFamily: 'monospace' }}
                   itemStyle={{ color: '#E0E0E0' }}
                   formatter={(value: any) => [`${value}% Readiness`, 'Mission Readiness']}
                 />
-                <Bar dataKey="readiness" fill="#F27D26" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="readiness" fill="#EF4444" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -533,7 +618,7 @@ export const FleetCommandView: React.FC = () => {
             {comparisonData.map(item => (
               <div
                 key={item.name}
-                className="p-2.5 bg-white/[0.02] border border-white/5 rounded-lg flex items-center justify-between text-xs font-mono"
+                className="p-2.5 bg-white/[0.02] border border-[#222834] rounded-lg flex items-center justify-between text-xs font-mono"
               >
                 <div>
                   <div className="font-semibold text-white">{item.fullName}</div>
@@ -542,7 +627,7 @@ export const FleetCommandView: React.FC = () => {
                 <div className="text-right">
                   <div className={`font-bold ${
                     item.readiness >= 85 ? 'text-emerald-400' :
-                    item.readiness >= 75 ? 'text-[#F27D26]' :
+                    item.readiness >= 75 ? 'text-[#EF4444]' :
                     'text-amber-400'
                   }`}>
                     {item.readiness}%

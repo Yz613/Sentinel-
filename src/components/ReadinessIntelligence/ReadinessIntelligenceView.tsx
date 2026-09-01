@@ -115,8 +115,8 @@ export const ReadinessIntelligenceView: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-[#F27D26] text-xs font-mono font-bold uppercase tracking-wider mb-1">
-            <Sparkles className="w-4 h-4 text-[#F27D26]" />
+          <div className="flex items-center gap-2 text-[#EF4444] text-xs font-mono font-bold uppercase tracking-wider mb-1">
+            <Sparkles className="w-4 h-4 text-[#EF4444]" />
             <span>AI-POWERED READINESS INTELLIGENCE</span>
           </div>
           <h1 className="text-xs uppercase tracking-widest font-semibold font-mono text-white">
@@ -130,7 +130,7 @@ export const ReadinessIntelligenceView: React.FC = () => {
         <button
           onClick={handleMorningBrief}
           disabled={isLoading}
-          className="px-4 py-2.5 bg-[#F27D26] hover:bg-orange-500 text-black font-mono font-bold text-xs rounded-md transition-all shadow-md shadow-[#F27D26]/20 flex items-center gap-2 w-fit"
+          className="px-4 py-2.5 bg-[#EF4444] hover:bg-orange-500 text-black font-mono font-bold text-xs rounded-md transition-all shadow-md shadow-[#EF4444]/20 flex items-center gap-2 w-fit"
         >
           <FileText className="w-4 h-4" />
           <span>GENERATE 0600Z MORNING BRIEF</span>
@@ -140,7 +140,7 @@ export const ReadinessIntelligenceView: React.FC = () => {
       {/* Quick Operational Inquiry Questions */}
       <div className="glass-panel rounded-xl p-5 shadow-sm space-y-3 border border-white/[0.08]">
         <div className="flex items-center gap-2 text-xs font-mono font-bold text-neutral-300 uppercase tracking-wider">
-          <HelpCircle className="w-4 h-4 text-[#F27D26]" />
+          <HelpCircle className="w-4 h-4 text-[#EF4444]" />
           <span>ONE-CLICK OPERATIONAL QUERIES</span>
         </div>
 
@@ -152,9 +152,9 @@ export const ReadinessIntelligenceView: React.FC = () => {
                 setInputQuery(q.query);
                 handleQuery(q.query);
               }}
-              className="p-3 bg-white/[0.02] hover:bg-[#F27D26]/[0.05] border border-white/5 hover:border-[#F27D26]/30 rounded-lg text-left transition-colors font-mono text-xs text-neutral-300 hover:text-[#F27D26] flex items-start gap-2.5 group"
+              className="p-3 bg-white/[0.02] hover:bg-[#EF4444]/[0.05] border border-white/5 hover:border-[#EF4444]/30 rounded-lg text-left transition-colors font-mono text-xs text-neutral-300 hover:text-[#EF4444] flex items-start gap-2.5 group"
             >
-              <Terminal className="w-4 h-4 text-neutral-500 group-hover:text-[#F27D26] mt-0.5 shrink-0" />
+              <Terminal className="w-4 h-4 text-neutral-500 group-hover:text-[#EF4444] mt-0.5 shrink-0" />
               <span>{q.title}</span>
             </button>
           ))}
@@ -175,14 +175,14 @@ export const ReadinessIntelligenceView: React.FC = () => {
             value={inputQuery}
             onChange={e => setInputQuery(e.target.value)}
             placeholder="Ask SENTINEL (e.g. Which team has the highest readiness drag? Should we delay the Bravo field exercise?)..."
-            className="flex-1 bg-[#141417] border border-[#1F1F23] rounded-md px-4 py-2.5 text-xs text-[#E0E0E0] placeholder-neutral-500 focus:outline-none focus:border-[#F27D26]/50 font-sans"
+            className="flex-1 bg-[#141417] border border-[#1F1F23] rounded-md px-4 py-2.5 text-xs text-[#E0E0E0] placeholder-neutral-500 focus:outline-none focus:border-[#EF4444]/50 font-sans"
           />
           <button
             type="submit"
             disabled={!inputQuery.trim() || isLoading}
             className={`px-5 py-2.5 rounded-md text-xs font-mono font-bold transition-colors flex items-center gap-2 ${
               inputQuery.trim() && !isLoading
-                ? 'bg-[#F27D26] hover:bg-orange-500 text-black shadow-md shadow-[#F27D26]/20'
+                ? 'bg-[#EF4444] hover:bg-orange-500 text-black shadow-md shadow-[#EF4444]/20'
                 : 'bg-white/5 text-neutral-600 cursor-not-allowed border border-white/5'
             }`}
           >
@@ -195,7 +195,7 @@ export const ReadinessIntelligenceView: React.FC = () => {
       {/* Intelligence Output Display */}
       {isLoading && (
         <div className="glass-panel rounded-xl p-12 text-center space-y-4 animate-pulse border border-white/[0.08]">
-          <div className="w-10 h-10 bg-[#F27D26]/10 text-[#F27D26] rounded-xl mx-auto flex items-center justify-center border border-[#F27D26]/30">
+          <div className="w-10 h-10 bg-[#EF4444]/10 text-[#EF4444] rounded-xl mx-auto flex items-center justify-center border border-[#EF4444]/30">
             <RefreshCw className="w-5 h-5 animate-spin" />
           </div>
           <div className="font-mono text-sm font-bold text-white">
@@ -211,7 +211,7 @@ export const ReadinessIntelligenceView: React.FC = () => {
         <div className="glass-panel rounded-xl p-6 shadow-xl space-y-4 border border-white/[0.08]">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/5 pb-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-[#F27D26]/10 border border-[#F27D26]/30 rounded-lg text-[#F27D26]">
+              <div className="p-2 bg-[#EF4444]/10 border border-[#EF4444]/30 rounded-lg text-[#EF4444]">
                 <Sparkles className="w-5 h-5" />
               </div>
               <div>
@@ -245,7 +245,7 @@ export const ReadinessIntelligenceView: React.FC = () => {
 
       {!isLoading && !responseMarkdown && (
         <div className="glass-panel rounded-xl p-10 text-center space-y-3 border border-white/[0.08]">
-          <Sparkles className="w-8 h-8 text-[#F27D26] mx-auto opacity-70" />
+          <Sparkles className="w-8 h-8 text-[#EF4444] mx-auto opacity-70" />
           <h3 className="text-xs uppercase tracking-widest font-mono font-bold text-white">READINESS INTELLIGENCE READY</h3>
           <p className="text-xs text-neutral-400 max-w-md mx-auto font-sans">
             Click &ldquo;Generate 0600Z Morning Brief&rdquo; or select a one-click operational query above to synthesize the current health of the 50-asset autonomous fleet.
