@@ -1,0 +1,6 @@
+{
+  "name": "SENTINEL — Autonomous Fleet Readiness",
+  "description": "Operations, sustainment, and readiness intelligence platform for deployed autonomous ground vehicle fleets.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
