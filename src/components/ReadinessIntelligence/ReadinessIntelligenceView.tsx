@@ -14,7 +14,7 @@ import {
 import Markdown from 'react-markdown';
 
 export const ReadinessIntelligenceView: React.FC = () => {
-  const { assets, workOrders, faults, spareParts, summary } = useFleet();
+  const { assets, workOrders, faults, spareParts, summary, mode } = useFleet();
 
   const [inputQuery, setInputQuery] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +45,9 @@ export const ReadinessIntelligenceView: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          question: queryText,
           query: queryText,
+          mode,
           fleetContext: {
             summary,
             sampleAssets: assets.slice(0, 15),
@@ -79,6 +81,7 @@ export const ReadinessIntelligenceView: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          mode,
           fleetContext: {
             summary,
             sampleAssets: assets.slice(0, 20),
@@ -90,7 +93,7 @@ export const ReadinessIntelligenceView: React.FC = () => {
       });
 
       const data = await res.json();
-      setResponseMarkdown(data.briefMarkdown || 'Operational Morning Brief generation failed.');
+      setResponseMarkdown(data.briefMarkdown || data.brief || 'Operational Morning Brief generation failed.');
       setLastGeneratedTime(new Date().toLocaleTimeString());
     } catch (err) {
       console.error(err);

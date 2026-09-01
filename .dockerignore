@@ -1,0 +1,10 @@
+node_modules
+.npm-cache
+dist
+.git
+.github
+tests
+coverage
+data/live_fleet.json.tmp
+*.log
+.DS_Store

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
 import { 
   Asset, 
   WorkOrder, 
@@ -9,7 +9,8 @@ import {
   SoftwareVersion,
   WorkOrderStatus,
   FaultStatus,
-  AssetStatus
+  AssetStatus,
+  DataMode
 } from '../types';
 import { 
   generateSeedAssets, 
@@ -19,6 +20,10 @@ import {
 } from '../data/seedData';
 
 interface FleetContextType {
+  mode: DataMode;
+  setMode: (mode: DataMode) => void;
+  isLoading: boolean;
+  lastSyncTime: string | null;
   assets: Asset[];
   workOrders: WorkOrder[];
   faults: EquipmentFault[];
@@ -40,70 +45,185 @@ interface FleetContextType {
   rolloutSoftwareVersion: (assetIds: string[], newVersion: SoftwareVersion) => void;
   logInspection: (assetId: string) => void;
   resetToFactorySeed: () => void;
+  // Live Data & Ingestion
+  refreshFleet: () => Promise<void>;
+  clearLiveData: () => Promise<void>;
+  loadSampleLiveData: () => Promise<void>;
+  resetDemoData: () => Promise<void>;
+  ingestPayload: (payload: any, source?: string) => Promise<{ success: boolean; message: string; breakdown?: Record<string, number> }>;
+  importCsvData: (type: string, csv: string) => Promise<{ success: boolean; message: string; importedCount?: number }>;
   searchQuery: string;
   setSearchQuery: (query: string) => void;
 }
 
 const FleetContext = createContext<FleetContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'sentinel_fleet_v1_store';
+const STORAGE_KEY = 'sentinel_fleet_v2_store';
+const MODE_STORAGE_KEY = 'sentinel_active_mode';
 
 export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Active operating mode: default to 'demo' so users can explore immediately, or load saved mode
+  const [mode, setModeState] = useState<DataMode>(() => {
+    try {
+      const savedMode = localStorage.getItem(MODE_STORAGE_KEY);
+      if (savedMode === 'live' || savedMode === 'demo') return savedMode;
+    } catch (e) {
+      console.warn('Failed to parse mode', e);
+    }
+    return 'demo';
+  });
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [lastSyncTime, setLastSyncTime] = useState<string | null>(null);
+
   const [assets, setAssets] = useState<Asset[]>(() => {
     try {
-      const saved = localStorage.getItem(`${STORAGE_KEY}_assets`);
+      const saved = localStorage.getItem(`${STORAGE_KEY}_${mode}_assets`);
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.warn('Failed to parse saved assets', e);
     }
-    return generateSeedAssets();
+    return mode === 'demo' ? generateSeedAssets() : [];
   });
 
   const [workOrders, setWorkOrders] = useState<WorkOrder[]>(() => {
     try {
-      const saved = localStorage.getItem(`${STORAGE_KEY}_workorders`);
+      const saved = localStorage.getItem(`${STORAGE_KEY}_${mode}_workorders`);
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.warn('Failed to parse saved work orders', e);
     }
-    return INITIAL_WORK_ORDERS;
+    return mode === 'demo' ? INITIAL_WORK_ORDERS : [];
   });
 
   const [faults, setFaults] = useState<EquipmentFault[]>(() => {
     try {
-      const saved = localStorage.getItem(`${STORAGE_KEY}_faults`);
+      const saved = localStorage.getItem(`${STORAGE_KEY}_${mode}_faults`);
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.warn('Failed to parse saved faults', e);
     }
-    return INITIAL_FAULTS;
+    return mode === 'demo' ? INITIAL_FAULTS : [];
   });
 
   const [spareParts, setSpareParts] = useState<SparePart[]>(() => {
     try {
-      const saved = localStorage.getItem(`${STORAGE_KEY}_spareparts`);
+      const saved = localStorage.getItem(`${STORAGE_KEY}_${mode}_spareparts`);
       if (saved) return JSON.parse(saved);
     } catch (e) {
       console.warn('Failed to parse saved spare parts', e);
     }
-    return INITIAL_SPARE_PARTS;
+    return mode === 'demo' ? INITIAL_SPARE_PARTS : [];
   });
 
   const [selectedAssetId, setSelectedAssetId] = useState<string | null>(null);
   const [activeNavTab, setActiveNavTab] = useState<string>('fleet-command');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Persist to localStorage on change
+  const setMode = (newMode: DataMode) => {
+    setModeState(newMode);
+    try {
+      localStorage.setItem(MODE_STORAGE_KEY, newMode);
+    } catch (e) {
+      console.error('Failed to store mode', e);
+    }
+  };
+
+  // Synchronize from server API
+  const refreshFleet = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetch(`/api/fleet?mode=${mode}`);
+      if (res.ok) {
+        const data = await res.json();
+        setAssets(data.assets || []);
+        setWorkOrders(data.workOrders || []);
+        setFaults(data.faults || []);
+        setSpareParts(data.spareParts || []);
+        setLastSyncTime(new Date().toLocaleTimeString());
+      }
+    } catch (err) {
+      console.warn('Server fleet sync offline or failed, falling back to local storage', err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [mode]);
+
+  // Initial and mode-switch sync
+  useEffect(() => {
+    refreshFleet();
+  }, [mode, refreshFleet]);
+
+  // Real-Time Server-Sent Events (SSE) Stream Listener with Fallback
+  useEffect(() => {
+    let eventSource: EventSource | null = null;
+    let fallbackInterval: NodeJS.Timeout | null = null;
+
+    if (typeof window !== 'undefined' && 'EventSource' in window) {
+      try {
+        eventSource = new EventSource('/api/v1/stream');
+
+        eventSource.onmessage = () => {
+          // General event ping - trigger refresh
+          refreshFleet();
+        };
+
+        eventSource.addEventListener('telemetry:ping', () => {
+          refreshFleet();
+        });
+
+        eventSource.addEventListener('asset:upserted', () => {
+          refreshFleet();
+        });
+
+        eventSource.addEventListener('fault:logged', () => {
+          refreshFleet();
+        });
+
+        eventSource.addEventListener('work_order:updated', () => {
+          refreshFleet();
+        });
+
+        eventSource.addEventListener('fleet:snapshot', () => {
+          refreshFleet();
+        });
+
+        eventSource.onerror = () => {
+          // SSE connection dropped, will automatically try to reconnect
+        };
+      } catch (e) {
+        console.warn('SSE initialization failed, fallback active', e);
+      }
+    }
+
+    // Periodic heartbeat sync in Live Mode to guarantee consistency
+    if (mode === 'live') {
+      fallbackInterval = setInterval(() => {
+        refreshFleet();
+      }, 15000);
+    }
+
+    return () => {
+      if (eventSource) {
+        eventSource.close();
+      }
+      if (fallbackInterval) {
+        clearInterval(fallbackInterval);
+      }
+    };
+  }, [mode, refreshFleet]);
+
+  // Persist to localStorage on state change as client cache
   useEffect(() => {
     try {
-      localStorage.setItem(`${STORAGE_KEY}_assets`, JSON.stringify(assets));
-      localStorage.setItem(`${STORAGE_KEY}_workorders`, JSON.stringify(workOrders));
-      localStorage.setItem(`${STORAGE_KEY}_faults`, JSON.stringify(faults));
-      localStorage.setItem(`${STORAGE_KEY}_spareparts`, JSON.stringify(spareParts));
+      localStorage.setItem(`${STORAGE_KEY}_${mode}_assets`, JSON.stringify(assets));
+      localStorage.setItem(`${STORAGE_KEY}_${mode}_workorders`, JSON.stringify(workOrders));
+      localStorage.setItem(`${STORAGE_KEY}_${mode}_faults`, JSON.stringify(faults));
+      localStorage.setItem(`${STORAGE_KEY}_${mode}_spareparts`, JSON.stringify(spareParts));
     } catch (e) {
       console.error('Error storing fleet state', e);
     }
-  }, [assets, workOrders, faults, spareParts]);
+  }, [assets, workOrders, faults, spareParts, mode]);
 
   // Dynamically calculate summary metrics
   const summary: FleetSummary = useMemo(() => {
@@ -131,17 +251,14 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     let totalHours = 0;
 
     assets.forEach(a => {
-      totalReadinessSum += a.missionReadiness;
-      totalHours += a.operatingHours;
+      totalReadinessSum += a.missionReadiness || 0;
+      totalHours += a.operatingHours || 0;
 
       if (a.status === 'MISSION READY') readyCount++;
       else if (a.status === 'MAINTENANCE') maintCount++;
       else if (a.status === 'AWAITING PARTS') awaitingPartsCount++;
       else if (a.status === 'SOFTWARE BLOCKED') swBlockedCount++;
       else if (a.status === 'INSPECTION DUE') inspectDueCount++;
-      else if (a.status === 'LIMITED') {
-        // Limited assets contribute to readiness score directly
-      }
     });
 
     const activeCriticalFaults = faults.filter(
@@ -166,19 +283,20 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // Calculate top readiness drivers
   const readinessDrivers: ReadinessDriver[] = useMemo(() => {
     const drivers: ReadinessDriver[] = [];
+    if (assets.length === 0) return drivers;
 
     // Driver 1: Maintenance
     const maintAssets = assets.filter(a => a.status === 'MAINTENANCE');
     if (maintAssets.length > 0) {
       drivers.push({
         id: 'driver-maint',
-        title: `${maintAssets.length} assets undergoing scheduled and unscheduled maintenance`,
+        title: `${maintAssets.length} asset(s) undergoing maintenance or depot overhaul`,
         impactPercent: Number(((maintAssets.length / assets.length) * 100 * 0.45).toFixed(1)),
         severity: 'high',
         affectedAssetCount: maintAssets.length,
         affectedAssetIds: maintAssets.map(a => a.id),
-        description: 'Vehicles actively in depot bays for powertrain overhauls, actuator calibration, and thermal valve repair.',
-        recommendedAction: 'Expedite technician shift coverage on WO-8821 and WO-8827.',
+        description: 'Vehicles actively in maintenance bays undergoing corrective repair, calibration, or component overhaul.',
+        recommendedAction: 'Expedite technician shift coverage on open work orders.',
         category: 'maintenance',
       });
     }
@@ -188,29 +306,29 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (partsBlocked.length > 0) {
       drivers.push({
         id: 'driver-parts',
-        title: `${partsBlocked.length} vehicles awaiting critical communication & sensor modules`,
+        title: `${partsBlocked.length} vehicle(s) awaiting critical spare parts`,
         impactPercent: Number(((partsBlocked.length / assets.length) * 100 * 0.4).toFixed(1)),
         severity: 'critical',
         affectedAssetCount: partsBlocked.length,
         affectedAssetIds: partsBlocked.map(a => a.id),
-        description: 'Zero on-hand stock for COMM-MOD-V3 Tactical Mesh Transceivers is currently holding back fleet return-to-service.',
-        recommendedAction: 'Expedite incoming rush freight shipment (5 units incoming with 3-day lead time).',
+        description: 'Zero on-hand stock or pending delivery for critical components is immobilizing assets.',
+        recommendedAction: 'Authorize emergency courier dispatch or expedite pending purchase orders.',
         category: 'supply_chain',
       });
     }
 
     // Driver 3: Software 4.7.0 Faults
-    const sw47Assets = assets.filter(a => a.softwareVersion === '4.7.0' && (a.status === 'SOFTWARE BLOCKED' || a.openFaultsCount > 0));
+    const sw47Assets = assets.filter(a => (a.softwareVersion === '4.7.0' || a.status === 'SOFTWARE BLOCKED') && (a.openFaultsCount > 0 || a.status === 'SOFTWARE BLOCKED'));
     if (sw47Assets.length > 0) {
       drivers.push({
         id: 'driver-sw',
-        title: `${sw47Assets.length} vehicles experiencing software 4.7.0 packet degradation faults`,
+        title: `${sw47Assets.length} vehicle(s) experiencing firmware instability or communication faults`,
         impactPercent: Number(((sw47Assets.length / assets.length) * 100 * 0.35).toFixed(1)),
         severity: 'high',
         affectedAssetCount: sw47Assets.length,
         affectedAssetIds: sw47Assets.map(a => a.id),
-        description: 'Firmware 4.7.0 contains a known socket buffer memory leak under multi-agent mesh synchronization.',
-        recommendedAction: 'Authorize fleet-wide OTA firmware migration to verified stable release 4.8.2.',
+        description: 'Firmware anomalies or mesh socket packet drops detected under multi-agent synchronization.',
+        recommendedAction: 'Stage and authorize fleet-wide OTA firmware migration to stable release.',
         category: 'software',
       });
     }
@@ -220,13 +338,13 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (inspectionDueAssets.length > 0) {
       drivers.push({
         id: 'driver-inspection',
-        title: `${inspectionDueAssets.length} asset(s) approaching mandatory operating hour inspection limit`,
+        title: `${inspectionDueAssets.length} asset(s) approaching mandatory inspection limit`,
         impactPercent: 1.5,
         severity: 'medium',
         affectedAssetCount: inspectionDueAssets.length,
         affectedAssetIds: inspectionDueAssets.map(a => a.id),
-        description: 'Mandatory structural, safety interlock, and drivetrain certification expires at 0 operating hours.',
-        recommendedAction: 'Dispatch field inspection team to FOB Alpha to certify MRD-022 before lockout occurs.',
+        description: 'Mandatory structural certification, interlock, and drivetrain certification expires at 0 operating hours.',
+        recommendedAction: 'Dispatch field inspection team to certify units before automatic lockout occurs.',
         category: 'inspection',
       });
     }
@@ -239,7 +357,6 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setAssets(prev => prev.map(asset => {
       if (asset.id !== id) return asset;
       const updated = { ...asset, ...updates };
-      // Recalculate readiness score automatically if status changed
       if (updates.status) {
         if (updates.status === 'MISSION READY' && updated.missionReadiness < 85) {
           updated.missionReadiness = 92;
@@ -248,7 +365,7 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         } else if (updates.status === 'AWAITING PARTS' && updated.missionReadiness > 55) {
           updated.missionReadiness = 45;
         } else if (updates.status === 'SOFTWARE BLOCKED' && updated.missionReadiness > 65) {
-          updated.missionReadiness = 60;
+          updated.missionReadiness = 50;
         }
       }
       return updated;
@@ -258,7 +375,7 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const addWorkOrder = (woData: Omit<WorkOrder, 'id' | 'openDate' | 'status'> & { status?: WorkOrderStatus }) => {
     const newId = `WO-${Math.floor(8840 + Math.random() * 1000)}`;
     const today = new Date().toISOString().split('T')[0];
-    const newWo: WorkOrder = {
+    const newWorkOrder: WorkOrder = {
       id: newId,
       assetId: woData.assetId,
       issue: woData.issue,
@@ -267,114 +384,73 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       technician: woData.technician,
       openDate: today,
       requiredParts: woData.requiredParts || [],
-      estimatedCompletion: woData.estimatedCompletion,
+      estimatedCompletion: woData.estimatedCompletion || `${today} (18:00)`,
       status: woData.status || 'In Progress',
-      notes: woData.notes || '',
+      notes: woData.notes,
     };
 
-    setWorkOrders(prev => [newWo, ...prev]);
+    setWorkOrders(prev => [newWorkOrder, ...prev]);
 
-    // Update the corresponding asset
-    setAssets(prev => prev.map(asset => {
-      if (asset.id !== woData.assetId) return asset;
-      const newStatus: AssetStatus = newWo.status === 'Awaiting Parts' ? 'AWAITING PARTS' : 'MAINTENANCE';
+    setAssets(prev => prev.map(a => {
+      if (a.id !== woData.assetId) return a;
       return {
-        ...asset,
-        status: newStatus,
-        maintenanceStatus: `${woData.maintenanceType} — ${woData.issue}`,
-        maintenanceHistory: [newId, ...asset.maintenanceHistory],
-        missionReadiness: Math.min(asset.missionReadiness, 50),
+        ...a,
+        status: 'MAINTENANCE',
+        maintenanceStatus: `Active Depot Work Order ${newId}: ${woData.issue}`,
+        missionReadiness: Math.min(a.missionReadiness, 50),
         timelineEvents: [
           {
             id: `EVT-${Date.now()}`,
-            date: `${today} 08:30`,
+            date: `${today} 09:30`,
             title: `Work Order ${newId} Created`,
             type: 'maintenance',
-            description: `${woData.issue} assigned to ${woData.technician}.`,
+            description: `${woData.issue} (${woData.maintenanceType}) assigned to ${woData.technician}.`,
             technicianOrSource: woData.technician,
           },
-          ...asset.timelineEvents,
+          ...a.timelineEvents,
         ],
       };
     }));
-
-    // Update spare parts required counts
-    if (woData.requiredParts && woData.requiredParts.length > 0) {
-      setSpareParts(prev => prev.map(part => {
-        if (woData.requiredParts.includes(part.sku)) {
-          return {
-            ...part,
-            requiredForOpenMaintenance: part.requiredForOpenMaintenance + 1,
-            isLimitingReadiness: part.onHand < (part.requiredForOpenMaintenance + 1),
-          };
-        }
-        return part;
-      }));
-    }
   };
 
   const updateWorkOrderStatus = (woId: string, newStatus: WorkOrderStatus, notes?: string) => {
+    const today = new Date().toISOString().split('T')[0];
+    let affectedAssetId: string | null = null;
+
     setWorkOrders(prev => prev.map(wo => {
       if (wo.id !== woId) return wo;
-      const updated = { 
-        ...wo, 
-        status: newStatus, 
-        notes: notes !== undefined ? notes : wo.notes,
-        completedDate: newStatus === 'Completed' ? new Date().toISOString().split('T')[0] : wo.completedDate 
+      affectedAssetId = wo.assetId;
+      return {
+        ...wo,
+        status: newStatus,
+        notes: notes ? `${wo.notes || ''} [Update: ${notes}]` : wo.notes,
+        completedDate: newStatus === 'Completed' ? today : wo.completedDate,
       };
-
-      // If work order is completed, update the asset and reduce required parts
-      if (newStatus === 'Completed') {
-        const assetId = wo.assetId;
-        setTimeout(() => {
-          setAssets(prevAssets => prevAssets.map(a => {
-            if (a.id !== assetId) return a;
-            // Check if there are other open work orders
-            const otherOpenOrders = workOrders.filter(o => o.assetId === assetId && o.id !== woId && o.status !== 'Completed');
-            if (otherOpenOrders.length === 0) {
-              return {
-                ...a,
-                status: a.openFaultsCount === 0 ? 'MISSION READY' : 'LIMITED',
-                missionReadiness: a.openFaultsCount === 0 ? 94 : 80,
-                maintenanceStatus: 'Nominal — Maintenance Completed',
-                requiredSpareParts: [],
-                timelineEvents: [
-                  {
-                    id: `EVT-${Date.now()}`,
-                    date: new Date().toISOString().replace('T', ' ').substring(0, 16),
-                    title: `Work Order ${woId} Completed`,
-                    type: 'maintenance',
-                    description: `Maintenance successfully finished by ${wo.technician}. Readiness restored.`,
-                    technicianOrSource: wo.technician,
-                  },
-                  ...a.timelineEvents,
-                ]
-              };
-            }
-            return a;
-          }));
-
-          // Consume spare parts if on-hand available
-          if (wo.requiredParts && wo.requiredParts.length > 0) {
-            setSpareParts(prevParts => prevParts.map(part => {
-              if (wo.requiredParts.includes(part.sku)) {
-                const newOnHand = Math.max(0, part.onHand - 1);
-                const newReq = Math.max(0, part.requiredForOpenMaintenance - 1);
-                return {
-                  ...part,
-                  onHand: newOnHand,
-                  requiredForOpenMaintenance: newReq,
-                  isLimitingReadiness: newOnHand < newReq,
-                };
-              }
-              return part;
-            }));
-          }
-        }, 50);
-      }
-
-      return updated;
     }));
+
+    if (newStatus === 'Completed' && affectedAssetId) {
+      const assetId = affectedAssetId;
+      setAssets(prev => prev.map(a => {
+        if (a.id !== assetId) return a;
+        return {
+          ...a,
+          status: 'MISSION READY',
+          maintenanceStatus: 'Nominal — Maintenance Completed & Returned to Service',
+          missionReadiness: Math.max(a.missionReadiness, 94),
+          timelineEvents: [
+            {
+              id: `EVT-${Date.now()}`,
+              date: `${today} 16:30`,
+              title: `Work Order ${woId} Completed`,
+              type: 'maintenance',
+              description: 'Depot maintenance completed. Systems certified for active deployment.',
+              technicianOrSource: 'Depot Quality Control',
+            },
+            ...a.timelineEvents,
+          ],
+        };
+      }));
+    }
   };
 
   const addFault = (faultData: Omit<EquipmentFault, 'id' | 'detectedDate' | 'status'> & { status?: FaultStatus }) => {
@@ -394,7 +470,6 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     setFaults(prev => [newFault, ...prev]);
 
-    // Update asset
     setAssets(prev => prev.map(a => {
       if (a.id !== faultData.assetId) return a;
       const penalty = faultData.severity === 'Critical' ? 35 : (faultData.severity === 'Moderate' ? 18 : 6);
@@ -429,43 +504,7 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const updateFaultStatus = (faultId: string, newStatus: FaultStatus) => {
     setFaults(prev => prev.map(f => {
       if (f.id !== faultId) return f;
-      const oldStatus = f.status;
-      const updated = { ...f, status: newStatus };
-
-      if ((newStatus === 'Cleared' || newStatus === 'Mitigated') && oldStatus === 'Active') {
-        setTimeout(() => {
-          setAssets(prevAssets => prevAssets.map(a => {
-            if (a.id !== f.assetId) return a;
-            const remainingActiveFaults = faults.filter(
-              item => item.assetId === a.id && item.id !== faultId && (item.status === 'Active' || item.status === 'Under Repair')
-            ).length;
-
-            const boost = f.severity === 'Critical' ? 25 : 12;
-            const newReadiness = Math.min(98, a.missionReadiness + boost);
-            const nextStatus: AssetStatus = remainingActiveFaults === 0 ? 'MISSION READY' : 'LIMITED';
-
-            return {
-              ...a,
-              openFaultsCount: remainingActiveFaults,
-              missionReadiness: newReadiness,
-              status: a.status === 'MAINTENANCE' || a.status === 'AWAITING PARTS' ? a.status : nextStatus,
-              timelineEvents: [
-                {
-                  id: `EVT-${Date.now()}`,
-                  date: new Date().toISOString().replace('T', ' ').substring(0, 16),
-                  title: `Fault ${faultId} ${newStatus}`,
-                  type: 'fault',
-                  description: `Fault on ${f.system} marked as ${newStatus} by ${f.owner}.`,
-                  technicianOrSource: f.owner,
-                },
-                ...a.timelineEvents,
-              ]
-            };
-          }));
-        }, 50);
-      }
-
-      return updated;
+      return { ...f, status: newStatus };
     }));
   };
 
@@ -484,65 +523,30 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       if (p.sku !== sku) return p;
       const newOnHand = p.onHand + quantity;
       const newIncoming = Math.max(0, p.incoming - quantity);
-      const isStillLimiting = newOnHand < p.requiredForOpenMaintenance;
       return {
         ...p,
         onHand: newOnHand,
         incoming: newIncoming,
-        isLimitingReadiness: isStillLimiting,
+        isLimitingReadiness: newOnHand < p.requiredForOpenMaintenance,
       };
     }));
-
-    // If stock of COMM-MOD-V3 was received, auto-transition parts-blocked assets to ready/maintenance
-    if (sku === 'COMM-MOD-V3') {
-      setTimeout(() => {
-        setAssets(prev => prev.map(a => {
-          if (a.requiredSpareParts.includes('COMM-MOD-V3') && a.status === 'AWAITING PARTS') {
-            return {
-              ...a,
-              status: 'MAINTENANCE',
-              maintenanceStatus: 'Parts Received — Staged for Transceiver Replacement',
-              missionReadiness: 65,
-              timelineEvents: [
-                {
-                  id: `EVT-${Date.now()}`,
-                  date: new Date().toISOString().replace('T', ' ').substring(0, 16),
-                  title: 'Required Part Received in Depot',
-                  type: 'logistics',
-                  description: 'COMM-MOD-V3 received. Vehicle moved to active repair bay.',
-                  technicianOrSource: 'Victor Logistics Depot',
-                },
-                ...a.timelineEvents,
-              ]
-            };
-          }
-          return a;
-        }));
-      }, 50);
-    }
   };
 
   const rolloutSoftwareVersion = (assetIds: string[], newVersion: SoftwareVersion) => {
     const today = new Date().toISOString().split('T')[0];
     setAssets(prev => prev.map(a => {
       if (!assetIds.includes(a.id)) return a;
-
-      const restoredStatus: AssetStatus = a.status === 'SOFTWARE BLOCKED' ? 'MISSION READY' : a.status;
-      const restoredReadiness = a.status === 'SOFTWARE BLOCKED' ? 94 : a.missionReadiness;
-      const commStatus = newVersion === '4.8.2' ? 'Nominal' : a.communicationsStatus;
-
       return {
         ...a,
         softwareVersion: newVersion,
-        status: restoredStatus,
-        missionReadiness: restoredReadiness,
-        communicationsStatus: commStatus,
+        status: a.status === 'SOFTWARE BLOCKED' ? 'MISSION READY' : a.status,
+        missionReadiness: Math.max(a.missionReadiness, 90),
         softwareHistory: [
           {
             version: newVersion,
             installedDate: today,
-            installedBy: 'SENTINEL OTA Fleet Orchestrator',
-            notes: `Firmware updated to ${newVersion}. Mesh communication stack synchronized.`,
+            installedBy: 'OTA Staged Fleet Deployment',
+            notes: 'Batch OTA deployment via Configuration Manager.',
           },
           ...a.softwareHistory,
         ],
@@ -552,7 +556,7 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             date: `${today} 12:00`,
             title: `OTA Firmware Rollout to v${newVersion}`,
             type: 'software',
-            description: `Target software upgraded. Checksums verified. Socket buffers cleared.`,
+            description: `Target software upgraded to v${newVersion}. Checksums verified.`,
             technicianOrSource: 'SENTINEL OTA Service',
           },
           ...a.timelineEvents,
@@ -571,15 +575,15 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         missionReadiness: Math.max(a.missionReadiness, 92),
         lastInspectionDate: today,
         lastInspectionHours: a.operatingHours,
-        nextInspectionHours: 200, // Reset to full 200 hour window
+        nextInspectionHours: 200,
         timelineEvents: [
           {
             id: `EVT-${Date.now()}`,
             date: `${today} 14:00`,
             title: 'Field Inspection Certified',
             type: 'inspection',
-            description: 'Comprehensive 200-hour mechanical, safety interlock, and sensor inspection passed.',
-            technicianOrSource: 'Chief Certifier Lin',
+            description: 'Comprehensive mechanical, safety interlock, and sensor inspection passed.',
+            technicianOrSource: 'Chief Certifier',
           },
           ...a.timelineEvents,
         ],
@@ -588,20 +592,119 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const resetToFactorySeed = () => {
-    localStorage.removeItem(`${STORAGE_KEY}_assets`);
-    localStorage.removeItem(`${STORAGE_KEY}_workorders`);
-    localStorage.removeItem(`${STORAGE_KEY}_faults`);
-    localStorage.removeItem(`${STORAGE_KEY}_spareparts`);
-    setAssets(generateSeedAssets());
-    setWorkOrders(INITIAL_WORK_ORDERS);
-    setFaults(INITIAL_FAULTS);
-    setSpareParts(INITIAL_SPARE_PARTS);
-    setSelectedAssetId(null);
+    if (mode === 'demo') {
+      resetDemoData();
+    } else {
+      clearLiveData();
+    }
+  };
+
+  // Live Data Ingestion & Management APIs
+  const clearLiveData = async () => {
+    try {
+      await fetch('/api/fleet/clear-live', { method: 'POST' });
+      setAssets([]);
+      setWorkOrders([]);
+      setFaults([]);
+      setSpareParts([]);
+      setSelectedAssetId(null);
+      localStorage.removeItem(`${STORAGE_KEY}_live_assets`);
+      localStorage.removeItem(`${STORAGE_KEY}_live_workorders`);
+      localStorage.removeItem(`${STORAGE_KEY}_live_faults`);
+      localStorage.removeItem(`${STORAGE_KEY}_live_spareparts`);
+      setLastSyncTime(new Date().toLocaleTimeString());
+    } catch (err) {
+      console.error('Failed to clear live data:', err);
+    }
+  };
+
+  const loadSampleLiveData = async () => {
+    try {
+      setIsLoading(true);
+      const res = await fetch('/api/fleet/sample-live', { method: 'POST' });
+      if (res.ok) {
+        await refreshFleet();
+      }
+    } catch (err) {
+      console.error('Failed to load sample live data:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const resetDemoData = async () => {
+    try {
+      setIsLoading(true);
+      await fetch('/api/fleet/reset-demo', { method: 'POST' });
+      localStorage.removeItem(`${STORAGE_KEY}_demo_assets`);
+      localStorage.removeItem(`${STORAGE_KEY}_demo_workorders`);
+      localStorage.removeItem(`${STORAGE_KEY}_demo_faults`);
+      localStorage.removeItem(`${STORAGE_KEY}_demo_spareparts`);
+      setAssets(generateSeedAssets());
+      setWorkOrders(INITIAL_WORK_ORDERS);
+      setFaults(INITIAL_FAULTS);
+      setSpareParts(INITIAL_SPARE_PARTS);
+      setSelectedAssetId(null);
+      setLastSyncTime(new Date().toLocaleTimeString());
+    } catch (err) {
+      console.error('Failed to reset demo data:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const ingestPayload = async (payload: any, source: string = 'UI Ingest Console') => {
+    try {
+      const res = await fetch('/api/v1/ingest', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Source': source,
+        },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (data.success) {
+        if (mode !== 'live') {
+          setMode('live');
+        }
+        await refreshFleet();
+        return { success: true, message: data.message, breakdown: data.breakdown };
+      }
+      return { success: false, message: data.error || 'Ingestion failed' };
+    } catch (err: any) {
+      return { success: false, message: err.message || 'Network error during ingestion' };
+    }
+  };
+
+  const importCsvData = async (type: string, csv: string) => {
+    try {
+      const res = await fetch('/api/v1/import-csv', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type, csv }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        if (mode !== 'live') {
+          setMode('live');
+        }
+        await refreshFleet();
+        return { success: true, message: data.message, importedCount: data.importedCount };
+      }
+      return { success: false, message: data.error || 'CSV import failed' };
+    } catch (err: any) {
+      return { success: false, message: err.message || 'Network error during CSV import' };
+    }
   };
 
   return (
     <FleetContext.Provider
       value={{
+        mode,
+        setMode,
+        isLoading,
+        lastSyncTime,
         assets,
         workOrders,
         faults,
@@ -622,6 +725,12 @@ export const FleetProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         rolloutSoftwareVersion,
         logInspection,
         resetToFactorySeed,
+        refreshFleet,
+        clearLiveData,
+        loadSampleLiveData,
+        resetDemoData,
+        ingestPayload,
+        importCsvData,
         searchQuery,
         setSearchQuery,
       }}

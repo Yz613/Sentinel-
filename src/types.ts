@@ -174,3 +174,35 @@ export interface ReadinessDriver {
   recommendedAction: string;
   category: 'maintenance' | 'supply_chain' | 'software' | 'inspection' | 'hardware';
 }
+
+export type DataMode = 'live' | 'demo';
+
+export interface IngestionActivityLog {
+  id: string;
+  timestamp: string;
+  source: string;
+  action: string;
+  details: string;
+  recordsCount: number;
+  status: 'success' | 'warning' | 'error';
+}
+
+export interface PollingConnectorConfig {
+  id: string;
+  name: string;
+  url: string;
+  intervalSeconds: number;
+  headers?: Record<string, string>;
+  enabled: boolean;
+  lastPolledAt?: string;
+  lastStatus?: 'success' | 'error' | 'idle';
+  lastError?: string;
+  recordsIngestedTotal: number;
+}
+
+export interface CsvTemplateInfo {
+  key: string;
+  filename: string;
+  description: string;
+}
+

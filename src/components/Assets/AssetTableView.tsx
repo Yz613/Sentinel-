@@ -46,6 +46,12 @@ export const AssetTableView: React.FC = () => {
     }
   };
 
+  // Dynamic filter options based on active assets
+  const uniqueLocations = useMemo(() => Array.from(new Set(assets.map(a => a.location).filter(Boolean))), [assets]);
+  const uniqueHw = useMemo(() => Array.from(new Set(assets.map(a => a.hardwareVersion).filter(Boolean))), [assets]);
+  const uniqueSw = useMemo(() => Array.from(new Set(assets.map(a => a.softwareVersion).filter(Boolean))), [assets]);
+  const uniqueTeams = useMemo(() => Array.from(new Set(assets.map(a => a.assignedTeam).filter(Boolean))), [assets]);
+
   // Filtered & Sorted list
   const filteredAssets = useMemo(() => {
     return assets.filter(asset => {
@@ -225,13 +231,10 @@ export const AssetTableView: React.FC = () => {
               onChange={e => setLocationFilter(e.target.value)}
               className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#F27D26]/50"
             >
-              <option value="ALL">All Sectors</option>
-              <option value="Forward Operating Base Alpha">FOB Alpha</option>
-              <option value="Bravo Proving Grounds">Bravo Proving Grounds</option>
-              <option value="Victor Logistics Depot">Victor Logistics Depot</option>
-              <option value="Echo Training Sector">Echo Training Sector</option>
-              <option value="Sierra Outpost">Sierra Outpost</option>
-              <option value="Nevada Test Range">Nevada Test Range</option>
+              <option value="ALL">All Sectors ({uniqueLocations.length})</option>
+              {uniqueLocations.map(loc => (
+                <option key={loc} value={loc}>{loc}</option>
+              ))}
             </select>
           </div>
 
@@ -242,10 +245,10 @@ export const AssetTableView: React.FC = () => {
               onChange={e => setHwFilter(e.target.value)}
               className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#F27D26]/50"
             >
-              <option value="ALL">All Hardware</option>
-              <option value="Gen 2">Gen 2</option>
-              <option value="Gen 2.5">Gen 2.5</option>
-              <option value="Gen 3">Gen 3</option>
+              <option value="ALL">All Hardware ({uniqueHw.length})</option>
+              {uniqueHw.map(hw => (
+                <option key={hw} value={hw}>{hw}</option>
+              ))}
             </select>
           </div>
 
@@ -256,11 +259,10 @@ export const AssetTableView: React.FC = () => {
               onChange={e => setSwFilter(e.target.value)}
               className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#F27D26]/50"
             >
-              <option value="ALL">All Software</option>
-              <option value="4.6.1">v4.6.1</option>
-              <option value="4.7.0">v4.7.0</option>
-              <option value="4.8.2">v4.8.2</option>
-              <option value="4.9 Beta">v4.9 Beta</option>
+              <option value="ALL">All Software ({uniqueSw.length})</option>
+              {uniqueSw.map(sw => (
+                <option key={sw} value={sw}>v{sw}</option>
+              ))}
             </select>
           </div>
 
@@ -271,13 +273,10 @@ export const AssetTableView: React.FC = () => {
               onChange={e => setTeamFilter(e.target.value)}
               className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#F27D26]/50"
             >
-              <option value="ALL">All Teams</option>
-              <option value="Team Orion">Team Orion</option>
-              <option value="Team Aegis">Team Aegis</option>
-              <option value="Ghost Recon Unit">Ghost Recon</option>
-              <option value="Iron Vanguard">Iron Vanguard</option>
-              <option value="3rd Autonomous Platoon">3rd Auto Platoon</option>
-              <option value="Task Force Titan">Task Force Titan</option>
+              <option value="ALL">All Teams ({uniqueTeams.length})</option>
+              {uniqueTeams.map(team => (
+                <option key={team} value={team}>{team}</option>
+              ))}
             </select>
           </div>
         </div>

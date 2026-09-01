@@ -13,7 +13,9 @@ import {
   ChevronRight,
   TrendingDown,
   Radio,
-  ExternalLink
+  ExternalLink,
+  Database,
+  Zap
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -34,6 +36,9 @@ export const FleetCommandView: React.FC = () => {
     readinessDrivers, 
     setActiveNavTab, 
     setSelectedAssetId,
+    mode,
+    setMode,
+    loadSampleLiveData,
   } = useFleet();
 
   const [comparisonDimension, setComparisonDimension] = useState<'location' | 'unit' | 'hardware' | 'software'>('location');
@@ -160,7 +165,9 @@ export const FleetCommandView: React.FC = () => {
             “How much of the fleet is available right now, what is reducing readiness, and what should operations fix first?”
           </h1>
           <p className="text-xs text-neutral-400 mt-1 max-w-2xl font-sans">
-            Continuous sustainment telemetry across 50 autonomous ground units (MRD-001 — MRD-050).
+            {mode === 'demo' 
+              ? 'Continuous sustainment telemetry across 50 synthetic ground units (MRD-001 — MRD-050).'
+              : `Continuous sustainment telemetry across ${assets.length} live deployed autonomous asset(s).`}
           </p>
         </div>
 
@@ -172,6 +179,43 @@ export const FleetCommandView: React.FC = () => {
           <span>GENERATE MORNING BRIEF</span>
         </button>
       </div>
+
+      {/* Live Mode Onboarding Empty State Card */}
+      {assets.length === 0 && (
+        <div className="bg-[#0D0D0F] border border-dashed border-emerald-500/30 rounded-xl p-8 text-center font-mono">
+          <div className="w-12 h-12 bg-emerald-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center mx-auto mb-4 text-emerald-400">
+            <Database className="w-6 h-6" />
+          </div>
+          <h2 className="text-base font-bold text-white uppercase tracking-wider mb-2">
+            Live Operations Ready — Awaiting Telemetry & Data Sources
+          </h2>
+          <p className="text-xs text-neutral-400 max-w-lg mx-auto mb-6 font-sans">
+            You are currently in <span className="text-emerald-400 font-bold">Live Operations Mode</span>. Connect your real ground robots, rovers, or fleet data via REST APIs, webhooks, or CSV spreadsheets to start monitoring availability.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={() => setActiveNavTab('data-sources')}
+              className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs rounded-lg transition-colors flex items-center gap-2"
+            >
+              <Zap className="w-4 h-4" />
+              <span>Open Data Sources & Connect Telemetry</span>
+            </button>
+            <button
+              onClick={() => loadSampleLiveData()}
+              className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white border border-white/10 text-xs rounded-lg transition-colors flex items-center gap-2"
+            >
+              <Sparkles className="w-4 h-4 text-emerald-400" />
+              <span>Load 5-Vehicle Live Starter Batch</span>
+            </button>
+            <button
+              onClick={() => setMode('demo')}
+              className="px-4 py-2.5 bg-[#F27D26]/10 hover:bg-[#F27D26]/20 text-[#F27D26] border border-[#F27D26]/30 text-xs rounded-lg transition-colors flex items-center gap-2"
+            >
+              <span>Explore Demo Showcase (50 Vehicles)</span>
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Primary KPI Grid (Matching Sophisticated Dark Specs) */}
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">

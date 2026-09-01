@@ -7,7 +7,8 @@ import {
   AlertTriangle, 
   Cpu, 
   Boxes, 
-  Sparkles 
+  Sparkles,
+  Database
 } from 'lucide-react';
 
 export const Navigation: React.FC = () => {
@@ -18,6 +19,7 @@ export const Navigation: React.FC = () => {
     workOrders, 
     faults, 
     spareParts,
+    mode,
   } = useFleet();
 
   const openWorkOrdersCount = workOrders.filter(w => w.status !== 'Completed').length;
@@ -35,7 +37,16 @@ export const Navigation: React.FC = () => {
       id: 'assets',
       label: 'Asset Matrix',
       icon: Truck,
-      badge: assets.length,
+      badge: assets.length > 0 ? assets.length : null,
+    },
+    {
+      id: 'data-sources',
+      label: 'Data Sources',
+      icon: Database,
+      badge: mode === 'live' ? (assets.length > 0 ? 'Live' : 'Connect') : 'Sources',
+      badgeColor: mode === 'live' 
+        ? (assets.length > 0 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' : 'bg-[#F27D26]/20 text-[#F27D26] border-[#F27D26]/40') 
+        : 'bg-[#141417] text-neutral-400 border-white/10',
     },
     {
       id: 'maintenance',

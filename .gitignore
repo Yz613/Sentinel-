@@ -4,5 +4,8 @@ dist/
 coverage/
 .DS_Store
 *.log
+.npm-cache/
+data/*.tmp
+data/*.jsonl
 .env*
 !.env.example

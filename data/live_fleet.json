@@ -1,0 +1,399 @@
+{
+  "assets": [
+    {
+      "id": "ROV-TEST-99",
+      "name": "Test Ground Rover",
+      "status": "MISSION READY",
+      "location": "Test Proving Ground",
+      "missionReadiness": 94,
+      "hardwareVersion": "Gen 3",
+      "softwareVersion": "4.8.2",
+      "operatingHours": 144,
+      "maintenanceStatus": "Nominal — Operational",
+      "openFaultsCount": 0,
+      "requiredSpareParts": [],
+      "lastInspectionDate": "2026-09-01",
+      "lastInspectionHours": 92,
+      "nextInspectionHours": 148,
+      "communicationsStatus": "Nominal",
+      "assignedTeam": "Active Unit",
+      "batteryHealth": 91,
+      "powertrainHealth": 95,
+      "avionicsHealth": 95,
+      "installedComponents": [],
+      "softwareHistory": [
+        {
+          "version": "4.8.2",
+          "installedDate": "2026-09-01",
+          "installedBy": "Ingestion Pipeline",
+          "notes": "Initial synchronized firmware profile"
+        }
+      ],
+      "maintenanceHistory": [],
+      "timelineEvents": [
+        {
+          "id": "EVT-1788273864267-68",
+          "date": "2026-09-01 10:44",
+          "title": "Live Telemetry Ping Received",
+          "type": "logistics",
+          "description": "Waypoint patrol completed",
+          "technicianOrSource": "Live Telemetry Gateway"
+        },
+        {
+          "id": "EVT-1788273864266",
+          "date": "2026-09-01 08:00",
+          "title": "Asset Initialized in Sentinel",
+          "type": "logistics",
+          "description": "Operational profile synced with current firmware 4.8.2.",
+          "technicianOrSource": "Data Ingestion Service"
+        }
+      ],
+      "notes": "Ingested from live telemetry source."
+    },
+    {
+      "id": "ROV-101",
+      "name": "Titan Scout Alpha",
+      "status": "MISSION READY",
+      "location": "Forward Operating Base Alpha",
+      "missionReadiness": 96,
+      "hardwareVersion": "Gen 3",
+      "softwareVersion": "4.8.2",
+      "operatingHours": 145,
+      "maintenanceStatus": "Nominal — Operational",
+      "openFaultsCount": 0,
+      "requiredSpareParts": [],
+      "lastInspectionDate": "2026-09-01",
+      "lastInspectionHours": 95,
+      "nextInspectionHours": 150,
+      "communicationsStatus": "Nominal",
+      "assignedTeam": "Team Orion",
+      "batteryHealth": 96,
+      "powertrainHealth": 94,
+      "avionicsHealth": 98,
+      "installedComponents": [],
+      "softwareHistory": [
+        {
+          "version": "4.8.2",
+          "installedDate": "2026-09-01",
+          "installedBy": "Ingestion Pipeline",
+          "notes": "Initial synchronized firmware profile"
+        }
+      ],
+      "maintenanceHistory": [],
+      "timelineEvents": [
+        {
+          "id": "EVT-1788273864267",
+          "date": "2026-09-01 08:00",
+          "title": "Asset Initialized in Sentinel",
+          "type": "logistics",
+          "description": "Operational profile synced with current firmware 4.8.2.",
+          "technicianOrSource": "Data Ingestion Service"
+        }
+      ],
+      "notes": "Ingested from live telemetry source."
+    },
+    {
+      "id": "ROV-102",
+      "name": "Titan Scout Bravo",
+      "status": "MISSION READY",
+      "location": "Forward Operating Base Alpha",
+      "missionReadiness": 92,
+      "hardwareVersion": "Gen 3",
+      "softwareVersion": "4.8.2",
+      "operatingHours": 210,
+      "maintenanceStatus": "Nominal — Operational",
+      "openFaultsCount": 0,
+      "requiredSpareParts": [],
+      "lastInspectionDate": "2026-09-01",
+      "lastInspectionHours": 160,
+      "nextInspectionHours": 150,
+      "communicationsStatus": "Nominal",
+      "assignedTeam": "Team Orion",
+      "batteryHealth": 91,
+      "powertrainHealth": 89,
+      "avionicsHealth": 95,
+      "installedComponents": [],
+      "softwareHistory": [
+        {
+          "version": "4.8.2",
+          "installedDate": "2026-09-01",
+          "installedBy": "Ingestion Pipeline",
+          "notes": "Initial synchronized firmware profile"
+        }
+      ],
+      "maintenanceHistory": [],
+      "timelineEvents": [
+        {
+          "id": "EVT-1788273864267",
+          "date": "2026-09-01 08:00",
+          "title": "Asset Initialized in Sentinel",
+          "type": "logistics",
+          "description": "Operational profile synced with current firmware 4.8.2.",
+          "technicianOrSource": "Data Ingestion Service"
+        }
+      ],
+      "notes": "Ingested from live telemetry source."
+    },
+    {
+      "id": "ROV-103",
+      "name": "Vanguard Carrier 1",
+      "status": "LIMITED",
+      "location": "Bravo Proving Grounds",
+      "missionReadiness": 82,
+      "hardwareVersion": "Gen 2.5",
+      "softwareVersion": "4.8.2",
+      "operatingHours": 420,
+      "maintenanceStatus": "Active Status: LIMITED",
+      "openFaultsCount": 0,
+      "requiredSpareParts": [],
+      "lastInspectionDate": "2026-09-01",
+      "lastInspectionHours": 370,
+      "nextInspectionHours": 150,
+      "communicationsStatus": "Nominal",
+      "assignedTeam": "Iron Vanguard",
+      "batteryHealth": 84,
+      "powertrainHealth": 72,
+      "avionicsHealth": 90,
+      "installedComponents": [],
+      "softwareHistory": [
+        {
+          "version": "4.8.2",
+          "installedDate": "2026-09-01",
+          "installedBy": "Ingestion Pipeline",
+          "notes": "Initial synchronized firmware profile"
+        }
+      ],
+      "maintenanceHistory": [],
+      "timelineEvents": [
+        {
+          "id": "EVT-1788273864267",
+          "date": "2026-09-01 08:00",
+          "title": "Asset Initialized in Sentinel",
+          "type": "logistics",
+          "description": "Operational profile synced with current firmware 4.8.2.",
+          "technicianOrSource": "Data Ingestion Service"
+        }
+      ],
+      "notes": "Ingested from live telemetry source."
+    },
+    {
+      "id": "ROV-104",
+      "name": "Apex Heavy Hauler",
+      "status": "MISSION READY",
+      "location": "Victor Logistics Depot",
+      "missionReadiness": 94,
+      "hardwareVersion": "Gen 3",
+      "softwareVersion": "4.8.2",
+      "operatingHours": 310,
+      "maintenanceStatus": "Nominal — Operational",
+      "openFaultsCount": 0,
+      "requiredSpareParts": [],
+      "lastInspectionDate": "2026-09-01",
+      "lastInspectionHours": 260,
+      "nextInspectionHours": 150,
+      "communicationsStatus": "Nominal",
+      "assignedTeam": "Task Force Titan",
+      "batteryHealth": 95,
+      "powertrainHealth": 96,
+      "avionicsHealth": 92,
+      "installedComponents": [],
+      "softwareHistory": [
+        {
+          "version": "4.8.2",
+          "installedDate": "2026-09-01",
+          "installedBy": "Ingestion Pipeline",
+          "notes": "Initial synchronized firmware profile"
+        }
+      ],
+      "maintenanceHistory": [],
+      "timelineEvents": [
+        {
+          "id": "EVT-1788273864267",
+          "date": "2026-09-01 08:00",
+          "title": "Asset Initialized in Sentinel",
+          "type": "logistics",
+          "description": "Operational profile synced with current firmware 4.8.2.",
+          "technicianOrSource": "Data Ingestion Service"
+        }
+      ],
+      "notes": "Ingested from live telemetry source."
+    },
+    {
+      "id": "ROV-105",
+      "name": "Ghost Sentry Beta",
+      "status": "MAINTENANCE",
+      "location": "Sierra Outpost",
+      "missionReadiness": 71,
+      "hardwareVersion": "Gen 2",
+      "softwareVersion": "4.7.0",
+      "operatingHours": 520,
+      "maintenanceStatus": "Active Status: MAINTENANCE",
+      "openFaultsCount": 0,
+      "requiredSpareParts": [],
+      "lastInspectionDate": "2026-09-01",
+      "lastInspectionHours": 470,
+      "nextInspectionHours": 150,
+      "communicationsStatus": "Degraded",
+      "assignedTeam": "Ghost Recon Unit",
+      "batteryHealth": 78,
+      "powertrainHealth": 65,
+      "avionicsHealth": 70,
+      "installedComponents": [],
+      "softwareHistory": [
+        {
+          "version": "4.7.0",
+          "installedDate": "2026-09-01",
+          "installedBy": "Ingestion Pipeline",
+          "notes": "Initial synchronized firmware profile"
+        }
+      ],
+      "maintenanceHistory": [],
+      "timelineEvents": [
+        {
+          "id": "EVT-1788273864267",
+          "date": "2026-09-01 08:00",
+          "title": "Asset Initialized in Sentinel",
+          "type": "logistics",
+          "description": "Operational profile synced with current firmware 4.7.0.",
+          "technicianOrSource": "Data Ingestion Service"
+        }
+      ],
+      "notes": "Ingested from live telemetry source."
+    },
+    {
+      "id": "INTEG-ROV-01",
+      "name": "Live Asset INTEG-ROV-01",
+      "status": "MISSION READY",
+      "location": "Operational Deployment Site",
+      "missionReadiness": 94,
+      "hardwareVersion": "Gen 3",
+      "softwareVersion": "4.8.2",
+      "operatingHours": 150,
+      "maintenanceStatus": "Nominal — Operational",
+      "openFaultsCount": 0,
+      "requiredSpareParts": [],
+      "lastInspectionDate": "2026-09-01",
+      "lastInspectionHours": 50,
+      "nextInspectionHours": 100,
+      "communicationsStatus": "Nominal",
+      "assignedTeam": "Active Unit",
+      "batteryHealth": 92,
+      "powertrainHealth": 95,
+      "avionicsHealth": 95,
+      "installedComponents": [],
+      "softwareHistory": [
+        {
+          "version": "4.8.2",
+          "installedDate": "2026-09-01",
+          "installedBy": "Ingestion Pipeline",
+          "notes": "Initial synchronized firmware profile"
+        }
+      ],
+      "maintenanceHistory": [],
+      "timelineEvents": [
+        {
+          "id": "EVT-1788274823167-770",
+          "date": "2026-09-01 11:00",
+          "title": "Live Telemetry Ping Received",
+          "type": "logistics",
+          "description": "Telemetry update: Battery 92%, Comms: Nominal, Runtime: 150h.",
+          "technicianOrSource": "Live Telemetry Gateway"
+        },
+        {
+          "id": "EVT-1788274768618-108",
+          "date": "2026-09-01 10:59",
+          "title": "Live Telemetry Ping Received",
+          "type": "logistics",
+          "description": "Telemetry update: Battery 92%, Comms: Nominal, Runtime: 150h.",
+          "technicianOrSource": "Live Telemetry Gateway"
+        },
+        {
+          "id": "EVT-1788274724840-350",
+          "date": "2026-09-01 10:58",
+          "title": "Live Telemetry Ping Received",
+          "type": "logistics",
+          "description": "Telemetry update: Battery 92%, Comms: Nominal, Runtime: 150h.",
+          "technicianOrSource": "Live Telemetry Gateway"
+        },
+        {
+          "id": "EVT-1788274707866-975",
+          "date": "2026-09-01 10:58",
+          "title": "Live Telemetry Ping Received",
+          "type": "logistics",
+          "description": "Telemetry update: Battery 92%, Comms: Nominal, Runtime: 150h.",
+          "technicianOrSource": "Live Telemetry Gateway"
+        },
+        {
+          "id": "EVT-1788274696022-461",
+          "date": "2026-09-01 10:58",
+          "title": "Live Telemetry Ping Received",
+          "type": "logistics",
+          "description": "Telemetry update: Battery 92%, Comms: Nominal, Runtime: 150h.",
+          "technicianOrSource": "Live Telemetry Gateway"
+        },
+        {
+          "id": "EVT-1788274684653-146",
+          "date": "2026-09-01 10:58",
+          "title": "Live Telemetry Ping Received",
+          "type": "logistics",
+          "description": "Telemetry update: Battery 92%, Comms: Nominal, Runtime: 150h.",
+          "technicianOrSource": "Live Telemetry Gateway"
+        },
+        {
+          "id": "EVT-1788274684653",
+          "date": "2026-09-01 08:00",
+          "title": "Asset Initialized in Sentinel",
+          "type": "logistics",
+          "description": "Operational profile synced with current firmware 4.8.2.",
+          "technicianOrSource": "Data Ingestion Service"
+        }
+      ],
+      "notes": "Ingested from live telemetry source."
+    },
+    {
+      "id": "CSV-ROV-99",
+      "name": "Test Unit Alpha",
+      "status": "MISSION READY",
+      "location": "Depot Central",
+      "missionReadiness": 95,
+      "hardwareVersion": "Gen 3",
+      "softwareVersion": "4.8.2",
+      "operatingHours": 80,
+      "maintenanceStatus": "Nominal — Operational",
+      "openFaultsCount": 0,
+      "requiredSpareParts": [],
+      "lastInspectionDate": "2026-09-01",
+      "lastInspectionHours": 30,
+      "nextInspectionHours": 150,
+      "communicationsStatus": "Nominal",
+      "assignedTeam": "Active Unit",
+      "batteryHealth": 95,
+      "powertrainHealth": 95,
+      "avionicsHealth": 95,
+      "installedComponents": [],
+      "softwareHistory": [
+        {
+          "version": "4.8.2",
+          "installedDate": "2026-09-01",
+          "installedBy": "Ingestion Pipeline",
+          "notes": "Initial synchronized firmware profile"
+        }
+      ],
+      "maintenanceHistory": [],
+      "timelineEvents": [
+        {
+          "id": "EVT-1788274684653",
+          "date": "2026-09-01 08:00",
+          "title": "Asset Initialized in Sentinel",
+          "type": "logistics",
+          "description": "Operational profile synced with current firmware 4.8.2.",
+          "technicianOrSource": "Data Ingestion Service"
+        }
+      ],
+      "notes": "Ingested from live telemetry source."
+    }
+  ],
+  "workOrders": [],
+  "faults": [],
+  "spareParts": []
+}

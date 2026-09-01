@@ -86,6 +86,14 @@ export const ReadmeModal: React.FC<ReadmeModalProps> = ({ isOpen, onClose }) => 
                 </div>
                 <div className="text-xs text-neutral-400">Highlights zero-stock parts (e.g. COMM-MOD-V3) currently blocking vehicle readiness return.</div>
               </div>
+              <div className="p-3 bg-[#141417] rounded-lg border border-emerald-500/30 sm:col-span-2">
+                <div className="font-semibold text-emerald-400 text-xs flex items-center gap-1.5 mb-1 font-mono">
+                  <Database className="w-3.5 h-3.5 text-emerald-400" /> Real Data Ingestion & Dual-Mode Sandbox
+                </div>
+                <div className="text-xs text-neutral-300">
+                  Switch seamlessly between <strong>Live Operations</strong> (ingesting real robots/telemetry via REST webhooks, CSV spreadsheets, and scheduled polling connectors) and <strong>Demo Sandbox</strong> (exploring the 50-vehicle synthetic fleet scenario).
+                </div>
+              </div>
             </div>
           </div>
 
