@@ -125,51 +125,51 @@ export const AssetTableView: React.FC = () => {
     switch (status) {
       case 'MISSION READY':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+          <span className="meta-label inline-flex items-center gap-1.5 px-2 py-0.5 rounded-xs text-[10px] bg-emerald-950/40 text-emerald-400 border border-emerald-500/30">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            MISSION READY
+            FMC READY
           </span>
         );
       case 'MAINTENANCE':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-amber-500/10 text-amber-400 border border-amber-500/30">
+          <span className="meta-label inline-flex items-center gap-1.5 px-2 py-0.5 rounded-xs text-[10px] bg-amber-950/40 text-amber-400 border border-amber-500/30">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-            MAINTENANCE
+            NMCM MAINT
           </span>
         );
       case 'AWAITING PARTS':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-[#EF4444]/10 text-[#EF4444] border border-[#EF4444]/40 animate-pulse">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#EF4444]" />
-            AWAITING PARTS
+          <span className="meta-label inline-flex items-center gap-1.5 px-2 py-0.5 rounded-xs text-[10px] bg-rose-950/40 text-rose-400 border border-rose-500/35">
+            <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+            NMCS PARTS
           </span>
         );
       case 'SOFTWARE BLOCKED':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-purple-500/10 text-purple-400 border border-purple-500/30">
+          <span className="meta-label inline-flex items-center gap-1.5 px-2 py-0.5 rounded-xs text-[10px] bg-purple-950/40 text-purple-400 border border-purple-500/30">
             <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-            SOFTWARE BLOCKED
+            PMC AVIONICS
           </span>
         );
       case 'INSPECTION DUE':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-sky-500/10 text-sky-400 border border-sky-500/30">
+          <span className="meta-label inline-flex items-center gap-1.5 px-2 py-0.5 rounded-xs text-[10px] bg-sky-950/40 text-sky-400 border border-sky-500/30">
             <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
-            INSPECTION DUE
+            200H INSP DUE
           </span>
         );
       case 'CRITICAL FAULT':
         return (
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-rose-500/10 text-rose-400 border border-rose-500/40">
-            <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping" />
-            CRITICAL FAULT
+          <span className="meta-label inline-flex items-center gap-1.5 px-2 py-0.5 rounded-xs text-[10px] bg-rose-950/50 text-rose-400 border border-rose-500/45">
+            <span className="w-1.5 h-1.5 rounded-full bg-rose-400" />
+            RED-X DTC
           </span>
         );
       case 'LIMITED':
       default:
         return (
-          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-[10px] font-mono font-medium bg-[#EF4444]/10 text-[#EF4444] border border-[#EF4444]/30">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#EF4444]" />
+          <span className="meta-label inline-flex items-center gap-1.5 px-2 py-0.5 rounded-xs text-[10px] bg-zinc-900 text-zinc-400 border border-zinc-800">
+            <span className="w-1.5 h-1.5 rounded-full bg-zinc-400" />
             LIMITED
           </span>
         );
@@ -370,59 +370,59 @@ export const AssetTableView: React.FC = () => {
                 return (
                   <tr
                     key={asset.id}
-                    className={`row-hover transition-colors ${
-                      isHighlightAsset ? 'bg-[#EF4444]/[0.04]' : ''
+                    className={`row-hover transition-colors border-b border-[#161B23] ${
+                      isHighlightAsset ? 'bg-sky-950/20' : ''
                     }`}
                   >
                     {/* Asset ID */}
-                    <td className="py-3 px-4">
+                    <td className="py-2.5 px-3">
                       <button
                         onClick={() => setSelectedAssetId(asset.id)}
-                        className="font-bold text-white hover:text-[#EF4444] hover:underline flex items-center gap-1.5"
+                        className="font-mono font-bold text-sky-400 hover:text-white hover:underline flex items-center gap-1.5"
                       >
                         <span>{asset.id}</span>
                         {isHighlightAsset && (
-                          <span className="text-[9px] bg-[#EF4444]/20 text-[#EF4444] px-1 py-0.2 rounded border border-[#EF4444]/30">
+                          <span className="text-[9px] bg-sky-950/40 text-sky-400 px-1 py-0.2 rounded-xs border border-sky-500/30">
                             FOCAL
                           </span>
                         )}
                       </button>
-                      <div className="text-[10px] text-neutral-500 truncate max-w-[120px]">
+                      <div className="text-[10px] text-zinc-400 truncate max-w-[120px] font-sans">
                         {asset.assignedTeam}
                       </div>
                     </td>
 
                     {/* Status */}
-                    <td className="py-3 px-4">
+                    <td className="py-2.5 px-3">
                       {getStatusBadge(asset.status)}
                     </td>
 
                     {/* Location */}
-                    <td className="py-3 px-4 text-neutral-300">
-                      <div className="truncate max-w-[160px]" title={asset.location}>
+                    <td className="py-2.5 px-3 text-zinc-300">
+                      <div className="truncate max-w-[160px] font-sans text-xs" title={asset.location}>
                         {asset.location}
                       </div>
-                      <div className="text-[10px] text-neutral-500">
+                      <div className="text-[10px] text-zinc-400 font-mono">
                         Comms: {asset.communicationsStatus}
                       </div>
                     </td>
 
                     {/* Readiness */}
-                    <td className="py-3 px-4">
+                    <td className="py-2.5 px-3">
                       <div className="flex items-center gap-2">
-                        <span className={`font-semibold ${
+                        <span className={`font-display font-bold text-sm tabular-nums ${
                           asset.missionReadiness >= 85 ? 'text-emerald-400' :
-                          asset.missionReadiness >= 70 ? 'text-[#EF4444]' :
-                          'text-amber-400'
+                          asset.missionReadiness >= 70 ? 'text-amber-400' :
+                          'text-rose-400'
                         }`}>
                           {asset.missionReadiness}%
                         </span>
-                        <div className="w-12 bg-white/5 rounded-full h-1 overflow-hidden hidden sm:block">
+                        <div className="w-12 bg-zinc-800 rounded-full h-1 overflow-hidden hidden sm:block">
                           <div
                             className={`h-full ${
                               asset.missionReadiness >= 85 ? 'bg-emerald-400' :
-                              asset.missionReadiness >= 70 ? 'bg-[#EF4444]' :
-                              'bg-amber-400'
+                              asset.missionReadiness >= 70 ? 'bg-amber-400' :
+                              'bg-rose-400'
                             }`}
                             style={{ width: `${asset.missionReadiness}%` }}
                           />
@@ -431,46 +431,44 @@ export const AssetTableView: React.FC = () => {
                     </td>
 
                     {/* HW / SW */}
-                    <td className="py-3 px-4 text-neutral-300">
-                      <div className="text-white">{asset.hardwareVersion}</div>
-                      <div className={`text-[10px] ${
-                        asset.softwareVersion === '4.7.0' ? 'text-purple-400' : 'text-neutral-500'
+                    <td className="py-2.5 px-3 text-zinc-300">
+                      <div className="text-zinc-100 font-mono text-xs">{asset.hardwareVersion}</div>
+                      <div className={`text-[10px] font-mono ${
+                        asset.softwareVersion === '4.7.0' ? 'text-purple-400' : 'text-zinc-400'
                       }`}>
                         v{asset.softwareVersion}
                       </div>
                     </td>
 
                     {/* Operating Hours */}
-                    <td className="py-3 px-4 text-neutral-300">
+                    <td className="py-2.5 px-3 text-zinc-300 font-mono text-xs tabular-nums">
                       {asset.operatingHours} hrs
                     </td>
 
                     {/* Open Faults */}
-                    <td className="py-3 px-4">
+                    <td className="py-2.5 px-3">
                       {asset.openFaultsCount > 0 ? (
-                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/30 text-[10px] font-medium">
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-xs bg-rose-950/40 text-rose-400 border border-rose-500/30 text-[10px] font-mono font-medium tabular-nums">
                           <AlertTriangle className="w-2.5 h-2.5 text-rose-400" />
                           {asset.openFaultsCount}
                         </span>
                       ) : (
-                        <span className="text-neutral-600 text-[10px]">0</span>
+                        <span className="text-zinc-400 text-[10px] font-mono">0</span>
                       )}
                     </td>
 
                     {/* Next Inspection */}
-                    <td className="py-3 px-4">
-                      <span className={`text-xs ${
-                        isInspectionImminent ? 'text-rose-400 font-bold animate-pulse' : 'text-neutral-400'
-                      }`}>
+                    <td className="py-2.5 px-3 font-mono text-xs tabular-nums">
+                      <span className={isInspectionImminent ? 'text-rose-400 font-bold' : 'text-zinc-400'}>
                         {asset.nextInspectionHours} hrs
                       </span>
                     </td>
 
                     {/* Quick Actions */}
-                    <td className="py-3 px-4 text-right space-x-1 whitespace-nowrap">
+                    <td className="py-2.5 px-3 text-right space-x-1 whitespace-nowrap">
                       <button
                         onClick={() => setSelectedAssetId(asset.id)}
-                        className="px-2.5 py-1 bg-white/5 hover:bg-[#EF4444] hover:text-black text-neutral-300 rounded text-[10px] font-mono transition-colors inline-flex items-center gap-1 border border-white/10"
+                        className="px-2 py-1 bg-[#141822] hover:bg-[#1A2230] text-sky-400 hover:text-white rounded-xs text-[10px] font-mono font-medium transition-colors inline-flex items-center gap-1 border border-zinc-800"
                         title="View Asset Telemetry & Configuration"
                       >
                         <span>Telemetry</span>

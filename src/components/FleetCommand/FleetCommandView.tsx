@@ -157,28 +157,28 @@ export const FleetCommandView: React.FC = () => {
   return (
     <div className="space-y-4">
       
-      {/* C2 Telemetry Status Header & Operational Directive */}
-      <div className="c2-panel rounded-sm p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      {/* C2 Directive Header */}
+      <div className="c2-panel rounded-sm p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-sky-400 text-[10px] font-mono font-semibold uppercase tracking-wider mb-1">
-            <Radio className="w-3 h-3 text-sky-400" />
+          <div className="meta-label text-sky-400 flex items-center gap-2 mb-1.5">
+            <Radio className="w-3.5 h-3.5 text-sky-400" />
             <span>OPERATIONAL READINESS DIRECTIVE // LIVE C2 STREAM</span>
           </div>
-          <h1 className="text-sm md:text-base font-semibold text-zinc-100 font-mono tracking-tight">
+          <h1 className="text-xl sm:text-2xl lg:text-3xl font-display font-bold text-white tracking-tight leading-tight">
             “How much of the fleet is available right now, what is reducing readiness, and what should operations fix first?”
           </h1>
-          <p className="text-xs text-zinc-400 mt-1 max-w-2xl font-sans">
+          <p className="text-xs sm:text-sm text-zinc-300 mt-1.5 max-w-3xl font-sans leading-relaxed">
             {mode === 'demo' 
-              ? 'Telemetry ingested across 50 synthetic autonomous ground platforms (MRD-001 — MRD-050).'
-              : `Telemetry stream active across ${assets.length} live deployed autonomous asset(s).`}
+              ? 'Real-time capability synthesis across 50 synthetic autonomous ground platforms (MRD-001 — MRD-050).'
+              : `Continuous telemetry telemetry stream active across ${assets.length} live deployed autonomous asset(s).`}
           </p>
         </div>
 
         <button
           onClick={() => setActiveNavTab('readiness-intelligence')}
-          className="flex items-center gap-2 px-3 py-1.5 bg-[#141B26] hover:bg-[#1A2333] text-sky-400 border border-sky-500/30 rounded-sm font-mono text-xs uppercase tracking-wider transition-colors whitespace-nowrap"
+          className="flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 text-white font-mono font-medium text-xs uppercase tracking-wider rounded-sm transition-colors whitespace-nowrap shadow-xs self-start md:self-center shrink-0"
         >
-          <Terminal className="w-3.5 h-3.5" />
+          <Terminal className="w-4 h-4" />
           <span>RUN 0600Z BRIEF</span>
         </button>
       </div>
@@ -189,29 +189,29 @@ export const FleetCommandView: React.FC = () => {
           <div className="w-10 h-10 bg-emerald-950/30 border border-emerald-500/30 rounded flex items-center justify-center mx-auto mb-3 text-emerald-400">
             <Database className="w-5 h-5" />
           </div>
-          <h2 className="text-sm font-bold text-zinc-100 uppercase tracking-wider mb-1">
+          <h2 className="section-heading text-zinc-100 mb-1">
             Telematics Pipeline Listening — Awaiting Hardware Telemetry
           </h2>
-          <p className="text-xs text-zinc-400 max-w-lg mx-auto mb-5 font-sans">
+          <p className="text-sm text-zinc-400 max-w-lg mx-auto mb-5 font-sans">
             Operational mode is active. Ingest vehicle telemetry pings, CAN bus frames, or CSV asset manifests through the Telematics Gateway.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-2">
             <button
               onClick={() => setActiveNavTab('data-sources')}
-              className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-black font-semibold text-xs rounded-sm transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-black font-semibold text-xs rounded-sm transition-colors flex items-center gap-2"
             >
               <Radio className="w-3.5 h-3.5" />
               <span>Configure Ingestion Webhooks</span>
             </button>
             <button
               onClick={() => loadSampleLiveData()}
-              className="px-3.5 py-1.5 bg-[#141822] hover:bg-[#1A202E] text-zinc-200 border border-zinc-700/60 text-xs rounded-sm transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-[#141822] hover:bg-[#1A202E] text-zinc-200 border border-zinc-700/60 text-xs rounded-sm transition-colors flex items-center gap-2"
             >
               <span>Load 5-Tail Sample</span>
             </button>
             <button
               onClick={() => setMode('demo')}
-              className="px-3.5 py-1.5 bg-sky-950/30 hover:bg-sky-900/30 text-sky-400 border border-sky-500/30 text-xs rounded-sm transition-colors flex items-center gap-2"
+              className="px-4 py-2 bg-sky-950/30 hover:bg-sky-900/30 text-sky-400 border border-sky-500/30 text-xs rounded-sm transition-colors flex items-center gap-2"
             >
               <span>View 50-Tail Simulation</span>
             </button>
@@ -219,19 +219,20 @@ export const FleetCommandView: React.FC = () => {
         </div>
       )}
 
-      {/* Primary Telemetry & Readiness Matrix (High Information Density) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+      {/* Primary Telemetry & Readiness Matrix (High Information Density & Contrast) */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
         {/* FMC Fleet Readiness */}
-        <div className="col-span-2 sm:col-span-2 lg:col-span-2 c2-panel p-3.5 rounded-sm flex flex-col justify-between">
+        <div className="col-span-2 sm:col-span-2 lg:col-span-2 c2-panel p-4 rounded-sm flex flex-col justify-between">
           <div>
-            <div className="text-[10px] uppercase text-zinc-400 tracking-wider mb-1 font-mono">
+            <div className="meta-label text-zinc-400 mb-1.5">
               Fleet Availability (FMC)
             </div>
-            <div className="text-3xl font-light text-zinc-100 font-mono tabular-nums">
-              {summary.fleetReadiness}<span className="text-sm text-zinc-400 ml-1 font-mono">%</span>
+            <div className="kpi-hero-num text-white tabular-nums flex items-baseline">
+              <span>{summary.fleetReadiness}</span>
+              <span className="text-xl text-zinc-400 font-display font-medium ml-1">%</span>
             </div>
           </div>
-          <div className="h-1.5 w-full bg-[#181D26] mt-3 rounded-xs overflow-hidden border border-zinc-800">
+          <div className="h-2 w-full bg-[#181D26] mt-4 rounded-xs overflow-hidden border border-zinc-800">
             <div 
               className={`h-full transition-all duration-300 ${
                 summary.fleetReadiness >= 85 ? 'bg-emerald-500' :
@@ -241,20 +242,21 @@ export const FleetCommandView: React.FC = () => {
               style={{ width: `${summary.fleetReadiness}%` }} 
             />
           </div>
-          <div className="flex justify-between items-center mt-2 text-[10px] font-mono text-zinc-400 tabular-nums">
+          <div className="flex justify-between items-center mt-2.5 text-xs font-mono text-zinc-400 tabular-nums">
             <span>TARGET: 90.0%</span>
-            <span className="text-zinc-300">{summary.totalAssets} PLATFORMS ACTIVE</span>
+            <span className="text-zinc-300 font-medium">{summary.totalAssets} PLATFORMS ACTIVE</span>
           </div>
         </div>
 
         {/* Fully Mission Capable */}
-        <div className="c2-panel p-3.5 rounded-sm flex flex-col justify-between">
-          <div className="text-[10px] uppercase text-zinc-400 tracking-wider mb-1 font-mono">Mission Ready (FMC)</div>
-          <div className="text-3xl font-light text-emerald-400 font-mono tabular-nums">
-            {summary.missionReady}<span className="text-sm text-zinc-400 ml-1 font-mono">/{summary.totalAssets}</span>
+        <div className="c2-panel p-4 rounded-sm flex flex-col justify-between">
+          <div className="meta-label text-zinc-400 mb-1.5">Mission Ready (FMC)</div>
+          <div className="kpi-card-num text-emerald-400 tabular-nums flex items-baseline">
+            <span>{summary.missionReady}</span>
+            <span className="text-base text-zinc-400 font-display ml-0.5">/{summary.totalAssets}</span>
           </div>
-          <div className="text-[10px] text-emerald-400/90 mt-2 font-mono flex items-center gap-1">
-            <ShieldCheck className="w-3 h-3" />
+          <div className="text-xs text-emerald-400 mt-2.5 font-mono flex items-center gap-1 font-medium">
+            <ShieldCheck className="w-3.5 h-3.5" />
             <span>+2 FROM CYCLE</span>
           </div>
         </div>
@@ -262,28 +264,28 @@ export const FleetCommandView: React.FC = () => {
         {/* NMCM Depot Maintenance */}
         <div 
           onClick={() => setActiveNavTab('maintenance')}
-          className="c2-panel p-3.5 rounded-sm flex flex-col justify-between hover:border-amber-500/40 cursor-pointer transition-colors"
+          className="c2-panel p-4 rounded-sm flex flex-col justify-between hover:border-amber-500/40 cursor-pointer transition-colors group"
         >
-          <div className="text-[10px] uppercase text-zinc-400 tracking-wider mb-1 font-mono">Depot Maintenance (NMCM)</div>
-          <div className="text-3xl font-light text-amber-400 font-mono tabular-nums">
+          <div className="meta-label text-zinc-400 mb-1.5">Depot Maint (NMCM)</div>
+          <div className="kpi-card-num text-amber-400 tabular-nums">
             0{summary.maintenance}
           </div>
-          <div className="text-[10px] text-amber-400/90 mt-2 font-mono flex items-center justify-between">
-            <span>IN REPAIR</span>
-            <ChevronRight className="w-3 h-3 text-zinc-400" />
+          <div className="text-xs text-amber-400/90 mt-2.5 font-mono flex items-center justify-between">
+            <span>IN DEPOT BAY</span>
+            <ChevronRight className="w-3.5 h-3.5 text-zinc-400 group-hover:text-amber-400 transition-colors" />
           </div>
         </div>
 
         {/* NMCS Awaiting Spares */}
         <div 
           onClick={() => setActiveNavTab('spare-parts')}
-          className="c2-panel p-3.5 rounded-sm flex flex-col justify-between border-rose-500/30 bg-rose-950/10 hover:border-rose-500/50 cursor-pointer transition-colors"
+          className="c2-panel p-4 rounded-sm flex flex-col justify-between border-rose-500/30 bg-rose-950/10 hover:border-rose-500/50 cursor-pointer transition-colors"
         >
-          <div className="text-[10px] uppercase text-zinc-400 tracking-wider mb-1 font-mono">Supply Depleted (NMCS)</div>
-          <div className="text-3xl font-light text-rose-400 font-mono tabular-nums">
+          <div className="meta-label text-zinc-400 mb-1.5">Supply Hold (NMCS)</div>
+          <div className="kpi-card-num text-rose-400 tabular-nums">
             0{summary.awaitingParts}
           </div>
-          <div className="text-[10px] text-rose-400 mt-2 font-mono uppercase tracking-tight font-semibold">
+          <div className="text-xs text-rose-400 mt-2.5 font-mono uppercase tracking-wider font-semibold">
             PARTS_DEPLETED
           </div>
         </div>
@@ -291,13 +293,13 @@ export const FleetCommandView: React.FC = () => {
         {/* PMC Firmware Hold */}
         <div 
           onClick={() => setActiveNavTab('configuration')}
-          className="c2-panel p-3.5 rounded-sm flex flex-col justify-between hover:border-purple-500/40 cursor-pointer transition-colors"
+          className="c2-panel p-4 rounded-sm flex flex-col justify-between hover:border-purple-500/40 cursor-pointer transition-colors"
         >
-          <div className="text-[10px] uppercase text-zinc-400 tracking-wider mb-1 font-mono">Avionics Hold (PMC)</div>
-          <div className="text-3xl font-light text-purple-400 font-mono tabular-nums">
+          <div className="meta-label text-zinc-400 mb-1.5">Avionics Hold (PMC)</div>
+          <div className="kpi-card-num text-purple-400 tabular-nums">
             0{summary.softwareBlocked}
           </div>
-          <div className="text-[10px] text-purple-400/90 mt-2 font-mono">
+          <div className="text-xs text-purple-400/90 mt-2.5 font-mono">
             v4.7.0 SOCKET BUG
           </div>
         </div>
@@ -305,13 +307,13 @@ export const FleetCommandView: React.FC = () => {
         {/* Active Red-X DTCs */}
         <div 
           onClick={() => setActiveNavTab('faults')}
-          className="c2-panel p-3.5 rounded-sm flex flex-col justify-between hover:border-rose-500/40 cursor-pointer transition-colors"
+          className="c2-panel p-4 rounded-sm flex flex-col justify-between hover:border-rose-500/40 cursor-pointer transition-colors"
         >
-          <div className="text-[10px] uppercase text-zinc-400 tracking-wider mb-1 font-mono">Critical DTCs</div>
-          <div className="text-3xl font-light text-rose-400 font-mono tabular-nums">
+          <div className="meta-label text-zinc-400 mb-1.5">Critical DTCs</div>
+          <div className="kpi-card-num text-rose-400 tabular-nums">
             0{summary.criticalFaults}
           </div>
-          <div className="text-[10px] text-rose-400 mt-2 font-mono uppercase tracking-tight">
+          <div className="text-xs text-rose-400 mt-2.5 font-mono uppercase tracking-wider font-semibold">
             RED-X FAULTS
           </div>
         </div>
@@ -325,28 +327,28 @@ export const FleetCommandView: React.FC = () => {
           <div className="c2-panel rounded-sm">
             <div className="c2-panel-header flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <TrendingDown className="w-3.5 h-3.5 text-rose-400" />
+                <TrendingDown className="w-4 h-4 text-rose-400" />
                 <div>
-                  <h3 className="text-xs uppercase tracking-wider font-semibold text-zinc-100 font-mono">
+                  <h2 className="section-heading text-zinc-100">
                     READINESS DEGRADATION DRIVERS
-                  </h3>
-                  <p className="text-[11px] text-zinc-400 font-sans">Root causes suppressing mission availability sorted by operational drag</p>
+                  </h2>
+                  <p className="text-xs text-zinc-400 font-sans">Root causes suppressing mission availability sorted by operational drag</p>
                 </div>
               </div>
-              <span className="text-xs font-mono text-rose-400 font-semibold tabular-nums">
+              <span className="font-display font-bold text-sm text-rose-400 tabular-nums tracking-wider">
                 -18.0% FLEET IMPACT
               </span>
             </div>
 
-            <div className="p-3 space-y-2">
+            <div className="p-3.5 space-y-2.5">
               {readinessDrivers.map((driver, index) => (
                 <div
                   key={driver.id}
-                  className="p-3 bg-[#0F1218] border border-[#1C212B] rounded-sm hover:border-[#2A3342] transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+                  className="p-3.5 bg-[#0F1218] border border-[#1C212B] rounded-sm hover:border-[#2A3342] transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
                 >
                   <div className="space-y-1 flex-1">
                     <div className="flex items-center gap-2">
-                      <span className={`text-[9px] font-mono font-semibold px-1.5 py-0.2 rounded border uppercase ${
+                      <span className={`meta-label text-[9px] px-1.5 py-0.5 rounded border uppercase ${
                         driver.severity === 'critical'
                           ? 'bg-rose-950/40 text-rose-400 border-rose-500/30'
                           : driver.severity === 'high'
@@ -355,17 +357,17 @@ export const FleetCommandView: React.FC = () => {
                       }`}>
                         P0{index + 1} // {driver.severity}
                       </span>
-                      <span className="text-xs font-semibold text-zinc-100 font-mono">
+                      <h3 className="card-title text-zinc-100 font-semibold">
                         {driver.title}
-                      </span>
+                      </h3>
                     </div>
 
-                    <p className="text-xs text-zinc-300 leading-relaxed font-sans">
+                    <p className="text-xs text-zinc-300 leading-relaxed font-sans mt-0.5">
                       {driver.description}
                     </p>
 
-                    <div className="flex flex-wrap items-center gap-2 pt-0.5 font-mono text-[11px]">
-                      <span className="text-sky-400">
+                    <div className="flex flex-wrap items-center gap-2 pt-1 font-mono text-xs">
+                      <span className="text-sky-400 font-medium">
                         Directive: {driver.recommendedAction}
                       </span>
                       <div className="flex items-center gap-1">
@@ -384,10 +386,10 @@ export const FleetCommandView: React.FC = () => {
 
                   <button
                     onClick={() => handleDriverAction(driver)}
-                    className="shrink-0 self-end sm:self-center px-2.5 py-1 bg-[#141720] hover:bg-[#1C2330] text-zinc-200 hover:text-white border border-zinc-800 hover:border-zinc-700 rounded-sm text-xs font-mono transition-colors flex items-center gap-1.5"
+                    className="shrink-0 self-end sm:self-center px-3 py-1.5 bg-[#141720] hover:bg-[#1C2330] text-zinc-200 hover:text-white border border-zinc-800 hover:border-zinc-700 rounded-sm text-xs font-mono font-medium transition-colors flex items-center gap-1.5"
                   >
                     <span>Remediate</span>
-                    <ArrowRight className="w-3 h-3 text-sky-400" />
+                    <ArrowRight className="w-3.5 h-3.5 text-sky-400" />
                   </button>
                 </div>
               ))}
@@ -395,7 +397,7 @@ export const FleetCommandView: React.FC = () => {
           </div>
 
           {/* Quick Action Operations Ticker */}
-          <div className="c2-panel rounded-sm p-3 flex items-center justify-between gap-3">
+          <div className="c2-panel rounded-sm p-3.5 flex items-center justify-between gap-3">
             <div className="flex items-center gap-2.5 text-xs font-sans">
               <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
               <div>
@@ -405,7 +407,7 @@ export const FleetCommandView: React.FC = () => {
             </div>
             <button
               onClick={() => setActiveNavTab('spare-parts')}
-              className="shrink-0 px-2.5 py-1 bg-[#141822] hover:bg-[#1C2230] text-sky-400 border border-zinc-800 hover:border-sky-500/30 rounded-sm text-xs font-mono transition-colors"
+              className="shrink-0 px-3 py-1 bg-[#141822] hover:bg-[#1C2230] text-sky-400 border border-zinc-800 hover:border-sky-500/30 rounded-sm text-xs font-mono font-medium transition-colors"
             >
               Supply Depot
             </button>
@@ -417,15 +419,15 @@ export const FleetCommandView: React.FC = () => {
           <div className="c2-panel rounded-sm">
             <div className="c2-panel-header flex items-center justify-between">
               <div>
-                <h3 className="text-xs uppercase tracking-wider font-semibold text-zinc-100 font-mono">
+                <h2 className="section-heading text-zinc-100">
                   AVAILABILITY SPECTRUM
-                </h3>
-                <p className="text-[11px] text-zinc-400 font-sans">Platform mission state distribution</p>
+                </h2>
+                <p className="text-xs text-zinc-400 font-sans">Platform mission state distribution</p>
               </div>
               <span className="text-xs font-mono text-zinc-400 tabular-nums">50 / 50 Tracked</span>
             </div>
 
-            <div className="p-3">
+            <div className="p-3.5">
               {/* Pie Chart Distribution */}
               <div className="h-48 w-full flex items-center justify-center">
                 <ResponsiveContainer width="100%" height="100%">
@@ -444,7 +446,7 @@ export const FleetCommandView: React.FC = () => {
                       ))}
                     </Pie>
                     <Tooltip
-                      contentStyle={{ backgroundColor: '#0D0F14', borderColor: '#1C212B', borderRadius: '2px', fontSize: '11px', fontFamily: 'monospace' }}
+                      contentStyle={{ backgroundColor: '#0D0F14', borderColor: '#1C212B', borderRadius: '2px', fontSize: '12px', fontFamily: 'monospace' }}
                       itemStyle={{ color: '#E2E8F0' }}
                     />
                   </PieChart>
@@ -452,14 +454,14 @@ export const FleetCommandView: React.FC = () => {
               </div>
 
               {/* Legend Matrix */}
-              <div className="grid grid-cols-2 gap-1.5 mt-2 pt-2 border-t border-[#1C212B]">
+              <div className="grid grid-cols-2 gap-2 mt-2 pt-2 border-t border-[#1C212B]">
                 {statusPieData.map(item => (
-                  <div key={item.name} className="flex items-center justify-between p-1.5 bg-[#0F1218] rounded-sm border border-[#1C212B] text-[11px] font-mono">
+                  <div key={item.name} className="flex items-center justify-between p-2 bg-[#0F1218] rounded-sm border border-[#1C212B] text-xs font-mono">
                     <div className="flex items-center gap-1.5">
                       <span className="w-2 h-2 rounded-xs" style={{ backgroundColor: item.color }} />
-                      <span className="text-zinc-300 truncate max-w-[100px]">{item.name}</span>
+                      <span className="text-zinc-300 truncate max-w-[100px] text-[11px]">{item.name}</span>
                     </div>
-                    <span className="font-semibold text-zinc-100 tabular-nums">{item.value}</span>
+                    <span className="font-display font-bold text-sm text-zinc-100 tabular-nums">{item.value}</span>
                   </div>
                 ))}
               </div>
@@ -472,20 +474,20 @@ export const FleetCommandView: React.FC = () => {
       <div className="c2-panel rounded-sm">
         <div className="c2-panel-header flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h3 className="text-xs uppercase tracking-wider font-semibold text-zinc-100 font-mono flex items-center gap-2">
-              <Layers className="w-3.5 h-3.5 text-sky-400" />
+            <h2 className="section-heading text-zinc-100 flex items-center gap-2">
+              <Layers className="w-4 h-4 text-sky-400" />
               FLEET READINESS VARIANCE ANALYSIS
-            </h3>
-            <p className="text-[11px] text-zinc-400 font-sans">Cross-comparison across operational sectors, assigned teams, hardware revisions, and firmware builds</p>
+            </h2>
+            <p className="text-xs text-zinc-400 font-sans">Cross-comparison across operational sectors, assigned teams, hardware revisions, and firmware builds</p>
           </div>
 
           {/* Dimension Selectors */}
           <div className="flex items-center bg-[#090B0F] p-0.5 rounded border border-[#1C212B] font-mono text-xs">
             <button
               onClick={() => setComparisonDimension('location')}
-              className={`px-2.5 py-1 rounded-sm transition-colors ${
+              className={`meta-label px-3 py-1.5 rounded-sm transition-colors ${
                 comparisonDimension === 'location'
-                  ? 'bg-[#181D26] text-sky-400 font-semibold border border-zinc-700/60'
+                  ? 'bg-[#181D26] text-sky-400 font-bold border border-zinc-700/60'
                   : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
@@ -493,9 +495,9 @@ export const FleetCommandView: React.FC = () => {
             </button>
             <button
               onClick={() => setComparisonDimension('unit')}
-              className={`px-2.5 py-1 rounded-sm transition-colors ${
+              className={`meta-label px-3 py-1.5 rounded-sm transition-colors ${
                 comparisonDimension === 'unit'
-                  ? 'bg-[#181D26] text-sky-400 font-semibold border border-zinc-700/60'
+                  ? 'bg-[#181D26] text-sky-400 font-bold border border-zinc-700/60'
                   : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
@@ -503,9 +505,9 @@ export const FleetCommandView: React.FC = () => {
             </button>
             <button
               onClick={() => setComparisonDimension('hardware')}
-              className={`px-2.5 py-1 rounded-sm transition-colors ${
+              className={`meta-label px-3 py-1.5 rounded-sm transition-colors ${
                 comparisonDimension === 'hardware'
-                  ? 'bg-[#181D26] text-sky-400 font-semibold border border-zinc-700/60'
+                  ? 'bg-[#181D26] text-sky-400 font-bold border border-zinc-700/60'
                   : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
@@ -513,9 +515,9 @@ export const FleetCommandView: React.FC = () => {
             </button>
             <button
               onClick={() => setComparisonDimension('software')}
-              className={`px-2.5 py-1 rounded-sm transition-colors ${
+              className={`meta-label px-3 py-1.5 rounded-sm transition-colors ${
                 comparisonDimension === 'software'
-                  ? 'bg-[#181D26] text-sky-400 font-semibold border border-zinc-700/60'
+                  ? 'bg-[#181D26] text-sky-400 font-bold border border-zinc-700/60'
                   : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
@@ -525,14 +527,14 @@ export const FleetCommandView: React.FC = () => {
         </div>
 
         <div className="p-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
-          <div className="lg:col-span-8 h-60 w-full">
+          <div className="lg:col-span-8 h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={comparisonData} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="2 2" stroke="#161B23" vertical={false} />
-                <XAxis dataKey="name" stroke="#475569" fontSize={10} fontFamily="monospace" />
-                <YAxis stroke="#475569" fontSize={10} domain={[0, 100]} fontFamily="monospace" unit="%" />
+                <XAxis dataKey="name" stroke="#475569" fontSize={11} fontFamily="monospace" />
+                <YAxis stroke="#475569" fontSize={11} domain={[0, 100]} fontFamily="monospace" unit="%" />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#0D0F14', borderColor: '#1C212B', borderRadius: '2px', fontSize: '11px', fontFamily: 'monospace' }}
+                  contentStyle={{ backgroundColor: '#0D0F14', borderColor: '#1C212B', borderRadius: '2px', fontSize: '12px', fontFamily: 'monospace' }}
                   itemStyle={{ color: '#E2E8F0' }}
                   formatter={(value: any) => [`${value}% Readiness`, 'Mission Capability']}
                 />
@@ -541,18 +543,18 @@ export const FleetCommandView: React.FC = () => {
             </ResponsiveContainer>
           </div>
 
-          <div className="lg:col-span-4 space-y-1.5 max-h-60 overflow-y-auto pr-1">
+          <div className="lg:col-span-4 space-y-2 max-h-64 overflow-y-auto pr-1">
             {comparisonData.map(item => (
               <div
                 key={item.name}
-                className="p-2 bg-[#0F1218] border border-[#1C212B] rounded-sm flex items-center justify-between text-xs font-mono"
+                className="p-2.5 bg-[#0F1218] border border-[#1C212B] rounded-sm flex items-center justify-between text-xs font-mono"
               >
                 <div>
-                  <div className="font-semibold text-zinc-100">{item.fullName}</div>
+                  <div className="card-title text-zinc-100 font-semibold">{item.fullName}</div>
                   <div className="text-[10px] text-zinc-400 tabular-nums">{item.readyCount} of {item.total} FMC Ready</div>
                 </div>
                 <div className="text-right tabular-nums">
-                  <div className={`font-semibold ${
+                  <div className={`font-display font-bold text-lg ${
                     item.readiness >= 85 ? 'text-emerald-400' :
                     item.readiness >= 75 ? 'text-amber-400' :
                     'text-rose-400'

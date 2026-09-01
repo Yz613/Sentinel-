@@ -57,30 +57,30 @@ export const Header: React.FC = () => {
           
           {/* C2 Identity & Telemetry Status */}
           <div className="flex items-center gap-3 shrink-0">
-            <div className="w-7 h-7 bg-[#11141B] border border-[#232A37] rounded flex items-center justify-center text-sky-400 font-mono font-bold text-xs">
-              <span className="text-sky-400 font-mono text-[11px] font-bold tracking-tighter">S4</span>
+            <div className="w-8 h-8 bg-[#11141B] border border-[#232A37] rounded-sm flex items-center justify-center text-sky-400 font-mono font-bold text-xs shadow-xs">
+              <span className="text-sky-400 font-mono text-xs font-bold tracking-tighter">S4</span>
             </div>
 
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-mono font-semibold text-xs tracking-widest text-zinc-100 uppercase">
+                <span className="font-display font-bold text-base tracking-widest text-zinc-100 uppercase">
                   SENTINEL
                 </span>
-                <span className="text-[9px] font-mono text-zinc-400 uppercase tracking-tight hidden md:inline">
+                <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider hidden md:inline">
                   // AUTONOMOUS FLEET C2
                 </span>
-                <span className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border font-medium ${
+                <span className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-xs border font-semibold tracking-wider ${
                   mode === 'live' 
-                    ? 'bg-emerald-950/30 border-emerald-500/30 text-emerald-400' 
-                    : 'bg-sky-950/30 border-sky-500/30 text-sky-400'
+                    ? 'bg-emerald-950/40 border-emerald-500/40 text-emerald-400' 
+                    : 'bg-sky-950/40 border-sky-500/40 text-sky-400'
                 }`}>
                   {mode === 'live' ? 'OPERATIONAL' : 'SIMULATION'}
                 </span>
               </div>
-              <div className="flex items-center gap-2 text-[10px] text-zinc-400 font-mono">
-                <span>UTC {clockTime}</span>
+              <div className="flex items-center gap-2 text-[10px] text-zinc-400 font-mono tracking-tight">
+                <span className="text-zinc-300">UTC {clockTime}</span>
                 <span className="text-zinc-500">•</span>
-                <span className="text-emerald-400">TELEMETRY 20Hz</span>
+                <span className="text-emerald-400 font-medium">UPLINK 20Hz</span>
                 <span className="text-zinc-500 hidden sm:inline">•</span>
                 <span className="hidden sm:inline text-zinc-400">STANAG-4586</span>
               </div>
