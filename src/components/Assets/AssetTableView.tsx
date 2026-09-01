@@ -179,57 +179,56 @@ export const AssetTableView: React.FC = () => {
   return (
     <div className="space-y-4">
       {/* Controls & Filter Bar */}
-      <div className="glass-panel rounded-xl p-4 shadow-sm space-y-3 border border-white/[0.08]">
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <h2 className="text-xs uppercase tracking-widest font-semibold text-white font-mono flex items-center gap-2">
-              <Layers className="w-4 h-4 text-[#EF4444]" />
-              DEPLOYED ASSET MATRIX
-            </h2>
-            <span className="text-[11px] font-mono bg-[#141417] px-2 py-0.5 rounded border border-[#1F1F23] text-neutral-400">
-              Showing <strong className="text-white">{filteredAssets.length}</strong> of {assets.length} Assets
+      <div className="c2-panel rounded-sm p-3.5 space-y-2.5">
+        {/* Top Controls: Counts & Search */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-mono font-semibold text-zinc-200 uppercase tracking-wider">
+              ASSET MATRIX ({filteredAssets.length} / {assets.length})
+            </span>
+            <span className="text-[10px] font-mono text-zinc-400">
+              Sorted by: <span className="text-sky-400 uppercase">{String(sortField)} ({sortDirection})</span>
             </span>
           </div>
 
-          {/* Search box on table */}
-          <div className="relative max-w-xs w-full">
-            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500" />
+          <div className="relative w-full sm:w-64">
+            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
             <input
               type="text"
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="Search ID, sector, team..."
-              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md pl-9 pr-3 py-1.5 text-xs text-[#E0E0E0] placeholder-neutral-500 focus:outline-none focus:border-[#EF4444]/50 font-sans"
+              className="w-full bg-[#0D0F14] border border-[#1C212B] rounded-sm pl-8 pr-3 py-1 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-sky-500/60 font-mono"
             />
           </div>
         </div>
 
         {/* Multi-Filter Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 pt-2 border-t border-white/5 font-mono text-xs">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 pt-2 border-t border-[#1C212B] font-mono text-xs">
           <div>
-            <label className="block text-[10px] uppercase text-neutral-500 mb-1">Status</label>
+            <label className="block text-[10px] uppercase text-zinc-500 mb-1">Status</label>
             <select
               value={statusFilter}
               onChange={e => setStatusFilter(e.target.value)}
-              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#EF4444]/50"
+              className="w-full bg-[#0D0F14] border border-[#1C212B] rounded-sm px-2 py-1 text-zinc-300 text-xs focus:outline-none focus:border-sky-500/60"
             >
               <option value="ALL">All Statuses</option>
-              <option value="MISSION READY">Mission Ready</option>
-              <option value="LIMITED">Limited</option>
-              <option value="MAINTENANCE">Maintenance</option>
-              <option value="AWAITING PARTS">Awaiting Spares</option>
-              <option value="SOFTWARE BLOCKED">Software Blocked</option>
+              <option value="MISSION READY">FMC (Mission Ready)</option>
+              <option value="LIMITED">PMC (Limited)</option>
+              <option value="MAINTENANCE">NMCM (Maintenance)</option>
+              <option value="AWAITING PARTS">NMCS (Awaiting Spares)</option>
+              <option value="SOFTWARE BLOCKED">Avionics Hold</option>
               <option value="INSPECTION DUE">Inspection Due</option>
-              <option value="CRITICAL FAULT">Critical Fault</option>
+              <option value="CRITICAL FAULT">Critical DTC</option>
             </select>
           </div>
 
           <div>
-            <label className="block text-[10px] uppercase text-neutral-500 mb-1">Location Sector</label>
+            <label className="block text-[10px] uppercase text-zinc-500 mb-1">Location Sector</label>
             <select
               value={locationFilter}
               onChange={e => setLocationFilter(e.target.value)}
-              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#EF4444]/50"
+              className="w-full bg-[#0D0F14] border border-[#1C212B] rounded-sm px-2 py-1 text-zinc-300 text-xs focus:outline-none focus:border-sky-500/60"
             >
               <option value="ALL">All Sectors ({uniqueLocations.length})</option>
               {uniqueLocations.map(loc => (
@@ -239,11 +238,11 @@ export const AssetTableView: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-[10px] uppercase text-neutral-500 mb-1">Hardware Gen</label>
+            <label className="block text-[10px] uppercase text-zinc-500 mb-1">Hardware Gen</label>
             <select
               value={hwFilter}
               onChange={e => setHwFilter(e.target.value)}
-              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#EF4444]/50"
+              className="w-full bg-[#0D0F14] border border-[#1C212B] rounded-sm px-2 py-1 text-zinc-300 text-xs focus:outline-none focus:border-sky-500/60"
             >
               <option value="ALL">All Hardware ({uniqueHw.length})</option>
               {uniqueHw.map(hw => (
@@ -253,11 +252,11 @@ export const AssetTableView: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-[10px] uppercase text-neutral-500 mb-1">Software Build</label>
+            <label className="block text-[10px] uppercase text-zinc-500 mb-1">Software Build</label>
             <select
               value={swFilter}
               onChange={e => setSwFilter(e.target.value)}
-              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#EF4444]/50"
+              className="w-full bg-[#0D0F14] border border-[#1C212B] rounded-sm px-2 py-1 text-zinc-300 text-xs focus:outline-none focus:border-sky-500/60"
             >
               <option value="ALL">All Software ({uniqueSw.length})</option>
               {uniqueSw.map(sw => (
@@ -267,11 +266,11 @@ export const AssetTableView: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-[10px] uppercase text-neutral-500 mb-1">Assigned Team</label>
+            <label className="block text-[10px] uppercase text-zinc-500 mb-1">Assigned Team</label>
             <select
               value={teamFilter}
               onChange={e => setTeamFilter(e.target.value)}
-              className="w-full bg-[#141417] border border-[#1F1F23] rounded-md px-2.5 py-1.5 text-neutral-300 text-xs focus:outline-none focus:border-[#EF4444]/50"
+              className="w-full bg-[#0D0F14] border border-[#1C212B] rounded-sm px-2 py-1 text-zinc-300 text-xs focus:outline-none focus:border-sky-500/60"
             >
               <option value="ALL">All Teams ({uniqueTeams.length})</option>
               {uniqueTeams.map(team => (
@@ -283,14 +282,14 @@ export const AssetTableView: React.FC = () => {
       </div>
 
       {/* 50-Asset Table */}
-      <div className="glass-panel rounded-xl shadow-sm overflow-hidden border border-white/[0.08]">
-        <div className="overflow-x-auto font-mono text-[11px]">
+      <div className="c2-panel rounded-sm shadow-xs overflow-hidden">
+        <div className="overflow-x-auto font-mono text-xs">
           <table className="w-full text-left">
-            <thead className="bg-[#0D0D0F] text-neutral-400 uppercase tracking-wider border-b border-white/5 select-none">
+            <thead className="bg-[#11141B] text-zinc-400 uppercase tracking-wider border-b border-[#1C212B] select-none text-[10px]">
               <tr>
                 <th 
                   onClick={() => handleSort('id')}
-                  className="py-3 px-4 cursor-pointer hover:text-white transition-colors"
+                  className="py-2.5 px-3 cursor-pointer hover:text-white transition-colors"
                 >
                   <div className="flex items-center gap-1.5">
                     <span>ID</span>
@@ -299,7 +298,7 @@ export const AssetTableView: React.FC = () => {
                 </th>
                 <th 
                   onClick={() => handleSort('status')}
-                  className="py-3 px-4 cursor-pointer hover:text-white transition-colors"
+                  className="py-2.5 px-3 cursor-pointer hover:text-white transition-colors"
                 >
                   <div className="flex items-center gap-1.5">
                     <span>Status</span>
@@ -308,7 +307,7 @@ export const AssetTableView: React.FC = () => {
                 </th>
                 <th 
                   onClick={() => handleSort('location')}
-                  className="py-3 px-4 cursor-pointer hover:text-white transition-colors"
+                  className="py-2.5 px-3 cursor-pointer hover:text-white transition-colors"
                 >
                   <div className="flex items-center gap-1.5">
                     <span>Sector</span>
@@ -317,7 +316,7 @@ export const AssetTableView: React.FC = () => {
                 </th>
                 <th 
                   onClick={() => handleSort('missionReadiness')}
-                  className="py-3 px-4 cursor-pointer hover:text-white transition-colors"
+                  className="py-2.5 px-3 cursor-pointer hover:text-white transition-colors"
                 >
                   <div className="flex items-center gap-1.5">
                     <span>Readiness</span>

@@ -115,22 +115,22 @@ export const ReadinessIntelligenceView: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-[#EF4444] text-xs font-mono font-bold uppercase tracking-wider mb-1">
-            <Sparkles className="w-4 h-4 text-[#EF4444]" />
+          <div className="flex items-center gap-2 text-sky-400 text-xs font-mono font-semibold uppercase tracking-wider mb-1">
+            <Terminal className="w-4 h-4 text-sky-400" />
             <span>AI-POWERED READINESS INTELLIGENCE</span>
           </div>
-          <h1 className="text-xs uppercase tracking-widest font-semibold font-mono text-white">
+          <h1 className="text-xs uppercase tracking-widest font-semibold font-mono text-zinc-100">
             SENTINEL READINESS INTELLIGENCE OFFICER
           </h1>
-          <p className="text-xs text-neutral-400 mt-1 font-sans">
-            Operational analytics, root-cause synthesis, and prioritized remediation planning powered by Gemini.
+          <p className="text-xs text-zinc-400 mt-1 font-sans">
+            Operational telemetry analytics, root-cause synthesis, and prioritized remediation planning powered by Gemini.
           </p>
         </div>
 
         <button
           onClick={handleMorningBrief}
           disabled={isLoading}
-          className="px-4 py-2.5 bg-[#EF4444] hover:bg-orange-500 text-black font-mono font-bold text-xs rounded-md transition-all shadow-md shadow-[#EF4444]/20 flex items-center gap-2 w-fit"
+          className="px-3.5 py-2 bg-sky-600 hover:bg-sky-500 text-white font-mono font-medium text-xs rounded-sm transition-colors flex items-center gap-2 w-fit shadow-xs"
         >
           <FileText className="w-4 h-4" />
           <span>GENERATE 0600Z MORNING BRIEF</span>
@@ -138,13 +138,13 @@ export const ReadinessIntelligenceView: React.FC = () => {
       </div>
 
       {/* Quick Operational Inquiry Questions */}
-      <div className="glass-panel rounded-xl p-5 shadow-sm space-y-3 border border-white/[0.08]">
-        <div className="flex items-center gap-2 text-xs font-mono font-bold text-neutral-300 uppercase tracking-wider">
-          <HelpCircle className="w-4 h-4 text-[#EF4444]" />
+      <div className="c2-panel rounded-sm p-4 space-y-3">
+        <div className="flex items-center gap-2 text-xs font-mono font-semibold text-zinc-300 uppercase tracking-wider">
+          <HelpCircle className="w-3.5 h-3.5 text-sky-400" />
           <span>ONE-CLICK OPERATIONAL QUERIES</span>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
           {presetQuestions.map((q, idx) => (
             <button
               key={idx}
@@ -152,9 +152,9 @@ export const ReadinessIntelligenceView: React.FC = () => {
                 setInputQuery(q.query);
                 handleQuery(q.query);
               }}
-              className="p-3 bg-white/[0.02] hover:bg-[#EF4444]/[0.05] border border-white/5 hover:border-[#EF4444]/30 rounded-lg text-left transition-colors font-mono text-xs text-neutral-300 hover:text-[#EF4444] flex items-start gap-2.5 group"
+              className="p-2.5 bg-[#0F1218] hover:bg-[#141822] border border-[#1C212B] hover:border-zinc-700 rounded-sm text-left transition-colors font-mono text-xs text-zinc-300 hover:text-sky-400 flex items-start gap-2.5 group"
             >
-              <Terminal className="w-4 h-4 text-neutral-500 group-hover:text-[#EF4444] mt-0.5 shrink-0" />
+              <Terminal className="w-3.5 h-3.5 text-zinc-400 group-hover:text-sky-400 mt-0.5 shrink-0" />
               <span>{q.title}</span>
             </button>
           ))}
@@ -162,7 +162,7 @@ export const ReadinessIntelligenceView: React.FC = () => {
       </div>
 
       {/* Freeform Query Bar */}
-      <div className="glass-panel rounded-xl p-4 shadow-sm border border-white/[0.08]">
+      <div className="c2-panel rounded-sm p-3">
         <form
           onSubmit={e => {
             e.preventDefault();
@@ -174,19 +174,19 @@ export const ReadinessIntelligenceView: React.FC = () => {
             type="text"
             value={inputQuery}
             onChange={e => setInputQuery(e.target.value)}
-            placeholder="Ask SENTINEL (e.g. Which team has the highest readiness drag? Should we delay the Bravo field exercise?)..."
-            className="flex-1 bg-[#141417] border border-[#1F1F23] rounded-md px-4 py-2.5 text-xs text-[#E0E0E0] placeholder-neutral-500 focus:outline-none focus:border-[#EF4444]/50 font-sans"
+            placeholder="Ask SENTINEL (e.g. Which team has the highest readiness drag? Should we delay the field exercise?)..."
+            className="flex-1 bg-[#090B0F] border border-[#1C212B] rounded-sm px-3.5 py-2 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-sky-500/60 font-mono"
           />
           <button
             type="submit"
             disabled={!inputQuery.trim() || isLoading}
-            className={`px-5 py-2.5 rounded-md text-xs font-mono font-bold transition-colors flex items-center gap-2 ${
+            className={`px-4 py-2 rounded-sm text-xs font-mono font-medium transition-colors flex items-center gap-2 ${
               inputQuery.trim() && !isLoading
-                ? 'bg-[#EF4444] hover:bg-orange-500 text-black shadow-md shadow-[#EF4444]/20'
-                : 'bg-white/5 text-neutral-600 cursor-not-allowed border border-white/5'
+                ? 'bg-sky-600 hover:bg-sky-500 text-white shadow-xs'
+                : 'bg-zinc-900 text-zinc-600 cursor-not-allowed border border-zinc-800'
             }`}
           >
-            {isLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+            {isLoading ? <RefreshCw className="w-3.5 h-3.5 animate-spin" /> : <Send className="w-3.5 h-3.5" />}
             <span>Query</span>
           </button>
         </form>
@@ -194,9 +194,9 @@ export const ReadinessIntelligenceView: React.FC = () => {
 
       {/* Intelligence Output Display */}
       {isLoading && (
-        <div className="glass-panel rounded-xl p-12 text-center space-y-4 animate-pulse border border-white/[0.08]">
-          <div className="w-10 h-10 bg-[#EF4444]/10 text-[#EF4444] rounded-xl mx-auto flex items-center justify-center border border-[#EF4444]/30">
-            <RefreshCw className="w-5 h-5 animate-spin" />
+        <div className="c2-panel rounded-sm p-10 text-center space-y-3">
+          <div className="w-8 h-8 bg-sky-950/40 text-sky-400 rounded mx-auto flex items-center justify-center border border-sky-500/30">
+            <RefreshCw className="w-4 h-4 animate-spin" />
           </div>
           <div className="font-mono text-sm font-bold text-white">
             SENTINEL INTELLIGENCE ENGINE SYNTHESIZING FLEET TELEMETRY...

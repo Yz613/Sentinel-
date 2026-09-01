@@ -42,15 +42,15 @@ const MainContent: React.FC = () => {
 const FooterContent: React.FC = () => {
   const { mode, assets } = useFleet();
   return (
-    <footer className="border-t border-[#222834] bg-[#0B0D12] py-4 px-4 sm:px-6 lg:px-8 text-xs font-mono text-neutral-400">
+    <footer className="border-t border-[#1A1F29] bg-[#08090C] py-3 px-4 sm:px-6 lg:px-8 text-[11px] font-mono text-zinc-400">
       <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
         <div className="flex items-center gap-2">
-          <div className="w-2.5 h-2.5 bg-[#EF4444] rounded-xs rotate-45 shrink-0"></div>
+          <div className="w-2 h-2 bg-sky-500 rounded-xs shrink-0" />
           <span>SENTINEL Operations Platform • Autonomous Ground Fleet Readiness Engine</span>
         </div>
-        <div className="text-[11px] text-neutral-400 flex items-center gap-2">
-          <span className={`w-1.5 h-1.5 rounded-full ${mode === 'live' ? 'bg-emerald-400' : 'bg-[#EF4444]'}`}></span>
-          <span>{mode === 'live' ? `Live Telemetry Pipeline (${assets.length} Assets)` : 'Demo Sandbox (50 Synthetic Vehicles)'}</span>
+        <div className="text-[11px] text-zinc-400 flex items-center gap-2">
+          <span className={`w-1.5 h-1.5 rounded-full ${mode === 'live' ? 'bg-emerald-400' : 'bg-sky-400'}`} />
+          <span>{mode === 'live' ? `Telemetry Ingestion Pipeline (${assets.length} Assets Active)` : 'Synthetic Baseline Simulation (50 Platforms)'}</span>
         </div>
       </div>
     </footer>
@@ -60,7 +60,7 @@ const FooterContent: React.FC = () => {
 export default function App() {
   return (
     <FleetProvider>
-      <div className="min-h-screen bg-[#0A0B0E] text-[#E0E0E0] flex flex-col selection:bg-[#EF4444] selection:text-white">
+      <div className="min-h-screen bg-[#08090C] text-zinc-200 flex flex-col selection:bg-sky-500 selection:text-black">
         <Header />
         <DemoBanner />
         <Navigation />

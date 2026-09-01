@@ -8,85 +8,73 @@
 
 @layer base {
   body {
-    background-color: #0A0B0E;
-    color: #E2E4E9;
+    background-color: #08090C;
+    color: #E2E8F0;
     font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-image: 
-      radial-gradient(circle at 50% 0%, rgba(239, 68, 68, 0.04) 0%, transparent 60%),
-      linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-    background-size: 100% 100%, 32px 32px, 32px 32px;
+    letter-spacing: -0.01em;
   }
 
   code, pre, .font-mono {
     font-family: 'Geist Mono', monospace;
+    font-variant-numeric: tabular-nums;
   }
 
   h1, h2, h3, .font-display {
     font-family: 'Geist', sans-serif;
     letter-spacing: -0.02em;
   }
+
+  /* Universal tabular numerals for alignment */
+  table, .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
 }
 
-/* Rugged Armor & Off-Road Tactical Panel Styles */
-.glass-panel {
-  background: rgba(18, 21, 28, 0.88);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(12px);
+/* Defense-Grade Precision C2 Panels (Lattice / Hivemind Inspired) */
+.c2-panel {
+  background: #0D0F14;
+  border: 1px solid #1C212B;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
-.glass-panel-accent {
-  background: rgba(239, 68, 68, 0.04);
-  border: 1px solid rgba(239, 68, 68, 0.35);
-  box-shadow: 0 0 15px -3px rgba(239, 68, 68, 0.15);
-}
-
-.armor-card {
+.c2-panel-header {
   background: #11141B;
-  border: 1px solid #242B38;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  position: relative;
+  border-bottom: 1px solid #1C212B;
+  padding: 0.625rem 0.875rem;
 }
 
-.armor-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(239, 68, 68, 0.35), transparent);
+.c2-panel-accent {
+  background: #0D0F14;
+  border: 1px solid #293242;
 }
 
+.c2-subpanel {
+  background: #10131A;
+  border: 1px solid #1C212B;
+}
+
+/* Row Hover - Crisp Discrete Transition */
 .row-hover {
-  transition: background-color 0.15s ease, border-color 0.15s ease;
+  transition: background-color 0.1s ease, border-color 0.1s ease;
 }
 .row-hover:hover {
-  background-color: rgba(239, 68, 68, 0.05);
+  background-color: #141720;
 }
 
-/* Custom Scrollbar - Industrial Blackout */
+/* Custom Scrollbar - Precision Aerospace Dark */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0C0E;
+  background: #08090C;
 }
 ::-webkit-scrollbar-thumb {
-  background: #242B38;
-  border-radius: 2px;
+  background: #1E2430;
+  border-radius: 1px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #394254;
-}
-
-/* Rugged Off-Road Dial Gauge */
-.offroad-dial {
-  background: radial-gradient(circle, #181C25 0%, #0E1015 100%);
-  border: 1px solid #28303F;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+  background: #2D3647;
 }
 
 /* Markdown formatting for Intelligence briefs */
@@ -98,14 +86,15 @@
   margin-bottom: 0.5rem;
 }
 
-.markdown-body h1 { font-size: 1.25rem; border-bottom: 1px solid #242B38; padding-bottom: 0.25rem; }
-.markdown-body h2 { font-size: 1.1rem; color: #EF4444; }
-.markdown-body h3 { font-size: 0.95rem; color: #F59E0B; }
+.markdown-body h1 { font-size: 1.15rem; border-bottom: 1px solid #1C212B; padding-bottom: 0.25rem; }
+.markdown-body h2 { font-size: 1rem; color: #38BDF8; }
+.markdown-body h3 { font-size: 0.9rem; color: #94A3B8; }
 
 .markdown-body p {
   margin-bottom: 0.75rem;
   line-height: 1.6;
   color: #CBD5E1;
+  font-size: 0.85rem;
 }
 
 .markdown-body ul, .markdown-body ol {
@@ -113,6 +102,7 @@
   margin-bottom: 0.75rem;
   list-style-type: disc;
   color: #CBD5E1;
+  font-size: 0.85rem;
 }
 
 .markdown-body li {
@@ -120,15 +110,15 @@
 }
 
 .markdown-body strong {
-  color: #EF4444;
+  color: #F8FAFC;
   font-weight: 600;
 }
 
 .markdown-body blockquote {
-  border-left: 3px solid #EF4444;
+  border-left: 2px solid #38BDF8;
   padding-left: 0.75rem;
   margin: 0.75rem 0;
   color: #94A3B8;
-  font-style: italic;
-  background: rgba(239, 68, 68, 0.04);
+  font-style: normal;
+  background: #10131A;
 }

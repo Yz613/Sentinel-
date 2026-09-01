@@ -7,16 +7,17 @@ import {
   AlertTriangle, 
   Layers, 
   Cpu, 
-  Boxes, 
+  Package, 
   ArrowRight,
-  Sparkles,
   ChevronRight,
   TrendingDown,
   Radio,
   ExternalLink,
   Database,
-  Zap,
-  Compass
+  Terminal,
+  Activity,
+  Server,
+  Filter
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -27,9 +28,9 @@ import {
   ResponsiveContainer, 
   PieChart, 
   Pie, 
-  Cell 
+  Cell,
+  CartesianGrid
 } from 'recharts';
-import { AxleLockerIcon, HexBolt } from '../TacticalIcons';
 
 export const FleetCommandView: React.FC = () => {
   const { 
@@ -47,12 +48,12 @@ export const FleetCommandView: React.FC = () => {
 
   // Breakdown status data for pie chart
   const statusPieData = useMemo(() => [
-    { name: 'Mission Ready', value: summary.missionReady, color: '#10B981' },
-    { name: 'Maintenance', value: summary.maintenance, color: '#F59E0B' },
-    { name: 'Awaiting Spares', value: summary.awaitingParts, color: '#EF4444' },
-    { name: 'Software Blocked', value: summary.softwareBlocked, color: '#A855F7' },
-    { name: 'Inspection Due', value: summary.inspectionDue, color: '#38BDF8' },
-    { name: 'Limited / Other', value: summary.totalAssets - (summary.missionReady + summary.maintenance + summary.awaitingParts + summary.softwareBlocked + summary.inspectionDue), color: '#64748B' }
+    { name: 'FMC (Mission Ready)', value: summary.missionReady, color: '#10B981' },
+    { name: 'NMCM (Depot Maintenance)', value: summary.maintenance, color: '#F59E0B' },
+    { name: 'NMCS (Supply Starved)', value: summary.awaitingParts, color: '#EF4444' },
+    { name: 'PMC (Firmware Hold)', value: summary.softwareBlocked, color: '#A855F7' },
+    { name: 'Inspection Due (200h)', value: summary.inspectionDue, color: '#0EA5E9' },
+    { name: 'Limited Availability', value: Math.max(0, summary.totalAssets - (summary.missionReady + summary.maintenance + summary.awaitingParts + summary.softwareBlocked + summary.inspectionDue)), color: '#64748B' }
   ].filter(d => d.value > 0), [summary]);
 
   // Comparison breakdowns
@@ -154,221 +155,146 @@ export const FleetCommandView: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Top Banner / Question Callout */}
-      <div className="bg-[#10131A] border border-[#242C3A] rounded-xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-md relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-[#EF4444]/5 rounded-full blur-3xl pointer-events-none" />
-        <div className="relative z-10">
-          <div className="flex items-center gap-2 text-[#EF4444] text-xs font-mono font-bold uppercase tracking-wider mb-1">
-            <Radio className="w-3.5 h-3.5 animate-pulse text-[#EF4444]" />
-            <span>OPERATIONAL READINESS BRIEFING</span>
+    <div className="space-y-4">
+      
+      {/* C2 Telemetry Status Header & Operational Directive */}
+      <div className="c2-panel rounded-sm p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 text-sky-400 text-[10px] font-mono font-semibold uppercase tracking-wider mb-1">
+            <Radio className="w-3 h-3 text-sky-400" />
+            <span>OPERATIONAL READINESS DIRECTIVE // LIVE C2 STREAM</span>
           </div>
-          <h1 className="text-base md:text-lg font-bold text-white font-mono tracking-tight">
+          <h1 className="text-sm md:text-base font-semibold text-zinc-100 font-mono tracking-tight">
             “How much of the fleet is available right now, what is reducing readiness, and what should operations fix first?”
           </h1>
-          <p className="text-xs text-neutral-400 mt-1 max-w-2xl font-sans">
+          <p className="text-xs text-zinc-400 mt-1 max-w-2xl font-sans">
             {mode === 'demo' 
-              ? 'Continuous sustainment telemetry across 50 synthetic ground units (MRD-001 — MRD-050).'
-              : `Continuous sustainment telemetry across ${assets.length} live deployed autonomous asset(s).`}
+              ? 'Telemetry ingested across 50 synthetic autonomous ground platforms (MRD-001 — MRD-050).'
+              : `Telemetry stream active across ${assets.length} live deployed autonomous asset(s).`}
           </p>
         </div>
 
         <button
           onClick={() => setActiveNavTab('readiness-intelligence')}
-          className="flex items-center gap-2 px-4 py-2.5 bg-[#EF4444] hover:bg-red-600 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-md transition-all shadow-lg shadow-[#EF4444]/25 whitespace-nowrap relative z-10"
+          className="flex items-center gap-2 px-3 py-1.5 bg-[#141B26] hover:bg-[#1A2333] text-sky-400 border border-sky-500/30 rounded-sm font-mono text-xs uppercase tracking-wider transition-colors whitespace-nowrap"
         >
-          <Sparkles className="w-4 h-4" />
-          <span>GENERATE MORNING BRIEF</span>
+          <Terminal className="w-3.5 h-3.5" />
+          <span>RUN 0600Z BRIEF</span>
         </button>
-      </div>
-
-      {/* Rugged Off-Road Ground Telemetry Ribbon */}
-      <div className="bg-[#12161F] border border-[#242C3A] rounded-xl p-4 shadow-sm relative overflow-hidden">
-        <div className="flex flex-col xl:flex-row items-start xl:items-center justify-between gap-3 pb-3 border-b border-[#222834]">
-          <div className="flex items-center gap-2.5">
-            <Compass className="w-4 h-4 text-[#EF4444]" />
-            <span className="font-mono text-xs font-bold uppercase tracking-widest text-white">
-              ALL-TERRAIN GROUND TELEMETRY & CHASSIS DYNAMICS
-            </span>
-            <span className="text-[10px] bg-[#EF4444]/15 text-[#EF4444] px-2 py-0.5 rounded font-mono font-bold border border-[#EF4444]/35">
-              4WD LOCK ACTIVE
-            </span>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-neutral-400">
-            <span className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-              <span>SECTOR ELEV: 4,820 FT</span>
-            </span>
-            <span>•</span>
-            <span className="text-white">WATER FORDING: <strong className="text-emerald-400">34.0 IN MAX</strong></span>
-            <span>•</span>
-            <span className="text-white">TIRE PRESSURE: <strong className="text-amber-400">18.5 PSI (AIR-DOWN)</strong></span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
-          {/* Pitch & Roll Inclinometer */}
-          <div className="bg-[#161B24] p-3 rounded-lg border border-[#283242] flex items-center justify-between">
-            <div>
-              <div className="text-[10px] text-neutral-400 font-mono uppercase tracking-wider">Terrain Inclinometer</div>
-              <div className="text-sm font-bold font-mono text-white mt-0.5 flex items-center gap-2">
-                <span className="text-emerald-400">PITCH: +14°</span>
-                <span className="text-neutral-500">|</span>
-                <span className="text-amber-400">ROLL: -3°</span>
-              </div>
-            </div>
-            <div className="w-8 h-8 rounded-full bg-[#10131A] border border-[#343F52] flex items-center justify-center text-xs font-mono text-[#EF4444] font-bold">
-              14°
-            </div>
-          </div>
-
-          {/* Differential Lockers */}
-          <div className="bg-[#161B24] p-3 rounded-lg border border-[#283242] flex items-center justify-between">
-            <div>
-              <div className="text-[10px] text-neutral-400 font-mono uppercase tracking-wider">Heavy-Duty Axles</div>
-              <div className="text-sm font-bold font-mono text-emerald-400 mt-0.5 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-                <span>FRONT & REAR LOCKED</span>
-              </div>
-            </div>
-            <AxleLockerIcon locked={true} className="w-6 h-6 text-[#EF4444]" />
-          </div>
-
-          {/* Suspension Articulation */}
-          <div className="bg-[#161B24] p-3 rounded-lg border border-[#283242] flex items-center justify-between">
-            <div>
-              <div className="text-[10px] text-neutral-400 font-mono uppercase tracking-wider">Suspension Articulation</div>
-              <div className="text-sm font-bold font-mono text-amber-400 mt-0.5 flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-amber-400"></span>
-                <span>DISCONNECTED (HIGH TRAVEL)</span>
-              </div>
-            </div>
-            <div className="text-[10px] font-mono font-bold text-neutral-300 bg-[#10131A] px-2 py-1 rounded border border-[#343F52]">
-              842 RTI
-            </div>
-          </div>
-
-          {/* Transfer Case Mode */}
-          <div className="bg-[#161B24] p-3 rounded-lg border border-[#283242] flex items-center justify-between">
-            <div>
-              <div className="text-[10px] text-neutral-400 font-mono uppercase tracking-wider">Transfer Case Mode</div>
-              <div className="text-sm font-bold font-mono text-white mt-0.5 flex items-center gap-1.5">
-                <span className="text-[#EF4444]">4L</span>
-                <span className="text-neutral-400 text-xs">LOW-RANGE 4:1</span>
-              </div>
-            </div>
-            <div className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/30 font-bold">
-              77.2:1 CRAWL
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Live Mode Onboarding Empty State Card */}
       {assets.length === 0 && (
-        <div className="bg-[#11141B] border border-dashed border-emerald-500/30 rounded-xl p-8 text-center font-mono">
-          <div className="w-12 h-12 bg-emerald-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center mx-auto mb-4 text-emerald-400">
-            <Database className="w-6 h-6" />
+        <div className="c2-panel rounded-sm p-8 text-center font-mono">
+          <div className="w-10 h-10 bg-emerald-950/30 border border-emerald-500/30 rounded flex items-center justify-center mx-auto mb-3 text-emerald-400">
+            <Database className="w-5 h-5" />
           </div>
-          <h2 className="text-base font-bold text-white uppercase tracking-wider mb-2">
-            Live Operations Ready — Awaiting Telemetry & Data Sources
+          <h2 className="text-sm font-bold text-zinc-100 uppercase tracking-wider mb-1">
+            Telematics Pipeline Listening — Awaiting Hardware Telemetry
           </h2>
-          <p className="text-xs text-neutral-400 max-w-lg mx-auto mb-6 font-sans">
-            You are currently in <span className="text-emerald-400 font-bold">Live Operations Mode</span>. Connect your real ground robots, rovers, or fleet data via REST APIs, webhooks, or CSV spreadsheets to start monitoring availability.
+          <p className="text-xs text-zinc-400 max-w-lg mx-auto mb-5 font-sans">
+            Operational mode is active. Ingest vehicle telemetry pings, CAN bus frames, or CSV asset manifests through the Telematics Gateway.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-2">
             <button
               onClick={() => setActiveNavTab('data-sources')}
-              className="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs rounded-lg transition-colors flex items-center gap-2 shadow-md shadow-emerald-500/20"
+              className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-black font-semibold text-xs rounded-sm transition-colors flex items-center gap-2"
             >
-              <Zap className="w-4 h-4" />
-              <span>Open Data Sources & Connect Telemetry</span>
+              <Radio className="w-3.5 h-3.5" />
+              <span>Configure Ingestion Webhooks</span>
             </button>
             <button
               onClick={() => loadSampleLiveData()}
-              className="px-4 py-2.5 bg-white/5 hover:bg-white/10 text-white border border-white/10 text-xs rounded-lg transition-colors flex items-center gap-2"
+              className="px-3.5 py-1.5 bg-[#141822] hover:bg-[#1A202E] text-zinc-200 border border-zinc-700/60 text-xs rounded-sm transition-colors flex items-center gap-2"
             >
-              <Sparkles className="w-4 h-4 text-emerald-400" />
-              <span>Load 5-Vehicle Live Starter Batch</span>
+              <span>Load 5-Tail Sample</span>
             </button>
             <button
               onClick={() => setMode('demo')}
-              className="px-4 py-2.5 bg-[#EF4444]/10 hover:bg-[#EF4444]/20 text-[#EF4444] border border-[#EF4444]/30 text-xs rounded-lg transition-colors flex items-center gap-2"
+              className="px-3.5 py-1.5 bg-sky-950/30 hover:bg-sky-900/30 text-sky-400 border border-sky-500/30 text-xs rounded-sm transition-colors flex items-center gap-2"
             >
-              <span>Explore Demo Showcase (50 Vehicles)</span>
+              <span>View 50-Tail Simulation</span>
             </button>
           </div>
         </div>
       )}
 
-      {/* Primary KPI Grid (Rugged Armor Styling) */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
-        {/* Fleet Readiness */}
-        <div className="col-span-2 sm:col-span-2 lg:col-span-2 glass-panel p-4 rounded-xl relative overflow-hidden flex flex-col justify-between border border-[#242C3A]">
+      {/* Primary Telemetry & Readiness Matrix (High Information Density) */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
+        {/* FMC Fleet Readiness */}
+        <div className="col-span-2 sm:col-span-2 lg:col-span-2 c2-panel p-3.5 rounded-sm flex flex-col justify-between">
           <div>
-            <div className="text-[10px] uppercase text-neutral-400 tracking-wider mb-1 font-mono">Fleet Readiness</div>
-            <div className="text-3xl font-bold text-white font-mono">
-              {summary.fleetReadiness}<span className="text-sm text-neutral-500 ml-1 font-mono">%</span>
+            <div className="text-[10px] uppercase text-zinc-400 tracking-wider mb-1 font-mono">
+              Fleet Availability (FMC)
+            </div>
+            <div className="text-3xl font-light text-zinc-100 font-mono tabular-nums">
+              {summary.fleetReadiness}<span className="text-sm text-zinc-400 ml-1 font-mono">%</span>
             </div>
           </div>
-          <div className="h-2 w-full bg-[#151922] mt-4 rounded-full overflow-hidden border border-[#222834]">
-            <div className="h-full bg-[#EF4444] transition-all duration-500" style={{ width: `${summary.fleetReadiness}%` }}></div>
+          <div className="h-1.5 w-full bg-[#181D26] mt-3 rounded-xs overflow-hidden border border-zinc-800">
+            <div 
+              className={`h-full transition-all duration-300 ${
+                summary.fleetReadiness >= 85 ? 'bg-emerald-500' :
+                summary.fleetReadiness >= 75 ? 'bg-amber-500' :
+                'bg-rose-500'
+              }`} 
+              style={{ width: `${summary.fleetReadiness}%` }} 
+            />
           </div>
-          <div className="flex justify-between items-center mt-2 text-[10px] font-mono text-neutral-400">
-            <span>TARGET: 90%</span>
-            <span className="text-[#EF4444] font-bold">{summary.totalAssets} ASSETS TOTAL</span>
-          </div>
-        </div>
-
-        {/* Mission Ready */}
-        <div className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-[#242C3A]">
-          <div className="text-[10px] uppercase text-neutral-400 tracking-wider mb-1 font-mono">Mission Ready</div>
-          <div className="text-3xl font-bold text-white font-mono">
-            {summary.missionReady}<span className="text-sm text-neutral-500 ml-1 font-mono">/ {summary.totalAssets}</span>
-          </div>
-          <div className="text-[10px] text-emerald-400 mt-2 font-mono flex items-center gap-1 font-bold">
-            <ShieldCheck className="w-3.5 h-3.5" />
-            <span>+2 FROM PREV CYCLE</span>
+          <div className="flex justify-between items-center mt-2 text-[10px] font-mono text-zinc-400 tabular-nums">
+            <span>TARGET: 90.0%</span>
+            <span className="text-zinc-300">{summary.totalAssets} PLATFORMS ACTIVE</span>
           </div>
         </div>
 
-        {/* Maintenance */}
+        {/* Fully Mission Capable */}
+        <div className="c2-panel p-3.5 rounded-sm flex flex-col justify-between">
+          <div className="text-[10px] uppercase text-zinc-400 tracking-wider mb-1 font-mono">Mission Ready (FMC)</div>
+          <div className="text-3xl font-light text-emerald-400 font-mono tabular-nums">
+            {summary.missionReady}<span className="text-sm text-zinc-400 ml-1 font-mono">/{summary.totalAssets}</span>
+          </div>
+          <div className="text-[10px] text-emerald-400/90 mt-2 font-mono flex items-center gap-1">
+            <ShieldCheck className="w-3 h-3" />
+            <span>+2 FROM CYCLE</span>
+          </div>
+        </div>
+
+        {/* NMCM Depot Maintenance */}
         <div 
           onClick={() => setActiveNavTab('maintenance')}
-          className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-[#242C3A] hover:border-amber-500/40 cursor-pointer transition-colors"
+          className="c2-panel p-3.5 rounded-sm flex flex-col justify-between hover:border-amber-500/40 cursor-pointer transition-colors"
         >
-          <div className="text-[10px] uppercase text-neutral-400 tracking-wider mb-1 font-mono">Maintenance</div>
-          <div className="text-3xl font-bold text-amber-400 font-mono">
+          <div className="text-[10px] uppercase text-zinc-400 tracking-wider mb-1 font-mono">Depot Maintenance (NMCM)</div>
+          <div className="text-3xl font-light text-amber-400 font-mono tabular-nums">
             0{summary.maintenance}
           </div>
           <div className="text-[10px] text-amber-400/90 mt-2 font-mono flex items-center justify-between">
-            <span>DEPOT BAYS</span>
-            <ChevronRight className="w-3 h-3 text-neutral-500" />
+            <span>IN REPAIR</span>
+            <ChevronRight className="w-3 h-3 text-zinc-400" />
           </div>
         </div>
 
-        {/* Awaiting Spares */}
+        {/* NMCS Awaiting Spares */}
         <div 
           onClick={() => setActiveNavTab('spare-parts')}
-          className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-[#EF4444]/35 bg-[#EF4444]/[0.03] cursor-pointer transition-colors"
+          className="c2-panel p-3.5 rounded-sm flex flex-col justify-between border-rose-500/30 bg-rose-950/10 hover:border-rose-500/50 cursor-pointer transition-colors"
         >
-          <div className="text-[10px] uppercase text-neutral-400 tracking-wider mb-1 font-mono">Awaiting Spares</div>
-          <div className="text-3xl font-bold text-[#EF4444] font-mono">
+          <div className="text-[10px] uppercase text-zinc-400 tracking-wider mb-1 font-mono">Supply Depleted (NMCS)</div>
+          <div className="text-3xl font-light text-rose-400 font-mono tabular-nums">
             0{summary.awaitingParts}
           </div>
-          <div className="text-[10px] text-[#EF4444] mt-2 font-mono uppercase tracking-tight font-bold">
-            CRITICAL_BLOCKER
+          <div className="text-[10px] text-rose-400 mt-2 font-mono uppercase tracking-tight font-semibold">
+            PARTS_DEPLETED
           </div>
         </div>
 
-        {/* Software Blocked */}
+        {/* PMC Firmware Hold */}
         <div 
           onClick={() => setActiveNavTab('configuration')}
-          className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-[#242C3A] hover:border-purple-500/40 cursor-pointer transition-colors"
+          className="c2-panel p-3.5 rounded-sm flex flex-col justify-between hover:border-purple-500/40 cursor-pointer transition-colors"
         >
-          <div className="text-[10px] uppercase text-neutral-400 tracking-wider mb-1 font-mono">Software Blocked</div>
-          <div className="text-3xl font-bold text-purple-400 font-mono">
+          <div className="text-[10px] uppercase text-zinc-400 tracking-wider mb-1 font-mono">Avionics Hold (PMC)</div>
+          <div className="text-3xl font-light text-purple-400 font-mono tabular-nums">
             0{summary.softwareBlocked}
           </div>
           <div className="text-[10px] text-purple-400/90 mt-2 font-mono">
@@ -376,79 +302,78 @@ export const FleetCommandView: React.FC = () => {
           </div>
         </div>
 
-        {/* Active Faults */}
+        {/* Active Red-X DTCs */}
         <div 
           onClick={() => setActiveNavTab('faults')}
-          className="glass-panel p-4 rounded-xl flex flex-col justify-between border border-rose-500/30 hover:border-rose-500/50 cursor-pointer transition-colors"
+          className="c2-panel p-3.5 rounded-sm flex flex-col justify-between hover:border-rose-500/40 cursor-pointer transition-colors"
         >
-          <div className="text-[10px] uppercase text-neutral-400 tracking-wider mb-1 font-mono">Active Faults</div>
-          <div className="text-3xl font-bold text-rose-500 font-mono">
+          <div className="text-[10px] uppercase text-zinc-400 tracking-wider mb-1 font-mono">Critical DTCs</div>
+          <div className="text-3xl font-light text-rose-400 font-mono tabular-nums">
             0{summary.criticalFaults}
           </div>
-          <div className="text-[10px] text-rose-500 mt-2 font-mono uppercase tracking-tight font-bold">
-            URGENT_TRIAGE
+          <div className="text-[10px] text-rose-400 mt-2 font-mono uppercase tracking-tight">
+            RED-X FAULTS
           </div>
         </div>
       </div>
 
-      {/* Main Command Center: Visual Readiness Breakdown & Top Drivers */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      {/* Main Analysis: Top Readiness Drivers & Capability Distribution */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+        
         {/* Top Readiness Drivers (Left 7 cols) */}
-        <div className="lg:col-span-7 space-y-4">
-          <div className="glass-panel rounded-xl p-5 shadow-sm border border-[#242C3A]">
-            <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+        <div className="lg:col-span-7 space-y-3">
+          <div className="c2-panel rounded-sm">
+            <div className="c2-panel-header flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="p-1.5 bg-[#EF4444]/10 border border-[#EF4444]/30 rounded text-[#EF4444]">
-                  <TrendingDown className="w-4 h-4" />
-                </div>
+                <TrendingDown className="w-3.5 h-3.5 text-rose-400" />
                 <div>
-                  <h3 className="text-xs uppercase tracking-widest font-bold text-white font-mono">
-                    TOP READINESS DRIVERS
+                  <h3 className="text-xs uppercase tracking-wider font-semibold text-zinc-100 font-mono">
+                    READINESS DEGRADATION DRIVERS
                   </h3>
-                  <p className="text-xs text-neutral-400 font-sans">Root causes currently suppressing overall fleet availability</p>
+                  <p className="text-[11px] text-zinc-400 font-sans">Root causes suppressing mission availability sorted by operational drag</p>
                 </div>
               </div>
-              <span className="text-[11px] font-mono text-[#EF4444] font-bold">
-                -18.0% FLEET DRAG
+              <span className="text-xs font-mono text-rose-400 font-semibold tabular-nums">
+                -18.0% FLEET IMPACT
               </span>
             </div>
 
-            <div className="space-y-3">
+            <div className="p-3 space-y-2">
               {readinessDrivers.map((driver, index) => (
                 <div
                   key={driver.id}
-                  className="p-3.5 bg-white/[0.02] border border-[#222834] rounded-lg hover:border-[#343F52] transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
+                  className="p-3 bg-[#0F1218] border border-[#1C212B] rounded-sm hover:border-[#2A3342] transition-colors flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
                 >
                   <div className="space-y-1 flex-1">
                     <div className="flex items-center gap-2">
-                      <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded border uppercase ${
+                      <span className={`text-[9px] font-mono font-semibold px-1.5 py-0.2 rounded border uppercase ${
                         driver.severity === 'critical'
-                          ? 'bg-rose-500/10 text-rose-400 border-rose-500/30'
+                          ? 'bg-rose-950/40 text-rose-400 border-rose-500/30'
                           : driver.severity === 'high'
-                          ? 'bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/30 font-bold'
-                          : 'bg-sky-500/10 text-sky-400 border-sky-500/30'
+                          ? 'bg-amber-950/40 text-amber-400 border-amber-500/30'
+                          : 'bg-sky-950/40 text-sky-400 border-sky-500/30'
                       }`}>
-                        DRIVER 0{index + 1} • {driver.severity}
+                        P0{index + 1} // {driver.severity}
                       </span>
-                      <span className="text-xs font-bold text-white font-mono">
+                      <span className="text-xs font-semibold text-zinc-100 font-mono">
                         {driver.title}
                       </span>
                     </div>
 
-                    <p className="text-xs text-neutral-300 leading-relaxed font-sans">
+                    <p className="text-xs text-zinc-300 leading-relaxed font-sans">
                       {driver.description}
                     </p>
 
-                    <div className="flex flex-wrap items-center gap-2 pt-1 font-mono text-[11px]">
-                      <span className="text-[#EF4444] font-medium">
-                        Action: {driver.recommendedAction}
+                    <div className="flex flex-wrap items-center gap-2 pt-0.5 font-mono text-[11px]">
+                      <span className="text-sky-400">
+                        Directive: {driver.recommendedAction}
                       </span>
                       <div className="flex items-center gap-1">
                         {driver.affectedAssetIds.slice(0, 4).map(assetId => (
                           <button
                             key={assetId}
                             onClick={() => handleAssetClick(assetId)}
-                            className="text-[10px] font-mono bg-white/5 hover:bg-[#EF4444]/15 hover:text-[#EF4444] text-neutral-300 px-1.5 py-0.5 rounded border border-white/10 transition-colors"
+                            className="text-[10px] font-mono bg-[#141720] hover:bg-[#1C2230] text-zinc-300 hover:text-sky-400 px-1.5 py-0.5 rounded border border-zinc-800 transition-colors"
                           >
                             {assetId}
                           </button>
@@ -459,10 +384,10 @@ export const FleetCommandView: React.FC = () => {
 
                   <button
                     onClick={() => handleDriverAction(driver)}
-                    className="shrink-0 self-end sm:self-center px-3 py-1.5 bg-white/5 hover:bg-[#EF4444]/20 text-neutral-200 hover:text-white border border-white/10 hover:border-[#EF4444]/50 rounded-md text-xs font-mono transition-colors flex items-center gap-1.5 font-bold"
+                    className="shrink-0 self-end sm:self-center px-2.5 py-1 bg-[#141720] hover:bg-[#1C2330] text-zinc-200 hover:text-white border border-zinc-800 hover:border-zinc-700 rounded-sm text-xs font-mono transition-colors flex items-center gap-1.5"
                   >
                     <span>Remediate</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-[#EF4444]" />
+                    <ArrowRight className="w-3 h-3 text-sky-400" />
                   </button>
                 </div>
               ))}
@@ -470,169 +395,171 @@ export const FleetCommandView: React.FC = () => {
           </div>
 
           {/* Quick Action Operations Ticker */}
-          <div className="glass-panel rounded-xl p-4 flex items-center justify-between gap-4 border border-[#242C3A]">
-            <div className="flex items-center gap-3">
-              <div className="w-2 h-2 rounded-full bg-[#EF4444] animate-pulse shrink-0" />
-              <div className="text-xs font-sans">
-                <span className="text-white font-mono font-semibold">Immediate Operations Directive: </span>
-                <span className="text-neutral-400">Receive 2x COMM-MOD-V3 transceivers to immediately restore +4% Fleet Readiness (unblocks MRD-014 & MRD-027).</span>
+          <div className="c2-panel rounded-sm p-3 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2.5 text-xs font-sans">
+              <span className="w-2 h-2 rounded-full bg-amber-400 shrink-0" />
+              <div>
+                <span className="text-zinc-200 font-mono font-semibold">Logistics Directive: </span>
+                <span className="text-zinc-400">Receiving 2x COMM-MOD-V3 transceivers immediately returns +4.0% availability (restores MRD-014 & MRD-027).</span>
               </div>
             </div>
             <button
               onClick={() => setActiveNavTab('spare-parts')}
-              className="shrink-0 px-3 py-1.5 bg-[#EF4444]/10 hover:bg-[#EF4444]/20 text-[#EF4444] border border-[#EF4444]/30 rounded-md text-xs font-mono transition-colors font-bold"
+              className="shrink-0 px-2.5 py-1 bg-[#141822] hover:bg-[#1C2230] text-sky-400 border border-zinc-800 hover:border-sky-500/30 rounded-sm text-xs font-mono transition-colors"
             >
-              View Parts Hub
+              Supply Depot
             </button>
           </div>
         </div>
 
-        {/* Visual Readiness Breakdown & Status Spectrum (Right 5 cols) */}
-        <div className="lg:col-span-5 space-y-4">
-          <div className="glass-panel rounded-xl p-5 shadow-sm border border-[#242C3A]">
-            <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4">
+        {/* Readiness Breakdown (Right 5 cols) */}
+        <div className="lg:col-span-5 space-y-3">
+          <div className="c2-panel rounded-sm">
+            <div className="c2-panel-header flex items-center justify-between">
               <div>
-                <h3 className="text-xs uppercase tracking-widest font-bold text-white font-mono">
-                  READINESS BREAKDOWN
+                <h3 className="text-xs uppercase tracking-wider font-semibold text-zinc-100 font-mono">
+                  AVAILABILITY SPECTRUM
                 </h3>
-                <p className="text-xs text-neutral-400 font-sans">Status distribution across 50 autonomous platforms</p>
+                <p className="text-[11px] text-zinc-400 font-sans">Platform mission state distribution</p>
               </div>
-              <span className="text-xs font-mono text-[#EF4444] font-bold">50 / 50 Monitored</span>
+              <span className="text-xs font-mono text-zinc-400 tabular-nums">50 / 50 Tracked</span>
             </div>
 
-            {/* Pie Chart Distribution */}
-            <div className="h-52 w-full flex items-center justify-center">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={statusPieData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={55}
-                    outerRadius={80}
-                    paddingAngle={3}
-                    dataKey="value"
-                  >
-                    {statusPieData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={entry.color} stroke="#10131A" strokeWidth={2} />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    contentStyle={{ backgroundColor: '#10131A', borderColor: '#242C3A', borderRadius: '8px', fontSize: '12px', fontFamily: 'monospace' }}
-                    itemStyle={{ color: '#E0E0E0' }}
-                  />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
+            <div className="p-3">
+              {/* Pie Chart Distribution */}
+              <div className="h-48 w-full flex items-center justify-center">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={statusPieData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={48}
+                      outerRadius={74}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {statusPieData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} stroke="#0D0F14" strokeWidth={2} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      contentStyle={{ backgroundColor: '#0D0F14', borderColor: '#1C212B', borderRadius: '2px', fontSize: '11px', fontFamily: 'monospace' }}
+                      itemStyle={{ color: '#E2E8F0' }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
 
-            {/* Legend Matrix */}
-            <div className="grid grid-cols-2 gap-2 mt-2 pt-3 border-t border-white/5">
-              {statusPieData.map(item => (
-                <div key={item.name} className="flex items-center justify-between p-2 bg-white/[0.02] rounded-md border border-[#222834] text-xs font-mono">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }} />
-                    <span className="text-neutral-300 truncate max-w-[90px]">{item.name}</span>
+              {/* Legend Matrix */}
+              <div className="grid grid-cols-2 gap-1.5 mt-2 pt-2 border-t border-[#1C212B]">
+                {statusPieData.map(item => (
+                  <div key={item.name} className="flex items-center justify-between p-1.5 bg-[#0F1218] rounded-sm border border-[#1C212B] text-[11px] font-mono">
+                    <div className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-xs" style={{ backgroundColor: item.color }} />
+                      <span className="text-zinc-300 truncate max-w-[100px]">{item.name}</span>
+                    </div>
+                    <span className="font-semibold text-zinc-100 tabular-nums">{item.value}</span>
                   </div>
-                  <span className="font-bold text-white">{item.value}</span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Fleet Comparison Matrix */}
-      <div className="glass-panel rounded-xl p-5 shadow-sm border border-[#242C3A]">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4 mb-5">
+      {/* Fleet Readiness Variance Matrix */}
+      <div className="c2-panel rounded-sm">
+        <div className="c2-panel-header flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
-            <h3 className="text-xs uppercase tracking-widest font-bold text-white font-mono flex items-center gap-2">
-              <Layers className="w-4 h-4 text-[#EF4444]" />
-              FLEET READINESS COMPARISON
+            <h3 className="text-xs uppercase tracking-wider font-semibold text-zinc-100 font-mono flex items-center gap-2">
+              <Layers className="w-3.5 h-3.5 text-sky-400" />
+              FLEET READINESS VARIANCE ANALYSIS
             </h3>
-            <p className="text-xs text-neutral-400 font-sans">Analyze readiness variance across deployment sectors, teams, and configurations</p>
+            <p className="text-[11px] text-zinc-400 font-sans">Cross-comparison across operational sectors, assigned teams, hardware revisions, and firmware builds</p>
           </div>
 
-          {/* Comparison Dimension Selectors */}
-          <div className="flex items-center gap-1 bg-[#10131A] p-1 rounded-lg border border-[#242C3A] font-mono text-xs">
+          {/* Dimension Selectors */}
+          <div className="flex items-center bg-[#090B0F] p-0.5 rounded border border-[#1C212B] font-mono text-xs">
             <button
               onClick={() => setComparisonDimension('location')}
-              className={`px-3 py-1.5 rounded-md transition-colors ${
+              className={`px-2.5 py-1 rounded-sm transition-colors ${
                 comparisonDimension === 'location'
-                  ? 'bg-[#EF4444]/20 text-[#EF4444] font-bold border border-[#EF4444]/40'
-                  : 'text-neutral-400 hover:text-white'
+                  ? 'bg-[#181D26] text-sky-400 font-semibold border border-zinc-700/60'
+                  : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
-              Location
+              Sector / Location
             </button>
             <button
               onClick={() => setComparisonDimension('unit')}
-              className={`px-3 py-1.5 rounded-md transition-colors ${
+              className={`px-2.5 py-1 rounded-sm transition-colors ${
                 comparisonDimension === 'unit'
-                  ? 'bg-[#EF4444]/20 text-[#EF4444] font-bold border border-[#EF4444]/40'
-                  : 'text-neutral-400 hover:text-white'
+                  ? 'bg-[#181D26] text-sky-400 font-semibold border border-zinc-700/60'
+                  : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
-              Unit / Team
+              Team / Squad
             </button>
             <button
               onClick={() => setComparisonDimension('hardware')}
-              className={`px-3 py-1.5 rounded-md transition-colors ${
+              className={`px-2.5 py-1 rounded-sm transition-colors ${
                 comparisonDimension === 'hardware'
-                  ? 'bg-[#EF4444]/20 text-[#EF4444] font-bold border border-[#EF4444]/40'
-                  : 'text-neutral-400 hover:text-white'
+                  ? 'bg-[#181D26] text-sky-400 font-semibold border border-zinc-700/60'
+                  : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
               Hardware Gen
             </button>
             <button
               onClick={() => setComparisonDimension('software')}
-              className={`px-3 py-1.5 rounded-md transition-colors ${
+              className={`px-2.5 py-1 rounded-sm transition-colors ${
                 comparisonDimension === 'software'
-                  ? 'bg-[#EF4444]/20 text-[#EF4444] font-bold border border-[#EF4444]/40'
-                  : 'text-neutral-400 hover:text-white'
+                  ? 'bg-[#181D26] text-sky-400 font-semibold border border-zinc-700/60'
+                  : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
-              Software Version
+              Firmware Build
             </button>
           </div>
         </div>
 
-        {/* Comparison Visualizer */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          <div className="lg:col-span-8 h-64 w-full">
+        <div className="p-4 grid grid-cols-1 lg:grid-cols-12 gap-4">
+          <div className="lg:col-span-8 h-60 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={comparisonData} margin={{ top: 10, right: 10, left: -20, bottom: 20 }}>
-                <XAxis dataKey="name" stroke="#64748B" fontSize={11} fontFamily="monospace" />
-                <YAxis stroke="#64748B" fontSize={11} domain={[0, 100]} fontFamily="monospace" unit="%" />
+                <CartesianGrid strokeDasharray="2 2" stroke="#161B23" vertical={false} />
+                <XAxis dataKey="name" stroke="#475569" fontSize={10} fontFamily="monospace" />
+                <YAxis stroke="#475569" fontSize={10} domain={[0, 100]} fontFamily="monospace" unit="%" />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#10131A', borderColor: '#242C3A', borderRadius: '8px', fontSize: '12px', fontFamily: 'monospace' }}
-                  itemStyle={{ color: '#E0E0E0' }}
-                  formatter={(value: any) => [`${value}% Readiness`, 'Mission Readiness']}
+                  contentStyle={{ backgroundColor: '#0D0F14', borderColor: '#1C212B', borderRadius: '2px', fontSize: '11px', fontFamily: 'monospace' }}
+                  itemStyle={{ color: '#E2E8F0' }}
+                  formatter={(value: any) => [`${value}% Readiness`, 'Mission Capability']}
                 />
-                <Bar dataKey="readiness" fill="#EF4444" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="readiness" fill="#0284C7" radius={[2, 2, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
 
-          <div className="lg:col-span-4 space-y-2 max-h-64 overflow-y-auto pr-1">
+          <div className="lg:col-span-4 space-y-1.5 max-h-60 overflow-y-auto pr-1">
             {comparisonData.map(item => (
               <div
                 key={item.name}
-                className="p-2.5 bg-white/[0.02] border border-[#222834] rounded-lg flex items-center justify-between text-xs font-mono"
+                className="p-2 bg-[#0F1218] border border-[#1C212B] rounded-sm flex items-center justify-between text-xs font-mono"
               >
                 <div>
-                  <div className="font-semibold text-white">{item.fullName}</div>
-                  <div className="text-[10px] text-neutral-500">{item.readyCount} of {item.total} Mission Ready</div>
+                  <div className="font-semibold text-zinc-100">{item.fullName}</div>
+                  <div className="text-[10px] text-zinc-400 tabular-nums">{item.readyCount} of {item.total} FMC Ready</div>
                 </div>
-                <div className="text-right">
-                  <div className={`font-bold ${
+                <div className="text-right tabular-nums">
+                  <div className={`font-semibold ${
                     item.readiness >= 85 ? 'text-emerald-400' :
-                    item.readiness >= 75 ? 'text-[#EF4444]' :
-                    'text-amber-400'
+                    item.readiness >= 75 ? 'text-amber-400' :
+                    'text-rose-400'
                   }`}>
                     {item.readiness}%
                   </div>
-                  <div className="text-[10px] text-neutral-400">{item.readyRate}% Capable</div>
+                  <div className="text-[10px] text-zinc-400">{item.readyRate}% FMC</div>
                 </div>
               </div>
             ))}

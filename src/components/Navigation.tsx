@@ -2,13 +2,13 @@ import React from 'react';
 import { useFleet } from '../context/FleetContext';
 import { 
   LayoutDashboard, 
-  Truck, 
+  Layers, 
   Wrench, 
   AlertTriangle, 
   Cpu, 
-  Boxes, 
-  Sparkles,
-  Database
+  Package, 
+  Terminal,
+  Radio
 } from 'lucide-react';
 
 export const Navigation: React.FC = () => {
@@ -29,65 +29,65 @@ export const Navigation: React.FC = () => {
   const tabs = [
     {
       id: 'fleet-command',
-      label: 'Fleet Command',
+      label: '01 // C2 DASHBOARD',
       icon: LayoutDashboard,
       badge: null,
     },
     {
       id: 'assets',
-      label: 'Asset Matrix',
-      icon: Truck,
+      label: '02 // ASSET MATRIX',
+      icon: Layers,
       badge: assets.length > 0 ? assets.length : null,
     },
     {
       id: 'data-sources',
-      label: 'Data Sources',
-      icon: Database,
-      badge: mode === 'live' ? (assets.length > 0 ? 'Live' : 'Connect') : 'Sources',
+      label: '03 // TELEMETRY GATEWAY',
+      icon: Radio,
+      badge: mode === 'live' ? (assets.length > 0 ? 'STREAM' : 'CONNECT') : 'REST/CAN',
       badgeColor: mode === 'live' 
-        ? (assets.length > 0 ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' : 'bg-[#EF4444]/20 text-[#EF4444] border-[#EF4444]/40') 
-        : 'bg-[#151922] text-neutral-400 border-white/10',
+        ? (assets.length > 0 ? 'bg-emerald-950/40 text-emerald-400 border-emerald-500/30' : 'bg-rose-950/40 text-rose-400 border-rose-500/30') 
+        : 'bg-[#141720] text-zinc-400 border-zinc-800',
     },
     {
       id: 'maintenance',
-      label: 'Maintenance',
+      label: '04 // DEPOT OPERATIONS',
       icon: Wrench,
       badge: openWorkOrdersCount > 0 ? openWorkOrdersCount : null,
-      badgeColor: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
+      badgeColor: 'bg-amber-950/30 text-amber-400 border-amber-500/30',
     },
     {
       id: 'faults',
-      label: 'Fault Control',
+      label: '05 // FAULT DIAGNOSTICS',
       icon: AlertTriangle,
       badge: activeFaultsCount > 0 ? activeFaultsCount : null,
-      badgeColor: 'bg-rose-500/10 text-rose-400 border-rose-500/30',
+      badgeColor: 'bg-rose-950/30 text-rose-400 border-rose-500/30',
     },
     {
       id: 'configuration',
-      label: 'Configuration',
+      label: '06 // CONFIG & FIRMWARE',
       icon: Cpu,
-      badge: 'Gen 2/3',
-      badgeColor: 'bg-[#151922] text-neutral-400 border-white/10',
+      badge: 'OTA',
+      badgeColor: 'bg-[#141720] text-zinc-400 border-zinc-800',
     },
     {
       id: 'spare-parts',
-      label: 'Spare Logistics',
-      icon: Boxes,
-      badge: criticalPartsBottleneck > 0 ? `${criticalPartsBottleneck} Alert` : null,
-      badgeColor: 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/40',
+      label: '07 // SUPPLY CHAIN',
+      icon: Package,
+      badge: criticalPartsBottleneck > 0 ? `${criticalPartsBottleneck} NMCS` : null,
+      badgeColor: 'bg-rose-950/30 text-rose-400 border-rose-500/30',
     },
     {
       id: 'readiness-intelligence',
-      label: 'Intelligence Brief',
-      icon: Sparkles,
-      badge: 'AI',
-      badgeColor: 'bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/30',
+      label: '08 // READINESS AI',
+      icon: Terminal,
+      badge: '0600Z',
+      badgeColor: 'bg-sky-950/30 text-sky-400 border-sky-500/30',
     },
   ];
 
   return (
-    <div className="bg-[#0B0D12] border-b border-[#222834] px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto flex items-center gap-1.5 overflow-x-auto py-2 scrollbar-none">
+    <div className="bg-[#090B0F] border-b border-[#1A1F29] px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto flex items-center gap-1 overflow-x-auto py-1 scrollbar-none">
         {tabs.map(tab => {
           const isActive = activeNavTab === tab.id;
           const Icon = tab.icon;
@@ -96,16 +96,16 @@ export const Navigation: React.FC = () => {
             <button
               key={tab.id}
               onClick={() => setActiveNavTab(tab.id)}
-              className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-mono transition-all whitespace-nowrap border ${
+              className={`flex items-center gap-2 px-3 py-1.5 rounded-sm text-xs font-mono transition-colors whitespace-nowrap border ${
                 isActive
-                  ? 'bg-[#EF4444]/15 text-white border-[#EF4444]/50 font-bold shadow-sm shadow-[#EF4444]/20'
-                  : 'text-neutral-400 border-transparent hover:text-white hover:bg-white/5'
+                  ? 'bg-[#121620] text-zinc-100 border-[#2D3748] font-semibold'
+                  : 'text-zinc-400 border-transparent hover:text-zinc-200 hover:bg-[#0E1117]'
               }`}
             >
-              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#EF4444]' : 'text-neutral-500'}`} />
-              <span>{tab.label}</span>
+              <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-sky-400' : 'text-zinc-400'}`} />
+              <span className="tracking-tight">{tab.label}</span>
               {tab.badge !== null && (
-                <span className={`text-[10px] px-1.5 py-0.2 rounded border font-mono ${tab.badgeColor || (isActive ? 'bg-[#EF4444]/20 text-[#EF4444] border-[#EF4444]/40' : 'bg-[#151922] text-neutral-400 border-white/10')}`}>
+                <span className={`text-[10px] px-1.5 py-0.2 rounded border font-mono tabular-nums ${tab.badgeColor || (isActive ? 'bg-sky-950/40 text-sky-400 border-sky-500/30' : 'bg-[#141720] text-zinc-400 border-zinc-800')}`}>
                   {tab.badge}
                 </span>
               )}
